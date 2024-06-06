@@ -1,0 +1,21 @@
+.custom-bg-color {
+  /* background-color: #48c1af; */
+  /* transition: background-color 0.5s ease; */
+  background-color: #0e1d55;
+}
+
+/* .custom-bg-color:hover {
+  background-color: #2e8478;
+} */
+
+.custom-text-color {
+  color: #dfc470;
+}
+
+.custom-text-color:hover {
+  color: #cca06f;
+}
+
+.custom-box-shadow {
+  box-shadow: 1px 0px 17px 7px #777;
+}
