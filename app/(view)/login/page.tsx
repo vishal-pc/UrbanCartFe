@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 // import authConfig from "@/app/configs/auth";
 // import { jwtEncodeData } from "@/app/helpers";
 import { Icon } from "react-icons-kit";
+import Image from 'next/image';
 import { eyeOff } from "react-icons-kit/feather/eyeOff";
 import { eye } from "react-icons-kit/feather/eye";
 import "@/app/style/globelColor.css"
@@ -137,50 +138,62 @@ const Login = () => {
     return (
         <>
             <ToastContainer autoClose={2000} />
-            <div className=" h-screen flex items-center justify-center font-poppins" style={{ backgroundImage: `url('/images/blackBackground.jpg')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-                <div className="relative w-[850px] h-[500px] bg-slate-400 rounded-lg overflow-hidden flex ">
-                    <div className="w-1/2  custom-text-color flex flex-col justify-center items-center p-10 custom-bg-color " >
-                        <h1 className="mb-4">Welcome Back !</h1>
-                        <p className="text-center mb-8">Enter Your Personal Details And Start Your Journey With Us !</p>
-                        <Link href="/register" className="border border-amber-200 py-2 px-6 rounded-full custom-text-color">
-                            Sign Up
-                        </Link>
-                    </div>
-                    <div className="w-1/2 p-10 flex flex-col justify-center items-center">
-                        <form className="flex flex-col items-center w-full">
-                            {/*  onSubmit={handleSubmit} */}
-                            <h1 className="custom-text-color mb-4 text-2xl">Login</h1>
-                            <input
-                                type="email"
-                                placeholder="Email"
-                                name="email"
-                                className="w-full p-3 mb-3 bg-slate-700 border-none outline-none rounded-full"
-                                value={formValue.email}
-                            // onChange={handleChange}
-                            />
-                            <div className="w-full relative">
-                                <input
-                                    type={type}
-                                    placeholder="Password"
-                                    name="password"
-                                    className="w-full p-3 mb-3 bg-slate-700 border-none outline-none rounded-full"
-                                    value={formValue.password}
-                                // onChange={handleChange}
-                                />
-                                <span className="absolute top-3 right-3 cursor-pointer" >
-                                    {/* onClick={handleToggle} */}
-                                    <Icon icon={icon} size={20} />
-                                </span>
-                            </div>
-                            <button className="w-full py-3 mt-4 custom-bg-color custom-text-color font-bold rounded-full">{isSubmit ? "Loading......." : "Log In"}</button>
-                        </form>
-                        <button className="w-full py-3 mt-4 custom-bg-color custom-text-color font-bold rounded-full"><Link href="/forgot">
-                            Forget Password
-                        </Link></button>
+            <div className="h-screen flex flex-col">
+                <div className="relative w-full h-[250px]">
+                    <Image
+                        src="/images/blackBackground.jpg"
+                        layout="fill"
+                        objectFit="cover"
+                        alt="Header Background"
+                    />
+                    <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-white">
+                        <h1 className="text-4xl font-bold">ACCOUNT</h1>
+                        <p>Home / Account</p>
                     </div>
                 </div>
-            </div >
+                <div className="flex-grow flex flex-col items-center justify-center text-white background-color">
+                    <h1 className="text-3xl text-center mb-4">Login</h1>
+                    <form className="flex flex-col items-center w-full max-w-md "
+                    // onSubmit={handleSubmit}
+                    >
+                        <input
+                            type="email"
+                            placeholder="Email"
+                            name="email"
+                            className="w-full p-3 mb-3 bg-gray-800 border border-amber-200 rounded background-color "
+                            value={formValue.email}
+                        // onChange={handleChange}
+                        />
+                        <div className="w-full relative">
+                            <input
+                                type={type}
+                                placeholder="Password"
+                                name="password"
+                                className="w-full p-3 mb-3 bg-gray-800 border border-amber-200 rounded background-color"
+                                value={formValue.password}
+                            // onChange={handleChange}
+                            />
+                            <span className="absolute top-3 right-3 cursor-pointer" onClick={handleToggle}>
+                                <Icon icon={icon} size={20} />
+                            </span>
+                        </div>
+                        <button
+                            type="submit"
+                            className="w-full py-3 mt-4 bg-gray-700 text-white font-bold rounded "
+                        >
+                            {isSubmit ? "Loading......." : "Sign In"}
+                        </button>
+                    </form>
+                    <Link href="/forgot" className="block text-center mt-4 custom-text-color ">
+                        Forgot Your Password?
+                    </Link>
+                    <Link href="/register" className="block text-center mt-4 custom-text-color">
+                        Create Account
+                    </Link>
+                </div>
+            </div>
         </>
+
     );
 };
 

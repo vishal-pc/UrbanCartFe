@@ -12,7 +12,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-black text-gray-600 work-sans leading-normal text-base tracking-normal " suppressHydrationWarning={true}>
+      <body className="bg-black text-gray-600 work-sans leading-normal text-base tracking-normal" suppressHydrationWarning={true}>
         <Navbar />
         {children}
         <Footer />
