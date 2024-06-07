@@ -127,9 +127,10 @@ const ResetPass = (props: { formValue: { email: string } }) => {
         <div className="relative w-full h-[250px]">
           <Image
             src="/DIMG/goldblack.png"
-            layout="fill"
-            objectFit="cover"
+            fill
+            style={{ objectFit: 'cover' }}
             alt="Header Background"
+            priority
           />
           <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-white">
             <h1 className="text-4xl font-bold">ACCOUNT</h1>
