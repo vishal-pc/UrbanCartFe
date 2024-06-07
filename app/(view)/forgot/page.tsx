@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import ResetPass from "./reset";
 import "@/app/style/globelColor.css"
 import { usePathname } from "next/navigation";
-// import Image from "next/image";
+import Image from "next/image";
 // import siteIcon from "@/public/images/4.svg";
 
 const ForgotPass = () => {
@@ -61,31 +61,37 @@ const ForgotPass = () => {
     <>
       <ToastContainer autoClose={2000} />
       {/* {otpSend == false ? */}
-      <div className="h-screen bg-slate-800 flex items-center justify-center font-poppins" style={{ backgroundImage: `url('/images/blackBackground.jpg')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-        <div className="relative w-[850px] h-[500px] bg-white shadow-custom rounded-lg overflow-hidden flex">
-          <div className="w-1/2 custom-bg-color text-white flex flex-col justify-center items-center p-10 ">
-            <h1 className="mb-4">Forgot Password !</h1>
-            <p className="text-center mb-8">Enter Your Email Id And We Will Send A Otp On Your Email !</p>
+      <div className="h-screen flex flex-col">
+        <div className="relative w-full h-[250px]">
+          <Image
+            src="/DIMG/goldblack.png"
+            layout="fill"
+            objectFit="cover"
+            alt="Header Background"
+          />
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-white">
+            <h1 className="text-4xl font-bold">ACCOUNT</h1>
+            <p>Home / Forgot Password</p>
           </div>
-          <div className="w-1/2 p-10 flex flex-col justify-center items-center bg-slate-400">
-            <form className="flex flex-col items-center w-full"
-            // onSubmit={handleForgot}
-            >
-              <h1 className="custom-text-color mb-4">Forgot Password</h1>
-              <input
-                type="email"
-                placeholder="Email"
-                name="email"
-                className="w-full p-3 mb-3 bg-gray-100 border-none outline-none rounded-full bg-slate-700"
-              // value={formValue.email}
-              // onChange={handleForm}
-              />
-              <button className="w-full py-3 mt-4 custom-bg-color text-white font-bold rounded-full">Reset password {loading == true ? "Loading...." : ""}</button>
-            </form>
-            <button className="w-full py-3 mt-4 custom-bg-color text-white font-bold rounded-full"><Link href="/login">
-              Back to login
-            </Link></button>
-          </div>
+        </div>
+        <div className="flex-grow flex flex-col items-center justify-center text-white background-color">
+          <h1 className="text-3xl text-center mb-4">Forgot Password</h1>
+          <form className="flex flex-col items-center w-full max-w-md "
+          // onSubmit={handleSubmit}
+          >
+            <input
+              type="email"
+              placeholder="Email"
+              name="email"
+              className="w-full p-3 mb-3 bg-gray-800 border border-amber-200 rounded background-color "
+            // value={formValue.email}
+            // onChange={handleChange}
+            />
+            <button className="w-full py-3 mt-4 bg-gray-700 text-white font-bold rounded">Send Otp {loading == true ? "Loading...." : ""}</button>
+          </form>
+          <Link href="/login" className="block text-center mt-4 custom-text-color">
+            Login Account
+          </Link>
         </div>
       </div>
       {/* : <ResetPass formValue={formValue} />} */}

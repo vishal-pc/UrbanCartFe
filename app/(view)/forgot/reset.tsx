@@ -8,15 +8,31 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from "next/navigation";
 import "@/app/style/globelColor.css"
 import { usePathname } from "next/navigation";
-// import Image from "next/image";
+import Image from "next/image";
+import { eyeOff } from "react-icons-kit/feather/eyeOff";
+import { eye } from "react-icons-kit/feather/eye";
+import { Icon } from "react-icons-kit";
 // import siteIcon from "@/public/images/4.svg";
 
 const ResetPass = (props: { formValue: { email: string } }) => {
 
   const router = useRouter()
   const pathname = usePathname();
+  const [icon, setIcon] = useState(eyeOff);
+  const [type, setType] = useState("password");
+  const [isSubmit, setIsSubmit] = useState(false);
   const { email } = props.formValue;
 
+
+  const handleToggle = () => {
+    if (type === "password") {
+      setIcon(eye);
+      setType("text");
+    } else {
+      setIcon(eyeOff);
+      setType("password");
+    }
+  };
   // const [formVal, setFormVal] = useState<UserResetType>({
   //   email: email, otp: "", newPassword: "",
   //   confirmPassword: ""
@@ -105,61 +121,82 @@ const ResetPass = (props: { formValue: { email: string } }) => {
 
   return (
     <>
-      <ToastContainer autoClose={1000} />
-      {email ?
-        <div className="h-screen bg-slate-800 flex items-center justify-center font-poppins" style={{ backgroundImage: `url('/images/blackBackground.jpg')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-          <div className="relative w-[850px] h-[500px] bg-white shadow-custom rounded-lg overflow-hidden flex">
-            <div className="w-1/2 custom-bg-color text-white flex flex-col justify-center items-center p-10">
-              <h1 className="mb-4">Reset Password !</h1>
-              <p className="text-center mb-8">Enter The Details For Rest Your Password</p>
-            </div>
-            <div className="w-1/2 p-10 flex flex-col justify-center items-center bg-slate-400">
-              <form className="flex flex-col items-center w-full"
-              // onSubmit={handleSubmit}
-              >
-                <h1 className="custom-text-color mb-4 rounded-full">Reset Password</h1>
-                <input
-                  type="email"
-                  placeholder="Email"
-                  name="email"
-                  className="w-full p-3 mb-3 bg-gray-100 border-none outline-none rounded-full bg-slate-700"
-                  defaultValue={email}
-                  disabled
-                />
-                <input
-                  type="text"
-                  placeholder="otp"
-                  name="otp"
-                  inputMode="numeric"
-                  className="w-full p-3 mb-3 bg-gray-100 border-none outline-none rounded-full bg-slate-700"
-                // value={formVal.otp}
-                // onChange={handleForm}
-                />
-                <input
-                  type="password"
-                  placeholder="newPassword"
-                  name="newPassword"
-                  className="w-full p-3 mb-3 bg-gray-100 border-none outline-none rounded-full bg-slate-700"
-                // value={formVal.newPassword}
-                // onChange={handleForm}
-                />
-                <input
-                  type="password"
-                  placeholder="confirmPassword"
-                  name="confirmPassword"
-                  className="w-full p-3 mb-3 bg-gray-100 border-none outline-none rounded-full bg-slate-700"
-                // value={formVal.confirmPassword}
-                // onChange={handleForm}
-                />
-                <button className="w-full py-3 mt-4 custom-bg-color text-white font-bold rounded-full">Reset password</button>
-              </form>
-              <button className="w-full py-3 mt-4 custom-bg-color text-white font-bold rounded-full"><Link href="/login">
-                Back to login
-              </Link></button>
-            </div>
+      <ToastContainer autoClose={2000} />
+      {/* {email ? */}
+      <div className="h-screen flex flex-col">
+        <div className="relative w-full h-[250px]">
+          <Image
+            src="/DIMG/goldblack.png"
+            layout="fill"
+            objectFit="cover"
+            alt="Header Background"
+          />
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-white">
+            <h1 className="text-4xl font-bold">ACCOUNT</h1>
+            <p>Home / Reset Password</p>
           </div>
         </div>
-        : ""}
+        <div className="flex-grow flex flex-col items-center justify-center text-white background-color">
+          <h1 className="text-3xl text-center mb-4">Reset Password</h1>
+          <form className="flex flex-col items-center w-full max-w-md "
+          // onSubmit={handleSubmit}
+          >
+            <h1 className="custom-text-color mb-4 rounded-full">Reset Password</h1>
+            <input
+              type="email"
+              placeholder="Email"
+              name="email"
+              className="w-full p-3 mb-3 bg-gray-100 border-none outline-none rounded-full bg-slate-700"
+              defaultValue={email}
+              disabled
+            />
+            <input
+              type="text"
+              placeholder="otp"
+              name="otp"
+              inputMode="numeric"
+              className="w-full p-3 mb-3 bg-gray-100 border-none outline-none rounded-full bg-slate-700"
+            // value={formVal.otp}
+            // onChange={handleForm}
+            />
+            <div className="w-full relative">
+              <input
+                type={type}
+                placeholder="Password"
+                name="password"
+                className="w-full p-3 mb-3 bg-gray-800 border border-amber-200 rounded background-color"
+              // value={formVal.newPassword}
+              // onChange={handleChange}
+              />
+              <span className="absolute top-3 right-3 cursor-pointer" onClick={handleToggle}>
+                <Icon icon={icon} size={20} />
+              </span>
+              <input
+                type={type}
+                placeholder="Password"
+                name="password"
+                className="w-full p-3 mb-3 bg-gray-800 border border-amber-200 rounded background-color"
+              // value={formVal.confirmPassword}
+              // onChange={handleChange}
+              />
+              <span className="absolute top-3 right-3 cursor-pointer" onClick={handleToggle}>
+                <Icon icon={icon} size={20} />
+              </span>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full py-3 mt-4 bg-gray-700 text-white font-bold rounded "
+            >
+              {isSubmit ? "Loading......." : "Reset password"}
+            </button>
+          </form>
+          <Link href="/login" className="block text-center mt-4 custom-text-color">
+            Login Account
+          </Link>
+        </div>
+      </div>
+      {/* : ""} */}
     </>
   )
 }

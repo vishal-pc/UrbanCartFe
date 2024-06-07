@@ -16,7 +16,6 @@ import { eyeOff } from "react-icons-kit/feather/eyeOff";
 import { eye } from "react-icons-kit/feather/eye";
 import "@/app/style/globelColor.css"
 import { usePathname } from "next/navigation";
-// import Image from "next/image";
 
 const initialFormState = {
     email: "",
@@ -141,14 +140,14 @@ const Login = () => {
             <div className="h-screen flex flex-col">
                 <div className="relative w-full h-[250px]">
                     <Image
-                        src="/images/blackBackground.jpg"
+                        src="/DIMG/goldblack.png"
                         layout="fill"
                         objectFit="cover"
                         alt="Header Background"
                     />
                     <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-white">
                         <h1 className="text-4xl font-bold">ACCOUNT</h1>
-                        <p>Home / Account</p>
+                        <p>Home / Login</p>
                     </div>
                 </div>
                 <div className="flex-grow flex flex-col items-center justify-center text-white background-color">
