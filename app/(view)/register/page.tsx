@@ -12,6 +12,8 @@ import Image from 'next/image';
 import { eyeOff } from "react-icons-kit/feather/eyeOff";
 import { eye } from "react-icons-kit/feather/eye";
 import { Icon } from "react-icons-kit";
+import { Navbar } from "@/app/components/navbar";
+import { Footer } from "@/app/components/footer";
 // import siteIcon from "@/public/images/4.svg";
 
 const initialFormState = {
@@ -101,6 +103,7 @@ const RegisterPage = () => {
   return (
     <>
       <ToastContainer autoClose={2000} />
+      <Navbar/>
       <div className="h-screen flex flex-col">
         <div className="relative w-full h-[250px]">
           <Image
@@ -161,6 +164,7 @@ const RegisterPage = () => {
           </Link>
         </div>
       </div>
+      <Footer/>
     </>
   )
 }

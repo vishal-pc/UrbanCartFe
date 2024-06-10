@@ -9,6 +9,8 @@ import ResetPass from "./reset";
 import "@/app/style/globelColor.css"
 import { usePathname } from "next/navigation";
 import Image from "next/image";
+import { Navbar } from "@/app/components/navbar";
+import { Footer } from "@/app/components/footer";
 // import siteIcon from "@/public/images/4.svg";
 
 const ForgotPass = () => {
@@ -60,6 +62,7 @@ const ForgotPass = () => {
   return (
     <>
       <ToastContainer autoClose={2000} />
+      <Navbar/>
       {/* {otpSend == false ? */}
       <div className="h-screen flex flex-col">
         <div className="relative w-full h-[250px]">
@@ -95,6 +98,7 @@ const ForgotPass = () => {
           </Link>
         </div>
       </div>
+      <Footer/>
       {/* : <ResetPass formValue={formValue} />} */}
     </>
   )

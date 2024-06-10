@@ -1,8 +1,9 @@
 'use client'
 import React, { useState } from 'react';
 import '@/app/style/globelColor.css';
-import { Dropdown } from './dropdown';
+import Dropdown from './dropdown';
 import Link from 'next/link';
+import HoverDropdown from './dropdown';
 
 export const Navbar = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -49,7 +50,7 @@ export const Navbar = () => {
                     <div className="order-1 md:order-2">
                         <a
                             className="flex items-center tracking-wide no-underline hover:no-underline font-bold custom-text-color text-xl"
-                            href="/urbancart"
+                            href="/"
                         >
                             <svg
                                 className="fill-current custom-text-color mr-2"
@@ -65,23 +66,9 @@ export const Navbar = () => {
                     </div>
 
                     <div className="order-2 md:order-3 flex items-center" id="nav-content">
-                       <div className="relative inline-block">
-                            <button className="no-underline custom-text-color"  onClick={toggleDropdown}>
-                                <svg
-                                    className="fill-current custom-text-color"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <circle fill="none" cx="12" cy="7" r="3" />
-                                    <path d="M12 2C9.243 2 7 4.243 7 7s2.243 5 5 5 5-2.243 5-5S14.757 2 12 2zM12 10c-1.654 0-3-1.346-3-3s1.346-3 3-3 3 1.346 3 3S13.654 10 12 10zM21 21v-1c0-3.859-3.141-7-7-7h-4c-3.86 0-7 3.141-7 7v1h2v-1c0-2.757 2.243-5 5-5h4c2.757 0 5 2.243 5 5v1H21z" />
-                                </svg>
-                            </button>
-                            <Dropdown isOpen={dropdownOpen} />
-                       
-                        </div>
-                        <Link className="pl-3 inline-block no-underline custom-text-color" href={'/login'}>
+                        
+                        <HoverDropdown/>
+                        <a className="pl-3 inline-block no-underline custom-text-color" >
                             <svg
                                 className="fill-current custom-text-color"
                                 xmlns="http://www.w3.org/2000/svg"
@@ -93,7 +80,7 @@ export const Navbar = () => {
                                 <circle cx="10.5" cy="18.5" r="1.5" />
                                 <circle cx="17.5" cy="18.5" r="1.5" />
                             </svg>
-                        </Link>
+                        </a>
                     </div>
 
                 </div>

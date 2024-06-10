@@ -1,46 +1,50 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-// import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-// import { loginUserAPI, UserRoleAPI } from "@/app/services/apis/user/index";
-// import { useCookies } from "next-client-cookies";
+import { useCookies } from "next-client-cookies";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import { UserType } from "@/app/types/userTypes";
-// import authConfig from "@/app/configs/auth";
-// import { jwtEncodeData } from "@/app/helpers";
+import authConfig from "@/app/configs/auth";
+import { jwtEncodeData } from "@/app/helpers";
 import { Icon } from "react-icons-kit";
 import Image from 'next/image';
 import { eyeOff } from "react-icons-kit/feather/eyeOff";
 import { eye } from "react-icons-kit/feather/eye";
 import "@/app/style/globelColor.css"
 import { usePathname } from "next/navigation";
+import { useFormik } from "formik";
+import  * as Yup from "yup"
+import { UserType } from "@/app/types/userTypes";
+import { UserRoleAPI, loginUserAPI } from "@/app/services/apis/user";
+import { Navbar } from "@/app/components/navbar";
+import { Footer } from "@/app/components/footer";
 
-const initialFormState = {
-    email: "",
-    password: "",
-};
 
 const Login = () => {
-    // const cookies = useCookies();
-    // const router = useRouter();
+    const cookies = useCookies();
+    const router = useRouter();
     const pathname = usePathname();
-
+    
     // const dispatch = useDispatch();
     // const userData = useSelector((state: any) => {
-    //     return state.user;
-    // });
-
-    // UserType
-    const [formValue, setFormValue] = useState<any>(initialFormState);
-    const [formErrors, setFormErrors] = useState<any>({});
-    const [isSubmit, setIsSubmit] = useState<Boolean>(false);
-
-    const [type, setType] = useState("password");
-    const [icon, setIcon] = useState(eyeOff);
-
-    const handleToggle = () => {
+    //         return state.user;
+    //     });
+        
+        // UserType
+        // const [formValue, setFormValue] = useState<any>(initialFormState);
+        const [formErrors, setFormErrors] = useState<any>({});
+        const [isSubmit, setIsSubmit] = useState<Boolean>(false);
+        
+        const [type, setType] = useState("password");
+        const [icon, setIcon] = useState(eyeOff);
+        
+        const val = {
+            email: "",
+            password: "",
+        };
+        const handleToggle = () => {
         if (type === "password") {
             setIcon(eye);
             setType("text");
@@ -49,94 +53,67 @@ const Login = () => {
             setType("password");
         }
     };
+    
+    const login=Yup.object({
+           email:Yup.string().email("Invalid email").required("Please enter email"),
+           password:Yup.string().required('Password is required')
+           .min(8, 'Password must be at least 8 characters long')
+           .matches(
+             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^+-]).{8,}$/,
+             'Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character (#?!@$%^&*-)'
+           )
+    })
 
-    // const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
-    //     e.preventDefault();
+    const {values,errors,touched,handleBlur,handleChange,handleSubmit}=useFormik({
+               initialValues:val,
+               validationSchema:login,
+               onSubmit:async(values,action)=>{
+                console.log(values)
+                const check = await LoginChecker(values);
+                        if (check) {
+                            setIsSubmit(true);
+                            const userResp = await UserRoleAPI();
+            
+                            if (userResp.status == 200) {
+                                setIsSubmit(false);
+                                
+                                const { role } = userResp.userData.role;
+                                const jwtRole: any = jwtEncodeData(role);
+            
+                                if (role === "user") {
+                                    cookies.set(authConfig.storageRole, jwtRole);
+                                    localStorage.setItem(authConfig.storageRole, jwtRole);
+                                    router.push("/dashboard");
+                                } else if (role === "admin") {
+                                    cookies.set(authConfig.storageRole, jwtRole);
+                                    localStorage.setItem(authConfig.storageRole, jwtRole);
+                                    router.push("/admin");
+                                }
+                            } else {
+                                toast.error("Server Error Please Wait!!");
+                            }
+               }
+    }})
+ 
 
-    //     let errForm: {} | "" = validate(formValue);
+    const LoginChecker = async (data: UserType) => {
+        const isLoginData = await loginUserAPI(JSON.stringify(data));
 
-    //     if (Object.keys(errForm).length !== 0) {
-    //         setFormErrors(errForm);
-    //     } else {
-    //         const check = await LoginChecker(formValue);
+        if (isLoginData?.status === 200) {
+            cookies.set(authConfig.storageTokenKeyName, isLoginData.token);
+            localStorage.setItem(authConfig.storageTokenKeyName, isLoginData.token);
 
-    //         if (check) {
-    //             setIsSubmit(true);
-    //             const userResp = await UserRoleAPI();
+            return isLoginData;
+        } else {
+            toast.error(isLoginData?.message);
+            return false;
+        }
+    };
 
-    //             if (userResp.status == 200) {
-    //                 setIsSubmit(false);
-    //                 const jwtencode = jwtEncodeData(userResp.userData.fullName);
-
-    //                 const { role } = userResp.userData.role;
-    //                 const jwtRole: any = jwtEncodeData(role);
-
-    //                 if (role === "user") {
-    //                     cookies.set(authConfig.storageRole, jwtRole);
-    //                     localStorage.setItem(authConfig.storageRole, jwtRole);
-    //                     router.push("/dashboard");
-    //                 } else if (role === "admin") {
-    //                     cookies.set(authConfig.storageRole, jwtRole);
-    //                     localStorage.setItem(authConfig.storageRole, jwtRole);
-    //                     router.push("/admin");
-    //                 }
-    //             } else {
-    //                 toast.error("Server Error Please Wait!!");
-    //             }
-    //         }
-    //     }
-    // };
-
-    // const LoginChecker = async (data: UserType) => {
-    //     const isLoginData = await loginUserAPI(JSON.stringify(data));
-
-    //     if (isLoginData?.status === 200) {
-    //         cookies.set(authConfig.storageTokenKeyName, isLoginData.token);
-    //         localStorage.setItem(authConfig.storageTokenKeyName, isLoginData.token);
-
-    //         return isLoginData;
-    //     } else {
-    //         toast.error(isLoginData?.message);
-    //         return false;
-    //     }
-    // };
-
-    // const handleChange = (e: any) => {
-    //     const { name, value } = e.target;
-    //     setFormValue((prevProps: any) => ({
-    //         ...prevProps,
-    //         [name]: value,
-    //     }));
-    // };
-
-    // const validate = (values: any | {}) => {
-    //     const errors: UserType | any = {};
-
-    //     const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-
-    //     console.log("regex email values", regex.test(values.email));
-    //     if (!values.email) {
-    //         errors.email = "Email cannot be empty.";
-    //         toast.error("Email cannot be empty.");
-    //     } else if (regex.test(values.email) == false) {
-    //         errors.email = "Please enter a valid email address.";
-    //         toast.error("Please enter a valid email address.");
-    //     }
-
-    //     if (!values.password) {
-    //         errors.password = "Password is required";
-    //         toast.error("Password is required");
-    //     } else if (values.password.length < 8 || values.password.length > 10) {
-    //         errors.password = "Password must be between 8 and 10 characters long";
-    //         toast.error("Password must be between 8 and 10 characters long");
-    //     }
-
-    //     return errors;
-    // };
-    // const links = pathname.startsWith("/") ? "/" : "/admin";
     return (
         <>
             <ToastContainer autoClose={2000} />
+            <Navbar/>
             <div className="h-screen flex flex-col">
                 <div className="relative w-full h-[250px]">
                     <Image
@@ -154,28 +131,35 @@ const Login = () => {
                 <div className="flex-grow flex flex-col items-center justify-center custom-text-color background-color">
                     <h1 className="text-3xl text-center mb-4">Login</h1>
                     <form className="flex flex-col items-center w-full max-w-md "
-                    // onSubmit={handleSubmit}
+                    onSubmit={handleSubmit}
                     >
+                        <div className="w-full my-2 relative">
+
                         <input
                             type="email"
                             placeholder="Email"
                             name="email"
                             className="w-full p-3 mb-3 bg-gray-800 border border-black rounded background-color "
-                            value={formValue.email}
-                        // onChange={handleChange}
-                        />
+                            value={values.email}
+                            onBlur={handleBlur}
+                           onChange={handleChange}
+                           />
+                           {errors.email && touched.email ? <p className="text-gray-700">{errors.email}</p> : null}
+                        </div>
                         <div className="w-full relative">
                             <input
                                 type={type}
                                 placeholder="Password"
                                 name="password"
                                 className="w-full p-3 mb-3 bg-gray-800 border border-black rounded background-color"
-                                value={formValue.password}
-                            // onChange={handleChange}
+                                value={values.password}
+                                onBlur={handleBlur}
+                                onChange={handleChange}
                             />
                             <span className="absolute top-3 right-3 cursor-pointer" onClick={handleToggle}>
                                 <Icon icon={icon} size={20} />
                             </span>
+                            {errors.password && touched.password ? <p className="text-gray-700">{errors.password}</p> : null}
                         </div>
                         <button
                             type="submit"
@@ -192,6 +176,7 @@ const Login = () => {
                     </Link>
                 </div>
             </div>
+            <Footer/>
         </>
 
     );
