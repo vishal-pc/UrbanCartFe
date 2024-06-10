@@ -12,7 +12,7 @@ export const Navbar = () => {
 
     return (
         <>
-            <nav id="header" className="w-full z-30 top-0 py-1 custom-bg-color">
+            <nav id="header" className="w-full z-30 top-0 py-1 bg-white">
                 <div className="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 px-6 py-3 relative">
                     <label htmlFor="menu-toggle" className="cursor-pointer md:hidden block">
                         <svg

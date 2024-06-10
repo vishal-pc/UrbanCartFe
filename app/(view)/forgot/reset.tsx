@@ -126,7 +126,7 @@ const ResetPass = (props: { formValue: { email: string } }) => {
       <div className="h-screen flex flex-col">
         <div className="relative w-full h-[250px]">
           <Image
-            src="/DIMG/goldblack.png"
+            src="/DIMG/bgImg.jpg"
             fill
             style={{ objectFit: 'cover' }}
             alt="Header Background"
@@ -137,7 +137,7 @@ const ResetPass = (props: { formValue: { email: string } }) => {
             <p>Home / Reset Password</p>
           </div>
         </div>
-        <div className="flex-grow flex flex-col items-center justify-center text-white background-color">
+        <div className="flex-grow flex flex-col items-center justify-center custom-text-color background-color">
           <h1 className="text-3xl text-center mb-4">Reset Password</h1>
           <form className="flex flex-col items-center w-full max-w-md "
           // onSubmit={handleSubmit}
@@ -147,7 +147,7 @@ const ResetPass = (props: { formValue: { email: string } }) => {
               type="email"
               placeholder="Email"
               name="email"
-              className="w-full p-3 mb-3 bg-gray-100 border-none outline-none rounded-full bg-slate-700"
+              className="w-full p-3 mb-3 bg-gray-800 border border-black rounded background-color"
               defaultValue={email}
               disabled
             />
@@ -156,7 +156,7 @@ const ResetPass = (props: { formValue: { email: string } }) => {
               placeholder="otp"
               name="otp"
               inputMode="numeric"
-              className="w-full p-3 mb-3 bg-gray-100 border-none outline-none rounded-full bg-slate-700"
+              className="w-full p-3 mb-3 bg-gray-800 border border-black rounded background-color"
             // value={formVal.otp}
             // onChange={handleForm}
             />
@@ -165,7 +165,7 @@ const ResetPass = (props: { formValue: { email: string } }) => {
                 type={type}
                 placeholder="Password"
                 name="password"
-                className="w-full p-3 mb-3 bg-gray-800 border border-amber-200 rounded background-color"
+                className="w-full p-3 mb-3 bg-gray-800 border border-black rounded background-color"
               // value={formVal.newPassword}
               // onChange={handleChange}
               />
@@ -176,7 +176,7 @@ const ResetPass = (props: { formValue: { email: string } }) => {
                 type={type}
                 placeholder="Password"
                 name="password"
-                className="w-full p-3 mb-3 bg-gray-800 border border-amber-200 rounded background-color"
+                className="w-full p-3 mb-3 bg-gray-800 border border-black rounded background-color"
               // value={formVal.confirmPassword}
               // onChange={handleChange}
               />
