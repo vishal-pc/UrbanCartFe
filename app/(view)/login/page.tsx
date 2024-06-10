@@ -140,7 +140,7 @@ const Login = () => {
             <div className="h-screen flex flex-col">
                 <div className="relative w-full h-[250px]">
                     <Image
-                        src="/DIMG/goldblack.png"
+                        src="/DIMG/bgImg.jpg"
                         fill
                         style={{ objectFit: 'cover' }}
                         alt="Header Background"
@@ -151,7 +151,7 @@ const Login = () => {
                         <p>Home / Login</p>
                     </div>
                 </div>
-                <div className="flex-grow flex flex-col items-center justify-center text-white background-color">
+                <div className="flex-grow flex flex-col items-center justify-center custom-text-color background-color">
                     <h1 className="text-3xl text-center mb-4">Login</h1>
                     <form className="flex flex-col items-center w-full max-w-md "
                     // onSubmit={handleSubmit}
@@ -160,7 +160,7 @@ const Login = () => {
                             type="email"
                             placeholder="Email"
                             name="email"
-                            className="w-full p-3 mb-3 bg-gray-800 border border-amber-200 rounded background-color "
+                            className="w-full p-3 mb-3 bg-gray-800 border border-black rounded background-color "
                             value={formValue.email}
                         // onChange={handleChange}
                         />
@@ -169,7 +169,7 @@ const Login = () => {
                                 type={type}
                                 placeholder="Password"
                                 name="password"
-                                className="w-full p-3 mb-3 bg-gray-800 border border-amber-200 rounded background-color"
+                                className="w-full p-3 mb-3 bg-gray-800 border border-black rounded background-color"
                                 value={formValue.password}
                             // onChange={handleChange}
                             />

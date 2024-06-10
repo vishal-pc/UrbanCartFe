@@ -4,7 +4,7 @@ import '@/app/style/globelColor.css';
 export const Footer = () => {
     return (
         <>
-            <footer className="w-full z-30 top-0 py-2 custom-bg-color">
+            <footer className="w-full z-30 top-0 py-2 bg-white">
                 <div className="container flex px-3 py-8">
                     <div className="w-full mx-auto flex flex-wrap">
                         <div className="flex w-full lg:w-1/2">
