@@ -1,8 +1,9 @@
 'use client'
 import React, { useState } from 'react';
 import '@/app/style/globelColor.css';
-import { Dropdown } from './dropdown';
+import Dropdown from './dropdown';
 import Link from 'next/link';
+import HoverDropdown from './dropdown';
 
 export const Navbar = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -64,42 +65,10 @@ export const Navbar = () => {
                         </a>
                     </div>
 
-                    <div className="order-2 md:order-3 flex items-center md:gap-x-6 justify-center" id="nav-content">
-                    <div className="relative hidden  sm:inline-block">
-                            <input
-                                type="text"
-                                className="pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-gray-500 text-gray-900 w-full" // Set width to 50%
-                                placeholder="Search..."
-                            />
-                            <svg
-                                className="absolute left-3 top-1/2 transform -translate-y-1/2 fill-current text-gray-500"
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    d="M10,18c1.846,0,3.543-0.635,4.897-1.688l4.396,4.396l1.414-1.414l-4.396-4.396C17.365,13.543,18,11.846,18,10 c0-4.411-3.589-8-8-8s-8,3.589-8,8S5.589,18,10,18z M10,4c3.309,0,6,2.691,6,6s-2.691,6-6,6s-6-2.691-6-6S6.691,4,10,4z"
-                                />
-                            </svg>
-                        </div>
-                       <div className="relative inline-block">
-                            <button className="no-underline custom-text-color"  onClick={toggleDropdown}>
-                                <svg
-                                    className="fill-current custom-text-color"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <circle fill="none" cx="12" cy="7" r="3" />
-                                    <path d="M12 2C9.243 2 7 4.243 7 7s2.243 5 5 5 5-2.243 5-5S14.757 2 12 2zM12 10c-1.654 0-3-1.346-3-3s1.346-3 3-3 3 1.346 3 3S13.654 10 12 10zM21 21v-1c0-3.859-3.141-7-7-7h-4c-3.86 0-7 3.141-7 7v1h2v-1c0-2.757 2.243-5 5-5h4c2.757 0 5 2.243 5 5v1H21z" />
-                                </svg>
-                            </button>
-                            <Dropdown isOpen={dropdownOpen} />
-                       
-                        </div>
-                        <Link className="pl-3 inline-block mb-1 no-underline custom-text-color" href={'/login'}>
+                    <div className="order-2 md:order-3 flex items-center" id="nav-content">
+                        
+                        <HoverDropdown/>
+                        <a className="pl-3 flex items-center justify-center no-underline custom-text-color" >
                             <svg
                                 className="fill-current custom-text-color"
                                 xmlns="http://www.w3.org/2000/svg"
@@ -111,7 +80,7 @@ export const Navbar = () => {
                                 <circle cx="10.5" cy="18.5" r="1.5" />
                                 <circle cx="17.5" cy="18.5" r="1.5" />
                             </svg>
-                        </Link>
+                        </a>
                     </div>
 
                 </div>

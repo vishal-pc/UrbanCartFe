@@ -1,12 +1,10 @@
-import { Carousel } from "./components/carousel";
-import { ProductCard } from "./components/productCard";
+import Image from "next/image";
 
 export default function Home() {
   return (
     <>
-      <Carousel />
-      <ProductCard />
-
+    <h1 className="text-red-400">home</h1>
+    
     </>
   );
 }

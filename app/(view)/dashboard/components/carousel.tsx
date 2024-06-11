@@ -3,7 +3,7 @@ import "@/app/style/globelColor.css"
 export const Carousel = () => {
     return (
         <>
-            <section className=' mt-8  mb-8 mr-12 ml-12'>
+            <section className=' mt-8 mb-8 mr-12 ml-12'>
                 <div className="carousel-inner relative overflow-hidden w-full">
 
 

@@ -5,19 +5,29 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && mv ./.next ./dist",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.2.5",
+    "axios": "^1.7.2",
+    "formik": "^2.4.6",
+    "jwt-decode": "^4.0.0",
+    "jwt-encode": "^1.0.1",
     "next": "14.2.3",
+    "next-client-cookies": "^1.1.1",
     "react": "^18",
     "react-dom": "^18",
+    "react-icons": "^5.2.1",
     "react-icons-kit": "^2.0.0",
+    "react-redux": "^9.1.2",
     "react-toastify": "^10.0.5",
-    "swiper": "^11.1.4"
+    "swiper": "^11.1.4",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@types/jwt-encode": "^1.0.3",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
