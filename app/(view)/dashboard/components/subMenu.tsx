@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { getAllCategoryAPI, getSubCategoryByIdAPI } from '../services/apis/user/categories';
+// import { getAllCategoryAPI, getSubCategoryByIdAPI } from '../services/apis/user/categories';
 import Link from 'next/link';
-import { urbancartLinks } from '../configs/authLinks';
+import { dashboardLinks } from '@/app/configs/authLinks';
+import { getAllCategoryAPI ,getSubCategoryByIdAPI} from '@/app/services/apis/user/categories';
 
  export const SubMenu = () => {
     const [categories, setCategories] = useState([]);
@@ -49,7 +50,7 @@ import { urbancartLinks } from '../configs/authLinks';
                         <div className="absolute bg-gray-100  z-[100] top-[100%] p-2 divide-y divide-gray-200 rounded-lg shadow w-44">
                             {subCategories.map((subCategory:any, index:any) => (
                                 <p key={index} className="px-4  py-2 cursor-pointer hover:bg-gray-300 hover:rounded-md">
-                                   <Link href={urbancartLinks.subProductsLink+subCategory._id}>
+                                   <Link href={dashboardLinks.subProductsLink+subCategory._id}>
                                     {subCategory?.subCategoryName}
                                    </Link>
                                 </p>

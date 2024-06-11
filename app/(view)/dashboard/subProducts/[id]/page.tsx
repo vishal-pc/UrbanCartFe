@@ -1,25 +1,28 @@
-import Image from 'next/image';
-import '@/app/style/globelColor.css';
+"use client"
+import { getSubCateProductByIdAPI } from '@/app/services/apis/user/categories';
 import Link from 'next/link';
-import { Getallcategories } from '../services/apis/admin/products';
-import { useEffect, useState } from 'react';
-import { getAllCategoryAPI } from '../services/apis/user/categories';
+import { useParams } from 'next/navigation'
+import Image from 'next/image';
+import React, { useEffect, useState } from 'react'
+import { dashboardLinks } from '@/app/configs/authLinks';
 
-export const ProductCard = () => {
-    const [data,setdata]=useState<any>([])
-    const getallCategories=async()=>{
-        const response=await getAllCategoryAPI()
-        if(response?.status===200){
-            console.log(response?.data)
-            setdata(response?.data)
-        }
-        
-    }
+const SubProducts = ({ params }: { params: { id: any | string } } ) => {
+  const [subCatProduct, setSubCatProduct] = useState<any>([]);
+  const [name,setname]=useState("")
+
+    const getData = async()=>{
+      const resp = await getSubCateProductByIdAPI(params.id);
+      setSubCatProduct(resp.data.Products);
+      setname(resp?.data?.categoryName)
+    } 
+  
     useEffect(()=>{
-     getallCategories()
-    },[])
-    return (
-        <div className='bg-white py-8 mt-8 mb-8 mr-12 ml-12'>
+      getData();
+    },[]);
+
+   
+  return (
+    <div className='bg-white py-8 mt-8 mb-8 mr-12 ml-12'>
             <div className="container mx-auto flex items-center flex-wrap pt-4 pb-12">
                 <nav id="store" className="w-full z-30 top-0 px-6 py-1">
                     <div className="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 px-2 py-3">
@@ -27,18 +30,18 @@ export const ProductCard = () => {
                             className="uppercase tracking-wide no-underline hover:no-underline font-bold custom-text-color text-xl"
                             href="#"
                         >
-                         Products
+                         {name}
                         </a>
                     
                     </div>
                 </nav>
              
-                  {data.map((data:any,index:any)=>(
+                  {subCatProduct?.map((data:any,index:any)=>(
                 <div key={index} className="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
-                    <Link href="">
+                    <Link href={dashboardLinks.productsLink+"/"+data._id}>
                         <Image
                             className="hover:grow hover:shadow-lg fixed-dimensions"
-                            src={data?.categoryImg}
+                            src={data?.productImg[0]}
                             alt="Product Image"
                             width={400}
                             height={400}
@@ -46,7 +49,7 @@ export const ProductCard = () => {
                         />
                     </Link>
                         <div className="pt-3 font-bold text-lg flex items-center justify-between custom-text-color">
-                            <p className="">{data?.categoryName[0].toUpperCase()+data?.categoryName.slice(1)}</p>
+                            <p className="">{data?.productName[0].toUpperCase()+data?.productName.slice(1)}</p>
                             <svg
                                 className="h-6 w-6 fill-current custom-text-color"
                                 xmlns="http://www.w3.org/2000/svg"
@@ -57,7 +60,7 @@ export const ProductCard = () => {
                                 />
                             </svg>
                         </div>
-                        <p className="pt-1 custom-text-color">{data?.productPrice}</p>
+                        <p className="pt-1 custom-text-color">₹ {data?.productPrice}</p>
                     
                 </div>
               ))}
@@ -74,6 +77,7 @@ export const ProductCard = () => {
                 </style>
             </div>
         </div>
-    );
-};
+  )
+}
 
+export default SubProducts
