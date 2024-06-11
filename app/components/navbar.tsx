@@ -64,7 +64,25 @@ export const Navbar = () => {
                         </a>
                     </div>
 
-                    <div className="order-2 md:order-3 flex items-center" id="nav-content">
+                    <div className="order-2 md:order-3 flex items-center md:gap-x-6 justify-center" id="nav-content">
+                    <div className="relative hidden  sm:inline-block">
+                            <input
+                                type="text"
+                                className="pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-gray-500 text-gray-900 w-full" // Set width to 50%
+                                placeholder="Search..."
+                            />
+                            <svg
+                                className="absolute left-3 top-1/2 transform -translate-y-1/2 fill-current text-gray-500"
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    d="M10,18c1.846,0,3.543-0.635,4.897-1.688l4.396,4.396l1.414-1.414l-4.396-4.396C17.365,13.543,18,11.846,18,10 c0-4.411-3.589-8-8-8s-8,3.589-8,8S5.589,18,10,18z M10,4c3.309,0,6,2.691,6,6s-2.691,6-6,6s-6-2.691-6-6S6.691,4,10,4z"
+                                />
+                            </svg>
+                        </div>
                        <div className="relative inline-block">
                             <button className="no-underline custom-text-color"  onClick={toggleDropdown}>
                                 <svg
@@ -81,7 +99,7 @@ export const Navbar = () => {
                             <Dropdown isOpen={dropdownOpen} />
                        
                         </div>
-                        <Link className="pl-3 inline-block no-underline custom-text-color" href={'/login'}>
+                        <Link className="pl-3 inline-block mb-1 no-underline custom-text-color" href={'/login'}>
                             <svg
                                 className="fill-current custom-text-color"
                                 xmlns="http://www.w3.org/2000/svg"

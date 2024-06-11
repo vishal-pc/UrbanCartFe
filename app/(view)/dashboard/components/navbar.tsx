@@ -50,7 +50,7 @@ export const Navbar = () => {
                     <div className="order-1 md:order-2">
                         <a
                             className="flex items-center tracking-wide no-underline hover:no-underline font-bold custom-text-color text-xl"
-                            href="/"
+                            href="/urbancart"
                         >
                             <svg
                                 className="fill-current custom-text-color mr-2"
@@ -68,7 +68,7 @@ export const Navbar = () => {
                     <div className="order-2 md:order-3 flex items-center" id="nav-content">
                         
                         <HoverDropdown/>
-                        <a className="pl-3 inline-block no-underline custom-text-color" >
+                        <a className="pl-3 flex items-center justify-center no-underline custom-text-color" >
                             <svg
                                 className="fill-current custom-text-color"
                                 xmlns="http://www.w3.org/2000/svg"

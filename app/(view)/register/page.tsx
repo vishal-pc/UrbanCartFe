@@ -14,9 +14,11 @@ import { eye } from "react-icons-kit/feather/eye";
 import { Icon } from "react-icons-kit";
 import { Navbar } from "@/app/components/navbar";
 import { Footer } from "@/app/components/footer";
-// import siteIcon from "@/public/images/4.svg";
+import { useFormik } from "formik";
+import * as Yup from "yup"
+import { registerUserAPI } from "@/app/services/apis/user";
 
-const initialFormState = {
+const val= {
   fullName: "",
   email: "",
   password: ""
@@ -25,19 +27,9 @@ const initialFormState = {
 const RegisterPage = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const [value, setValue] = useState(initialFormState);
-  const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
   const [icon, setIcon] = useState(eyeOff);
   const [type, setType] = useState("password");
-
-  const handleChange = (e: any) => {
-    const { name, value } = e.target;
-    setValue((prevProps) => ({
-      ...prevProps,
-      [name]: value
-    }));
-  }
 
   const handleToggle = () => {
     if (type === "password") {
@@ -48,57 +40,37 @@ const RegisterPage = () => {
       setType("password");
     }
   };
-  // const handleSubmit = async (e: any) => {
-  //   e.preventDefault();
-  //   let errForm = validate(value);
+  const register=Yup.object({
+    fullName:Yup.string().max(40).required("Please enter your name"),
+    email:Yup.string().email("Invalid email").required("Please enter email"),
+    password:Yup.string().required('Password is required')
+           .min(8, 'Password must be at least 8 characters long')
+           .matches(
+             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^+-]).{8,}$/,
+             'Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character (#?!@$%^&*-)'
+           )
+  })
+  const {values,touched,errors,handleBlur,handleChange,handleSubmit}=useFormik({
+    initialValues:val,
+    validationSchema:register,
+    onSubmit:async(values,action)=>{
+      console.log(values)
+      setIsSubmit(true);
+          const registerResp = await registerUserAPI(JSON.stringify(values));
+          if (registerResp?.status == 201) {
+            toast.success("Successfully registered.");
+            action.resetForm()
+            setTimeout(() => {
+              router.push("/login")
+            }, 1000);
+          } else if (registerResp.status == 400) {
+            // action.resetForm()
+            setIsSubmit(false)
+            toast.error(registerResp?.message)
+          }
+    }
+  })
 
-  //   if (Object.keys(errForm).length !== 0) {
-  //     setFormErrors(errForm);
-  //   } else {
-  //     setFormErrors({});
-  //     setIsSubmit(true);
-  //     const registerResp = await registerUserAPI(JSON.stringify(value));
-  //     if (registerResp?.status == 201) {
-  //       toast.success("Successfully registered.");
-  //       setTimeout(() => {
-  //         router.push("/login")
-  //       }, 1000);
-  //     } else if (registerResp.status == 400) {
-  //       toast.error(registerResp?.message)
-  //     }
-  //   }
-  // }
-
-  // const validate = (values: any | {}) => {
-  //   const errors: RegisterType | any = {};
-
-  //   const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-
-  //   console.log("valuess", values, regex.test(values.email))
-
-  //   if (!values.fullName) {
-  //     errors.fullName = "FullName cannot be empty";
-  //     toast.error("FullName cannot be empty");
-  //   }
-  //   if (!values.email) {
-  //     errors.email = "Email cannot be empty.";
-  //     toast.error("Email cannot be empty.");
-
-  //   } else if (regex.test(values.email) == false) {
-  //     errors.email = "Please enter a valid email address.";
-  //     toast.error("Please enter a valid email address.");
-  //   }
-
-  //   if (!values.password) {
-  //     errors.password = "Password is required";
-  //     toast.error("Password is required");
-  //   } else if (value.password.length < 8 || value.password.length > 10) {
-  //     errors.password = "Password must be between 8 and 10 characters long";
-  //     toast.error("Password must be between 8 and 10 characters long");
-  //   }
-
-  //   return errors;
-  // }
 
   return (
     <>
@@ -121,36 +93,48 @@ const RegisterPage = () => {
         <div className="flex-grow flex flex-col items-center justify-center custom-text-color background-color">
           <h1 className="text-3xl text-center mb-4">Register</h1>
           <form className="flex flex-col items-center w-full max-w-md "
-          // onSubmit={handleSubmit}
+          onSubmit={handleSubmit}
           >
+            <div className="w-full relative mb-2">
             <input
               type="text"
               placeholder="Name"
               name="fullName"
               className="w-full p-3 mb-3 bg-gray-800 border border-black rounded background-color"
-              value={value.fullName}
-            // onChange={handleChange}
+              value={values.fullName}
+            onChange={handleChange}
+            onBlur={handleBlur}
             />
+            {errors.fullName && touched.fullName ? <p className="text-gray-700">{errors.fullName}</p> : null}
+            </div>
+            <div className="w-full relative mb-2">
+
             <input
               type="email"
               placeholder="Email"
               name="email"
               className="w-full p-3 mb-3 bg-gray-800 border border-black rounded background-color "
-              value={value.email}
-            // onChange={handleChange}
+              value={values.email}
+            onChange={handleChange}
+            onBlur={handleBlur}
             />
-            <div className="w-full relative">
+            {errors.email && touched.email ? <p className="text-gray-700">{errors.email}</p> : null}
+            </div>
+            <div className="w-full relative mb-2">
               <input
                 type={type}
                 placeholder="Password"
                 name="password"
                 className="w-full p-3 mb-3 bg-gray-800 border border-black rounded background-color"
-                value={value.password}
-              // onChange={handleChange}
+                value={values.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
               />
+
               <span className="absolute top-3 right-3 cursor-pointer" onClick={handleToggle}>
                 <Icon icon={icon} size={20} />
               </span>
+              {errors.password && touched.password ? <p className="text-gray-700">{errors.password}</p> : null}
             </div>
             <button
               type="submit"

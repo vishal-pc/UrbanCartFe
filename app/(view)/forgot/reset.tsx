@@ -12,6 +12,10 @@ import Image from "next/image";
 import { eyeOff } from "react-icons-kit/feather/eyeOff";
 import { eye } from "react-icons-kit/feather/eye";
 import { Icon } from "react-icons-kit";
+import * as Yup from "yup"
+import { useFormik } from "formik";
+import { error } from "console";
+import { forgotResetAPI } from "@/app/services/apis/user";
 // import siteIcon from "@/public/images/4.svg";
 
 const ResetPass = (props: { formValue: { email: string } }) => {
@@ -33,96 +37,49 @@ const ResetPass = (props: { formValue: { email: string } }) => {
       setType("password");
     }
   };
-  // const [formVal, setFormVal] = useState<UserResetType>({
-  //   email: email, otp: "", newPassword: "",
-  //   confirmPassword: ""
-  // })
+  const val={
+    email:email,
+    otp:"",
+    newPassword:"",
+    confirmPassword:""
+  }
+ const passwordSchema=Yup.object({
+    otp:Yup.number().required("Enter otp"),
+    newPassword:Yup.string().required('Password is required')
+    .min(8, 'Password must be at least 8 characters long')
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^+-]).{8,}$/,
+      'Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character (#?!@$%^&*-)'
+    ),
+    confirmPassword:Yup.string().required("Confirm password please") .nullable().oneOf([Yup.ref("newPassword"),null],"Password must match")
+  })
 
-  // const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
-  //   try {
-  //     e.preventDefault()
-  //     let errForm: {} | "" = validate(formVal);
+  const {values,errors,touched,handleBlur,handleChange,handleSubmit}=useFormik({
+    initialValues:val,
+    validationSchema:passwordSchema,
+    onSubmit:async(values,action)=>{
+      console.log(values,email)
+      const resp = await forgotResetAPI(values);
+            if (resp.status == 404 && resp.message == "Invalid OTP or OTP expired") {
+              toast.error(resp.message)
+              
+            } else if (resp.status == 200) {
+              toast.success("your password reset successfully...!")
+              setTimeout(() => {
+                router.replace("/login");
+              }, 1000)
+            }
+    }
 
-  //     if (!Object.keys(errForm).length) {
 
-  //       const resp = await forgotResetAPI(formVal);
-  //       if (resp.status == 404 && resp.message == "Invalid OTP or OTP expired") {
-  //         toast.error(resp.message)
-  //       } else if (resp.status == 200) {
-  //         toast.success("your password reset successfully...!")
-  //         setTimeout(() => {
-  //           router.replace("/login");
-  //         }, 1000)
-  //       }
+  })
 
-  //     }
-
-  //   } catch (error) {
-  //     console.log("handleForgot--", error);
-  //   }
-  // }
-
-  // const handleForm = (e: any) => {
-  //   try {
-  //     const { name, value } = e.target;
-  //     setFormVal((prevProps: any) => ({
-  //       ...prevProps,
-  //       [name]: value
-  //     }));
-
-  //   } catch (error) {
-  //     console.log("error--", error);
-  //   }
-  // }
-
-  // const validate = (values: any | {}) => {
-  //   const errors: UserResetType | any = {};
-
-  //   const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-
-  //   console.log("valuess", values, regex.test(values.email))
-
-  //   if (!values.email) {
-  //     errors.email = "Email cannot be empty.";
-  //     toast.error("Email cannot be empty.");
-
-  //   } else if (regex.test(values.email) == false) {
-  //     errors.email = "Please enter a valid email address.";
-  //     toast.error("Please enter a valid email address.");
-  //   }
-
-  //   if (!values.otp) {
-  //     errors.otp = "OTP cannot be empty.";
-  //     toast.error("OTP cannot be empty.");
-  //   } else if (!/^\d+$/.test(values.otp)) {
-  //     errors.otp = "OTP must be a numeric value.";
-  //     toast.error("OTP must be a numeric value.");
-
-  //   } else if (values.otp.length !== 4) {
-  //     errors.otp = "OTP must be a 4-digit number.";
-  //     toast.error("OTP must be a 4-digit number.");
-  //   }
-
-  //   if (values.newPassword !== values.confirmPassword) {
-  //     errors.password = "Passwords do not match.";
-  //     toast.error("Passwords do not match..");
-  //   }
-
-  //   if (!values.newPassword) {
-  //     errors.password = "Password is required";
-  //     toast.error("Password is required");
-  //   } else if (values.newPassword.length < 8 || values.newPassword.length > 10) {
-  //     errors.password = "Password must be between 8 and 10 characters long";
-  //     toast.error("Password must be between 8 and 10 characters long");
-  //   }
-  //   return errors;
-  // }
-
+ 
 
   return (
     <>
       <ToastContainer autoClose={2000} />
-      {/* {email ? */}
+      {email ?
       <div className="h-screen flex flex-col">
         <div className="relative w-full h-[250px]">
           <Image
@@ -138,51 +95,60 @@ const ResetPass = (props: { formValue: { email: string } }) => {
           </div>
         </div>
         <div className="flex-grow flex flex-col items-center justify-center custom-text-color background-color">
-          <h1 className="text-3xl text-center mb-4">Reset Password</h1>
+        
           <form className="flex flex-col items-center w-full max-w-md "
-          // onSubmit={handleSubmit}
+          onSubmit={handleSubmit}
           >
-            <h1 className="custom-text-color mb-4 rounded-full">Reset Password</h1>
+            <h1 className="text-3xl text-center my-5">Reset Password</h1>
             <input
               type="email"
               placeholder="Email"
               name="email"
               className="w-full p-3 mb-3 bg-gray-800 border border-black rounded background-color"
-              defaultValue={email}
-              disabled
+              value={values.email}
+              readOnly
             />
+            <div className="w-full relative ">
+
             <input
               type="text"
               placeholder="otp"
               name="otp"
               inputMode="numeric"
               className="w-full p-3 mb-3 bg-gray-800 border border-black rounded background-color"
-            // value={formVal.otp}
-            // onChange={handleForm}
+            value={values.otp}
+            onChange={handleChange}
+            onBlur={handleBlur}
             />
-            <div className="w-full relative">
+            {errors.otp && touched.otp ? <p className="text-gray-700">{errors.otp}</p>:null}
+            </div>
+            <div className="w-full relative ">
               <input
                 type={type}
-                placeholder="Password"
-                name="password"
+                placeholder="New Password"
+                name="newPassword"
                 className="w-full p-3 mb-3 bg-gray-800 border border-black rounded background-color"
-              // value={formVal.newPassword}
-              // onChange={handleChange}
+              value={values.newPassword}
+              onChange={handleChange}
+              onBlur={handleBlur}
               />
               <span className="absolute top-3 right-3 cursor-pointer" onClick={handleToggle}>
                 <Icon icon={icon} size={20} />
               </span>
+              {errors.newPassword && touched.newPassword ? <p className="text-gray-700">{errors.newPassword}</p>:null}
               <input
                 type={type}
-                placeholder="Password"
-                name="password"
+                placeholder="Confirm Password"
+                name="confirmPassword"
                 className="w-full p-3 mb-3 bg-gray-800 border border-black rounded background-color"
-              // value={formVal.confirmPassword}
-              // onChange={handleChange}
+              value={values.confirmPassword}
+              onChange={handleChange}
+              onBlur={handleBlur}
               />
               <span className="absolute top-3 right-3 cursor-pointer" onClick={handleToggle}>
                 <Icon icon={icon} size={20} />
               </span>
+              {errors.confirmPassword && touched.confirmPassword ? <p className="text-gray-700">{errors.confirmPassword}</p>:null}
             </div>
 
             <button
@@ -197,7 +163,7 @@ const ResetPass = (props: { formValue: { email: string } }) => {
           </Link>
         </div>
       </div>
-      {/* : ""} */}
+      : ""}
     </>
   )
 }

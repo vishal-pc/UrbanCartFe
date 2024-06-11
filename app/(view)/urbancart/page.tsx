@@ -1,12 +1,18 @@
 "use client"
 import { Carousel } from "@/app/components/carousel";
-import { ProductCard } from "@/app/components/productCard";
+import { RecentViewCard } from "@/app/components/recentView";
+import {SubMenu} from "@/app/components/subMenu";
+
+
 
 export default function Home() {
   return (
     <>
+    <SubMenu/>
       <Carousel />
-      <ProductCard />
-    </>
+     <RecentViewCard/>
+ 
+
+      </>
   );
 }
