@@ -6,13 +6,14 @@ export const authLinks = {
 
 export const dashboardLinks ={
     userHomeLink : '/dashboard',
+    subProductsLink:'/dashboard/subProducts/',
     cartsLink :  '/dashboard/cart',
     productsLink : '/dashboard/products',
     ordersLink : '/dashboard/order',
     ordersIdLink : '/dashboard/order/',
     checkoutLinks: '/dashboard/checkout',
     subcategoryLinks:'/dashboard/subcategory/',
-    subCatProductLinks:'/dashboard/subcategory/products/'
+    subCatProductLinks:'/dashboard/subProducts/'
 
 }
 
@@ -27,5 +28,6 @@ export const urbancartLinks={
     userHomeLink : '/urbancart',
     productsLink : '/urbancart/products',
     subcategoryLinks:'/urbancart/subcategory/',
-    subCatProductLinks:'/urbancart/subcategory/products/'
+    subCatProductLinks:'/urbancart/subcategory/products/',
+    subProductsLink:'/urbancart/subProducts/'
 }

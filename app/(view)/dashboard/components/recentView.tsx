@@ -7,8 +7,9 @@ import 'swiper/swiper-bundle.css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 // import MultiCardCarousel from './slider';
-import { Getallsubcategory } from '../services/apis/admin/products';
+
 import Subcategory from './slider';
+import { Getallsubcategory } from '@/app/services/apis/admin/products';
 
 
 

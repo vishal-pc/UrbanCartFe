@@ -1,0 +1,43 @@
+.swiper-slide.swiper-slide-active > .slide\:w-full {
+    width: 100%;
+  }
+  
+  .swiper-button-prev:after,
+  .swiper-rtl .swiper-button-next:after {
+    content: "" !important;
+  }
+  .swiper-wrapper {
+    height: max-content !important;
+  }
+  
+  .swiper-button-next:after,
+  .swiper-rtl .swiper-button-prev:after {
+    content: "" !important;
+  }
+  
+  .swiper-button-next,
+  .swiper-button-prev {
+    position: relative !important;
+  }
+
+
+  .sub-bg-color {
+    background-color: #48c1af;
+  }
+  
+  .sub-bg-color:hover {
+    background-color: #2e8478;
+  }
+  
+  .sub-text-color {
+    color: #48c1af;
+  }
+  
+  .sub-text-color:hover {
+    color: #2e8478;
+  }
+  .swiper-slide
+  {
+    width: 280px !important;
+    max-width: 90% !important;
+  }

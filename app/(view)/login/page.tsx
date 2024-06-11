@@ -57,11 +57,7 @@ const Login = () => {
     const login=Yup.object({
            email:Yup.string().email("Invalid email").required("Please enter email"),
            password:Yup.string().required('Password is required')
-           .min(8, 'Password must be at least 8 characters long')
-           .matches(
-             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^+-]).{8,}$/,
-             'Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character (#?!@$%^&*-)'
-           )
+
     })
 
     const {values,errors,touched,handleBlur,handleChange,handleSubmit}=useFormik({

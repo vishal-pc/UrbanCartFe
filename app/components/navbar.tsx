@@ -33,12 +33,12 @@ export const Navbar = () => {
                         <nav>
                             <ul className="md:flex items-center justify-between text-base text-gray-700 pt-4 md:pt-0">
                                 <li>
-                                    <a className="inline-block no-underline custom-text-color hover:underline py-2 px-4" href="#">
+                                    <a className="inline-block font-semibold  no-underline custom-text-color hover:underline py-2 px-4" href="#">
                                         Shop
                                     </a>
                                 </li>
                                 <li>
-                                    <a className="inline-block no-underline custom-text-color hover:underline py-2 px-4" href="#">
+                                    <a className="inline-block font-semibold no-underline custom-text-color hover:underline py-2 px-4" href="#">
                                         About
                                     </a>
                                 </li>
@@ -63,8 +63,7 @@ export const Navbar = () => {
                             UrbanCart
                         </a>
                     </div>
-
-                    <div className="order-2 md:order-3 flex items-center md:gap-x-6 justify-center" id="nav-content">
+                    <div className="order-2 md:order-3 flex items-center md:gap-x-4 justify-center" id="nav-content">
                     <div className="relative hidden  sm:inline-block">
                             <input
                                 type="text"

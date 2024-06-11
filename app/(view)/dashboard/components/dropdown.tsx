@@ -56,18 +56,18 @@ const HoverDropdown = () => {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
+        <ul className="py-2 text-sm text-gray-700 dark:text-gray-200 "  aria-labelledby="dropdownHoverButton">
           <li>
-            <Link href={'/dashboard/profile'} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">My profile</Link>
+            <Link href={'/dashboard/profile'} className="block px-4 text-md font-bold py-2 hover:bg-gray-200 dark:hover:bg-gray-600 dark:hover:text-white">My profile</Link>
           </li>
           <li>
-            <Link href={'/dashboard/order'} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Orders</Link>
+            <Link href={'/dashboard/order'} className="block px-4 py-2 text-md font-bold hover:bg-gray-200 dark:hover:bg-gray-600 dark:hover:text-white">Orders</Link>
           </li>
           <li>
-            <Link href={'/dashboard'} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Wishlist</Link>
+            <Link href={'/dashboard'} className="block px-4 py-2 text-md font-bold hover:bg-gray-200 dark:hover:bg-gray-600 dark:hover:text-white">Wishlist</Link>
           </li>
           <li>
-            <button  onClick={handleLogout} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Log out</button>
+            <p  onClick={handleLogout} className="block text-md font-bold px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer">Log out</p>
           </li>
         </ul>
       </div>

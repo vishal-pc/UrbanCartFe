@@ -33,7 +33,7 @@ export const Carousel = () => {
                                     <a
                                         className="text-xl inline-block no-underline border-b border-gray-600 leading-relaxed hover:text-black hover:border-black"
                                         href="#"
-                                    >view product</a
+                                    >View Product</a
                                     >
                                 </div>
                             </div>
@@ -75,7 +75,7 @@ export const Carousel = () => {
                                     <a
                                         className="text-xl inline-block no-underline border-b border-gray-600 leading-relaxed hover:text-black hover:border-black"
                                         href="#"
-                                    >view product</a
+                                    >View Product</a
                                     >
                                 </div>
                             </div>
@@ -121,7 +121,7 @@ export const Carousel = () => {
                                     <a
                                         className="text-xl inline-block no-underline border-b border-gray-600 leading-relaxed hover:text-black hover:border-black"
                                         href="#"
-                                    >view product</a
+                                    >View Product</a
                                     >
                                 </div>
                             </div>
