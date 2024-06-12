@@ -64,7 +64,7 @@ export const Navbar = () => {
                         </a>
                     </div>
                     <div className="order-2 md:order-3 flex items-center md:gap-x-4 justify-center" id="nav-content">
-                    <div className="relative hidden  sm:inline-block">
+                        <div className="relative hidden  sm:inline-block">
                             <input
                                 type="text"
                                 className="pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-gray-500 text-gray-900 w-full" // Set width to 50%
@@ -82,8 +82,8 @@ export const Navbar = () => {
                                 />
                             </svg>
                         </div>
-                       <div className="relative inline-block">
-                            <button className="no-underline custom-text-color"  onClick={toggleDropdown}>
+                        <div className="relative inline-block">
+                            <button className="no-underline custom-text-color" onClick={toggleDropdown}>
                                 <svg
                                     className="fill-current custom-text-color"
                                     xmlns="http://www.w3.org/2000/svg"
@@ -96,7 +96,7 @@ export const Navbar = () => {
                                 </svg>
                             </button>
                             <Dropdown isOpen={dropdownOpen} />
-                       
+
                         </div>
                         <Link className="pl-3 inline-block mb-1 no-underline custom-text-color" href={'/login'}>
                             <svg

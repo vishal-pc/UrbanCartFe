@@ -48,7 +48,7 @@ export const Navbar = () => {
                     </div>
 
                     <div className="order-1 md:order-2">
-                        <a
+                        <Link
                             className="flex items-center tracking-wide no-underline hover:no-underline font-bold custom-text-color text-xl"
                             href="/urbancart"
                         >
@@ -62,12 +62,12 @@ export const Navbar = () => {
                                 <path d="M5,22h14c1.103,0,2-0.897,2-2V9c0-0.553-0.447-1-1-1h-3V7c0-2.757-2.243-5-5-5S7,4.243,7,7v1H4C3.447,8,3,8.447,3,9v11 C3,21.103,3.897,22,5,22z M9,7c0-1.654,1.346-3,3-3s3,1.346,3,3v1H9V7z M5,10h2v2h2v-2h6v2h2v-2h2l0.002,10H5V10z" />
                             </svg>
                             UrbanCart
-                        </a>
+                        </Link>
                     </div>
 
                     <div className="order-2 md:order-3 flex items-center" id="nav-content">
-                        
-                        <HoverDropdown/>
+
+                        <HoverDropdown />
                         <a className="pl-3 flex items-center justify-center no-underline custom-text-color" >
                             <svg
                                 className="fill-current custom-text-color"
