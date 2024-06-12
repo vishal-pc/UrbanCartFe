@@ -13,7 +13,8 @@ export const dashboardLinks ={
     ordersIdLink : '/dashboard/order/',
     checkoutLinks: '/dashboard/checkout',
     subcategoryLinks:'/dashboard/subcategory/',
-    subCatProductLinks:'/dashboard/subProducts/'
+    subCatProductLinks:'/dashboard/subProducts/',
+    wishlistLink:'/dashboard/wishlist'
 
 }
 

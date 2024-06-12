@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-key */
 "use client"
 import { GetProductByIdAPI } from '@/app/services/apis/admin/products';
-import { addToCartAPI, getAllReviwAPI, getToCartAPI } from '@/app/services/apis/user';
+import { AddtoWishlistAPI, addToCartAPI, getAllReviwAPI, getToCartAPI } from '@/app/services/apis/user';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
@@ -14,6 +14,8 @@ import { getSubCateProductByIdAPI } from '@/app/services/apis/user/categories';
 import Link from 'next/link';
 import "../../style/subcateCard.css"
 import 'swiper/css';
+import { GoHeart } from "react-icons/go";
+import { GoHeartFill } from "react-icons/go";
 
 const ProductById = ({ params }: { params: { id: any | string } }) => {
   const router = useRouter();
@@ -25,6 +27,7 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
   const [selectedImage, setSelectedImage] = useState<any>([]);
   const [itemGet, setItemGet] = useState(false)
   const [quantity, setQuantity] = useState("")
+  const [change,setChange]=useState(false)
   const [length, setlength] = useState("")
   const [review, setreview] = useState<any>([])
   const [subCatProduct, setSubCatProduct] = useState<any>([]);
@@ -77,26 +80,58 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
   };
 
 
-  const getAllreview = async () => {
-    const response = await getAllReviwAPI(params.id)
-    if (response?.status === 200) {
-      console.log("review", response.data.length)
-      setlength(response?.data?.length)
-      setreview(response?.data)
-    } else {
-      console.log("error")
+    const getAllreview=async()=>{
+      const response=await getAllReviwAPI(params.id)
+      if(response?.status===200){
+        console.log("review",response.data.length)
+        setlength(response?.data?.length)
+        setreview(response?.data)
+      }else{
+        console.log("error")
+      }
     }
+  
+  const HandleWishlist=async()=>{
+    setChange(true)
+   
   }
-
-
+  
+  const HandleRemovelist=async()=>{
+    setChange(false)
+  }
   const handleAddToCart = async () => {
-    toast.error("Login first !")
-    setTimeout(() => {
-      router.replace('/login')
-    }, 1000);
+    const body = {
+        id: productData?._id,
+        productName: productData?.productName,
+        productImage: productData?.productImg[0],
+        productPrice: productData?.productPrice,
+        productQuantity:1
+    };
 
-  }
+    let product: any = localStorage.getItem('cartData');
+    let data: any[];
 
+    if (product) {
+        data = JSON.parse(product);
+    } else {
+        data = [];
+    }
+
+    const find = data.filter((el: any) => el.id === productData?._id);
+
+    if (find.length) {
+        toast.error("Product already there");
+    } else {
+        const pro = [...data, body];
+        localStorage.setItem('cartData', JSON.stringify(pro));
+        toast.success("Product added successfully !");
+        setTimeout(() => {
+            router.replace(urbancartLinks.cartsLink);
+        }, 2000);
+    }
+};
+
+   
 
   useEffect(() => {
     // getData()
@@ -106,7 +141,7 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
   }, [])
   return (
     <>
-      <div className=' bg-white mt-4 mb-4 '><section className="py-12 sm:py-16">
+      <div className=' bg-white py-4 mt-7 mb-7 mr-12 ml-12 '><section className="py-12 sm:py-16">
         <div className="container mx-auto px-4">
           <div className="lg:col-gap-12 xl:col-gap-16 mt-8 grid grid-cols-1 gap-12 lg:mt-12 lg:grid-cols-5 lg:gap-16">
             <div className="lg:col-span-3 lg:row-end-1">
@@ -266,7 +301,7 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
       </section>
         <ToastContainer />
       </div>
-      <section className="py-2 px-2 bg-white mb-4" >
+      <section className="px-2 bg-white py-4 mt-7 mb-7 mr-12 ml-12" >
         <div className="p-2">
           <div className="flex items-center justify-between flex-col sm:flex-row gap-y-2 mb-3">
             <h2 className="font-manrope font-bold text-2xl text-gray-900">More like this</h2>
