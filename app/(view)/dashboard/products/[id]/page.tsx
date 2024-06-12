@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-key */
 "use client"
 import { GetProductByIdAPI } from '@/app/services/apis/admin/products';
-import { getAllReviwAPI } from '@/app/services/apis/user';
+import { AddtoWishlistAPI, addToCartAPI, getAllReviwAPI, getToCartAPI } from '@/app/services/apis/user';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState,useRef } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
@@ -73,7 +73,58 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
     setSelectedImage(image);
   };
 
+  const ItemInCart = async () => {
+    try {
+      const resp = await getToCartAPI()
+      if (resp.status == 200) {
 
+        const datas = resp.data.cartItems.filter((data:any)=>{
+          if(data.message !== "Product not found"){
+              return data
+          }       
+        })
+  
+        datas.map((e:any)=>{
+          if(e.productDetails.productId === params.id){
+            setItemGet(true);
+          }
+        })       
+      }
+      
+    } catch (error) {
+      console.log("error ItemInCart --",error);
+    }
+  }
+
+  const handleAddToCart = async () => {
+    try {
+      const param = {
+        "productId": productData._id,
+        "productName": productData.productName
+      }
+      const resp = await addToCartAPI(param)
+      if (resp.status == 201) {
+        router.replace(dashboardLinks.cartsLink)
+      } 
+    } catch (error) {
+      console.log("error handleAddToCart --",error);
+    }
+   
+  }
+ const AddtoWishlist=async(id:any)=>{
+  const data={
+    productId:id
+  }
+  const response=await AddtoWishlistAPI(data)
+  if(response?.status===201){
+    toast.success("Product Added to Wishlist !")
+  }else{
+    toast.error(response?.message)
+  }
+ }
+  const handleGoToCart = async () => {
+    router.replace(dashboardLinks.cartsLink)
+  }
   const getAllreview = async () => {
     const response = await getAllReviwAPI(params.id)
     if (response?.status === 200) {
@@ -86,11 +137,6 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
   }
 
 
-  const handleAddToCart = async () => {
-    toast.success("Working on it")
-
-
-  }
 
   const getData = async (id: string) => {
     const resp = await getSubCateProductByIdAPI(id);
@@ -98,6 +144,7 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
     setSubCatProduct(resp?.data?.Products.filter((el: any) => el._id !== params.id))
   }
   useEffect(() => {
+    ItemInCart()
     products()
     getAllreview()
   }, [])

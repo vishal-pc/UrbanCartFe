@@ -9,7 +9,7 @@ export async function middleware(request: NextRequest) {
 
   const path = request.nextUrl.pathname;
   const token = request.cookies.get(auth.storageTokenKeyName)?.value; 
-  const isPublicPath = path === "/login" || path === "/register" || path === "/" || path.startsWith('/urbancart') ;
+  const isPublicPath = path === "/login" || path === "/register" || path === "/" || path==='/urbancart' ;
   const authRole	= request.cookies.get(auth.storageRole)?.value;
   let getRole:any
   if(authRole){
@@ -59,9 +59,9 @@ export const config = {
         '/' ,
         '/urbancart',
         '/login',
+        '/landing',
         '/register',
         '/admin/:path*',
         '/dashboard/:path*',
-        '/urbancart/:path*'
     ],
 }
