@@ -26,6 +26,8 @@ export const adminLinks = {
 
 export const urbancartLinks={
     userHomeLink : '/urbancart',
+    cartsLink :  '/urbancart/cart',
+    checkoutLinks: '/urbancart/checkout',
     productsLink : '/urbancart/products',
     subcategoryLinks:'/urbancart/subcategory/',
     subCatProductLinks:'/urbancart/subcategory/products/',
