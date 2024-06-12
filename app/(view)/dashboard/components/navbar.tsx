@@ -68,7 +68,7 @@ export const Navbar = () => {
                     <div className="order-2 md:order-3 flex items-center" id="nav-content">
 
                         <HoverDropdown />
-                        <Link href={'/dashboard/cart'} className="pl-3 flex items-center justify-center no-underline custom-text-color" >
+                        <Link href={'/dashboard/cart'} className="pl-3 hover:underline flex items-center justify-center  custom-text-color" >
                             <svg
                                 className="fill-current custom-text-color"
                                 xmlns="http://www.w3.org/2000/svg"
