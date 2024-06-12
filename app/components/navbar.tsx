@@ -98,7 +98,7 @@ export const Navbar = () => {
                             <Dropdown isOpen={dropdownOpen} />
                        
                         </div>
-                        <Link className="pl-3 inline-block mb-1 no-underline custom-text-color" href={'/login'}>
+                        <Link className="pl-3 inline-block mb-1 no-underline custom-text-color" href={'/urbancart/cart'}>
                             <svg
                                 className="fill-current custom-text-color"
                                 xmlns="http://www.w3.org/2000/svg"

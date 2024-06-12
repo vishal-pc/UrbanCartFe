@@ -1,6 +1,6 @@
 "use client"
 import { GetProductByIdAPI } from '@/app/services/apis/admin/products';
-import { addToCartAPI, getAllReviwAPI, getToCartAPI } from '@/app/services/apis/user';
+import { AddtoWishlistAPI, addToCartAPI, getAllReviwAPI, getToCartAPI } from '@/app/services/apis/user';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
@@ -12,6 +12,8 @@ import { getSubCateProductByIdAPI } from '@/app/services/apis/user/categories';
 import Link from 'next/link';
 import "../../style/subcateCard.css"
 import 'swiper/css';
+import { GoHeart } from "react-icons/go";
+import { GoHeartFill } from "react-icons/go";
 
 const ProductById = ({ params }: { params: { id: any | string } }) => {
   const router = useRouter();
@@ -23,6 +25,7 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
   const [selectedImage, setSelectedImage] = useState<any>([]);
   const [itemGet, setItemGet] = useState(false)
   const [quantity,setQuantity] =  useState("")
+  const [change,setChange]=useState(false)
   const [length,setlength]=useState("")
   const [review,setreview]=useState<any>([])
   const [subCatProduct, setSubCatProduct] = useState<any>([]);
@@ -66,12 +69,46 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
       }
     }
   
-
+  const HandleWishlist=async()=>{
+    setChange(true)
+   
+  }
   
-    const handleAddToCart = async () => {
-     toast.error("Login first")
-     
+  const HandleRemovelist=async()=>{
+    setChange(false)
+  }
+  const handleAddToCart = async () => {
+    const body = {
+        id: productData?._id,
+        productName: productData?.productName,
+        productImage: productData?.productImg[0],
+        productPrice: productData?.productPrice,
+        productQuantity:1
+    };
+
+    let product: any = localStorage.getItem('cartData');
+    let data: any[];
+
+    if (product) {
+        data = JSON.parse(product);
+    } else {
+        data = [];
     }
+
+    const find = data.filter((el: any) => el.id === productData?._id);
+
+    if (find.length) {
+        toast.error("Product already there");
+    } else {
+        const pro = [...data, body];
+        localStorage.setItem('cartData', JSON.stringify(pro));
+        toast.success("Product added successfully !");
+        setTimeout(() => {
+            router.replace(urbancartLinks.cartsLink);
+        }, 2000);
+    }
+};
+
    
 
   useEffect(() => {
@@ -83,6 +120,7 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
   return (
     <>
     <div className=' bg-white mt-4 mb-4 '><section className="py-12 sm:py-16"> 
+    
     <div className="container mx-auto px-4">
       <div className="lg:col-gap-12 xl:col-gap-16 mt-8 grid grid-cols-1 gap-12 lg:mt-12 lg:grid-cols-5 lg:gap-16">
         <div className="lg:col-span-3 lg:row-end-1">
@@ -109,8 +147,16 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
         </div>
   
         <div className="lg:col-span-2 lg:row-span-2 lg:row-end-2">
+          <div className='flex items-center justify-between'>
           <h1 className="sm: text-2xl font-bold text-gray-900 sm:text-3xl">{productData?.productBrand[0].toUpperCase()+productData?.productBrand.slice(1)} -  {productData?.productName[0].toUpperCase()+productData?.productName?.slice(1)}</h1>
-  
+          {/* {change==false ? 
+          <button onClick={HandleWishlist}>
+          <GoHeart   className='h-10 w-10 mb-8'/>
+          </button>
+        :  <button onClick={HandleRemovelist}>
+        <GoHeartFill   className='h-10 w-10 mb-8'/>
+        </button>} */}
+        </div>
           {review && review?.length>0 ? review.map((data:any,index:any)=>(
           <div className="mt-5 flex items-center">
           <Rating name="half-rating-read" defaultValue={data?.rating} precision={0.5} readOnly />
@@ -130,9 +176,10 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
           <div className="mt-10 flex flex-col items-center justify-between space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0">
             <div className="flex items-end">
               <h1 className="text-3xl font-bold">₹ {productData?.productPrice}</h1>
-              
             </div>
            
+           
+            
             <button  onClick={handleAddToCart} type="button" className="inline-flex items-center justify-center rounded-md border-2 border-transparent bg-gray-900 bg-none px-12 py-3 text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800">
               <svg xmlns="http://www.w3.org/2000/svg" className="shrink-0 mr-3 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
