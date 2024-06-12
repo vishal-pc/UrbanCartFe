@@ -19,3 +19,25 @@
 .swiper-button-prev {
   position: relative !important;
 }
+
+
+.sub-bg-color {
+  background-color: #48c1af;
+}
+
+.sub-bg-color:hover {
+  background-color: #2e8478;
+}
+
+.sub-text-color {
+  color: #48c1af;
+}
+
+.sub-text-color:hover {
+  color: #2e8478;
+}
+.swiper-slide
+{
+  width: 280px !important;
+  max-width: 90% !important;
+}

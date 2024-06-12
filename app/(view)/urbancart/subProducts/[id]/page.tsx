@@ -12,6 +12,7 @@ const SubProducts = ({ params }: { params: { id: any | string } } ) => {
 
     const getData = async()=>{
       const resp = await getSubCateProductByIdAPI(params.id);
+      console.log(params.id)
       setSubCatProduct(resp.data.Products);
       setname(resp?.data?.categoryName)
     } 

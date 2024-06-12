@@ -94,7 +94,7 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
           {review && review?.length>0 ? review.map((data:any,index:any)=>(
           <div className="mt-5 flex items-center">
           <Rating name="half-rating-read" defaultValue={data?.rating} precision={0.5} readOnly />
-            <p className="ml-2 text-sm font-medium text-gray-500">{length} Reviews</p>
+            <p className="ml-2 text-sm font-medium text-gray-500">{length} Review</p>
           </div>
         ))    : ""}
   
