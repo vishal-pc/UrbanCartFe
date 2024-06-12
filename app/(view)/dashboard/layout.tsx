@@ -18,17 +18,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
 
-    // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-    const data = async()=>{
-      const userData = await UserRoleAPI();
-      const jwtencode:any = jwtEncodeData(userData.userData);
-    //   dispatch(addUser(jwtencode))
-    }
+  const data = async () => {
+    const userData = await UserRoleAPI();
+    const jwtencode: any = jwtEncodeData(userData.userData);
+    dispatch(addUser(jwtencode))
+  }
 
-    useLayoutEffect(()=>{
-      data()
-    },[])
+  useLayoutEffect(() => {
+    data()
+  }, [])
   return (
     <React.Suspense fallback={<>...</>}>
       <div className="bg-gray-200 text-gray-600 work-sans leading-normal text-base tracking-normal" suppressHydrationWarning={true}>

@@ -7,12 +7,13 @@ import 'swiper/css';
 import Link from "next/link";
 import { dashboardLinks, urbancartLinks } from "@/app/configs/authLinks";
 import "@/app/style/style.css"
+import Image from "next/image";
 
 
 const Subcategory = ({ key, data }: any) => {
     const [subdata, setSubData] = useState<any>([]);
     const prevButtonRef = useRef<HTMLButtonElement>(null);
-    const nextButtonRef = useRef<HTMLButtonElement>(null); 
+    const nextButtonRef = useRef<HTMLButtonElement>(null);
 
     let subCatId = data?._id;
 
@@ -23,7 +24,7 @@ const Subcategory = ({ key, data }: any) => {
             setSubData(response?.data?.Products);
         }
     };
-  
+
     useEffect(() => {
         fetchsubbyid();
     }, [subCatId]);
@@ -32,7 +33,7 @@ const Subcategory = ({ key, data }: any) => {
         <section className="py-2 relative" key={key}>
             <div className="p-2">
                 <div className="flex items-center justify-between flex-col sm:flex-row gap-y-2 mb-3">
-                <h2 className="font-manrope font-bold text-2xl text-gray-900">{data?.subCategoryName}</h2>
+                    <h2 className="font-manrope font-bold text-2xl text-gray-900">{data?.subCategoryName}</h2>
                     <div className="flex justify-center items-center gap-x-8">
                         <button ref={prevButtonRef}
                             className="swiper-button-prev  items-center justify-center p-1.5  group transition-all duration-300  hover:bg-gray-100 rounded-full hover:text-black">
@@ -68,37 +69,29 @@ const Subcategory = ({ key, data }: any) => {
                 spaceBetween={10}
 
             >
-
-
-
-
                 {subdata && subdata.length > 0 ? subdata.map((subval: any, index: number) => (
                     <SwiperSlide key={index} className="flex flex-col px-2 items-center">
-      <div className="group relative ">
-        <div className=" w-full overflow-hidden rounded-md bg-gray-200  group-hover:opacity-75 lg:h-80">
-          <img src={subval?.productImg[0]} className="h-full w-full object-cover object-center lg:h-full lg:w-full"/>
-        </div>
-        <div className="mt-4 flex justify-between">
-          <div>
-            <h3 className="font-bold text-lg text-gray-700">
-            <Link href={urbancartLinks.productsLink + '/' + subval?._id}>
-                <span aria-hidden="true" className="absolute inset-0 font-bold text-md"></span>
-                {subval?.productName[0].toUpperCase()+subval?.productName.slice(1)}
-              </Link>
-            </h3>
-          </div>
-        </div>
-      </div>
-      
-      
-{/*                         
-                        <Link href={urbancartLinks.productsLink + '/' + subval?._id}>
-                            <div className="w-[12rem] h-[14rem] mb-2">
-                                <img src={subval?.productImg[0]} alt=""
-                                    className="w-full  h-full object-cover" />
+                        <div className="group relative ">
+                            <div className=" w-full overflow-hidden rounded-md bg-gray-200  group-hover:opacity-75 lg:h-80">
+                                <Image
+                                    className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+                                    src={subval?.productImg[0]}
+                                    alt="Profile picture"
+                                    width={400}
+                                    height={300}
+                                />
                             </div>
-                        </Link>
-                        <span className="text-sm text-gray-900 text-center px-2">{subval?.productName[0].toUpperCase()+subval?.productName.slice(1)}</span> */}
+                            <div className="mt-4 flex justify-between">
+                                <div>
+                                    <h3 className="font-bold text-lg text-gray-700">
+                                        <Link href={urbancartLinks.productsLink + '/' + subval?._id}>
+                                            <span aria-hidden="true" className="absolute inset-0 font-bold text-md"></span>
+                                            {subval?.productName[0].toUpperCase() + subval?.productName.slice(1)}
+                                        </Link>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
                     </SwiperSlide>
                 ))
                     :
