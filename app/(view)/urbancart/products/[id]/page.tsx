@@ -1,32 +1,49 @@
 "use client"
 import { GetProductByIdAPI } from '@/app/services/apis/admin/products';
-import { getAllReviwAPI } from '@/app/services/apis/user';
+import { addToCartAPI, getAllReviwAPI, getToCartAPI } from '@/app/services/apis/user';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import Rating from '@mui/material/Rating';
+import { urbancartLinks } from '@/app/configs/authLinks';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules';
+import { getSubCateProductByIdAPI } from '@/app/services/apis/user/categories';
+import Link from 'next/link';
+import "../../style/subcateCard.css"
+import 'swiper/css';
 
 const ProductById = ({ params }: { params: { id: any | string } }) => {
   const router = useRouter();
   
   const [value, setValue] = useState()
+  const prevButtonRef = useRef<HTMLButtonElement>(null);
+    const nextButtonRef = useRef<HTMLButtonElement>(null); 
   const [productData, setProductData] = useState<any>()
   const [selectedImage, setSelectedImage] = useState<any>([]);
   const [itemGet, setItemGet] = useState(false)
   const [quantity,setQuantity] =  useState("")
   const [length,setlength]=useState("")
   const [review,setreview]=useState<any>([])
+  const [subCatProduct, setSubCatProduct] = useState<any>([]);
+  
+
+    const getData = async(id:string)=>{
+      const resp = await getSubCateProductByIdAPI(id);
+      console.log(resp?.data?.Products.filter((el:any)=>el._id !==params.id))
+      setSubCatProduct(resp?.data?.Products.filter((el:any)=>el._id !==params.id)) 
+    } 
   const products = async () => {
     try {
       const res = await GetProductByIdAPI(params.id);
       if(res.status == 200 && res.message === "Product found successfully"){
-        // console.log("*****",res.getProduct.productStockQuantity)
         if(res.getProduct.productStockQuantity <=10){
           setQuantity(res.getProduct.productStockQuantity)
         }
-      console.log(res)
+        getData(res?.getProduct?.subCategoryId)
         setProductData(res.getProduct)
         setSelectedImage(res?.getProduct.productImg[0])
+        
       }
     } catch (error) {
         console.log("error products --",error);
@@ -50,20 +67,21 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
     }
   
 
-  const handleAddToCart = async () => {
-    toast.error("Login first !")
-    setTimeout(() => {
-      router.replace('/login')
-    }, 1000);
- 
-  }
- 
+  
+    const handleAddToCart = async () => {
+     toast.error("Login first")
+     
+    }
+   
 
   useEffect(() => {
+    // getData()
+    
     products()
     getAllreview()
   }, [])
   return (
+    <>
     <div className=' bg-white mt-4 mb-4 '><section className="py-12 sm:py-16"> 
     <div className="container mx-auto px-4">
       <div className="lg:col-gap-12 xl:col-gap-16 mt-8 grid grid-cols-1 gap-12 lg:mt-12 lg:grid-cols-5 lg:gap-16">
@@ -114,13 +132,14 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
               <h1 className="text-3xl font-bold">₹ {productData?.productPrice}</h1>
               
             </div>
-  
+           
             <button  onClick={handleAddToCart} type="button" className="inline-flex items-center justify-center rounded-md border-2 border-transparent bg-gray-900 bg-none px-12 py-3 text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800">
               <svg xmlns="http://www.w3.org/2000/svg" className="shrink-0 mr-3 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
               </svg>
               Add to cart
             </button>
+            
           </div>
   
           <ul className="mt-8 space-y-2">
@@ -174,7 +193,7 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
      
     </div>
     <div className="mt-3">
-      <span className="font-bold">Description</span>
+      <span className="font-bold ">Description</span>
       <p className="mt-1">{data?.comment}</p>
     </div>
     <div className="flex items-center justify-between mt-4 text-sm text-gray-600 fill-current">
@@ -193,7 +212,7 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
         <div className="lg:col-span-3">
           <div className="border-b border-gray-300">
             <nav className="flex gap-4">
-              <p  title="" className="border-b-2 border-gray-900 py-4 text-sm font-medium text-gray-900 hover:border-gray-400 hover:text-gray-800"> Description </p>
+              <p  title="" className="border-b-2 border-gray-900 py-4 text-lg font-bold text-gray-900 hover:border-gray-400 hover:text-gray-800"> Description </p>
             </nav>
           </div>
   
@@ -210,6 +229,76 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
   </section>
   <ToastContainer/>
   </div>
+  <section className="py-2 px-2 bg-white mb-4" >
+            <div className="p-2">
+                <div className="flex items-center justify-between flex-col sm:flex-row gap-y-2 mb-3">
+                <h2 className="font-manrope font-bold text-2xl text-gray-900">More like this</h2>
+                    <div className="flex justify-center items-center text-md gap-x-6">
+                        <button ref={prevButtonRef}
+                            className="swiper-button-prev  items-center justify-center p-1.5  group transition-all duration-300  hover:bg-gray-100 rounded-full hover:text-black">
+                            <svg className="stroke-black rounded-full transition-all duration-300 "
+                                xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path
+                                    d="M8.38449 15.1023L3.33337 10.0512M3.33337 10.0512L8.38449 5.00006M3.33337 10.0512H18.3333"
+                                    stroke="" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                        </button>
+                        <button ref={nextButtonRef}
+                            className="swiper-button-next  hover:bg-gray-100 rounded-full hover:text-black flex items-center justify-center p-1.5  group transition-all duration-300 ">
+                            <svg className="stroke-black transition-all duration-300 "
+                                xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path
+                                    d="M11.6155 5.00006L16.6667 10.0512M16.6667 10.0512L11.6155 15.1023M16.6667 10.0512L1.66675 10.0512"
+                                    stroke="" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <Swiper
+                className="swiper mySwiper mb-10 py-8"
+                modules={[Navigation]}
+                navigation={{
+                    nextEl: nextButtonRef.current,
+                    prevEl: prevButtonRef.current,
+                }}
+                slidesPerView={5}
+                centeredSlides={false}
+                loop
+                spaceBetween={10}
+              
+
+            >
+
+
+
+
+                {subCatProduct && subCatProduct.length > 0 ? subCatProduct.map((subval: any, index: number) => (
+                    <SwiperSlide key={index} className="flex flex-col px-2 items-center">
+      <div className="group relative ">
+        <div className=" w-full overflow-hidden rounded-md bg-gray-100  group-hover:opacity-75 lg:h-80">
+          <img src={subval?.productImg[0]} className="h-full w-full object-cover object-center lg:h-full lg:w-full"/>
+        </div>
+        <div className="mt-4 flex justify-between">
+          <div>
+            <h3 className="font-bold text-lg text-gray-700">
+            <Link href={urbancartLinks.productsLink + '/' + subval?._id}>
+                <span aria-hidden="true" className="absolute inset-0 font-bold text-md"></span>
+                {subval?.productName[0].toUpperCase()+subval?.productName.slice(1)}
+              </Link>
+            </h3>
+          </div>
+        </div>
+      </div>
+
+                    </SwiperSlide>
+                ))
+                    :
+                    ("")
+                }
+            </Swiper>
+        </section>
+    </>
   )
 }
 
