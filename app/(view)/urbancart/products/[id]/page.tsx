@@ -304,18 +304,19 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
           loop
           spaceBetween={10}
 
-
         >
-
-
-
 
           {subCatProduct && subCatProduct.length > 0 ? subCatProduct.map((subval: any, index: number) => (
             <SwiperSlide key={index} className="flex flex-col px-2 items-center">
               <div className="group relative ">
                 <div className=" w-full overflow-hidden rounded-md bg-gray-100  group-hover:opacity-75 lg:h-80">
-                  <img src={subval?.productImg[0]} className="h-full w-full object-cover object-center lg:h-full lg:w-full" />
-                </div>
+                  <Image
+                    className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+                    src={subval?.productImg[0]}
+                    alt="Profile picture"
+                    width={400}
+                    height={300}
+                  />                </div>
                 <div className="mt-4 flex justify-between">
                   <div>
                     <h3 className="font-bold text-lg text-gray-700">
