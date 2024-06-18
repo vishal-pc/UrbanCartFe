@@ -22,10 +22,7 @@ const FileDownloader = (data:any) => {
   return (
 
     <>
-    {/* {pdfUrl && pdfUrl !="" ? 
-    <a href={pdfUrl} target="_blank" rel="noopener noreferrer" ><button>Download CV</button></a>
-    :""} */}
-
+ 
       <button className='custom-button-primary mt-10' onClick={downloadPDF}> Download Invoice {loading==true ?"Loading....":""} </button>
         
        

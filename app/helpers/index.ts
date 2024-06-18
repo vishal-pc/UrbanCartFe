@@ -3,7 +3,7 @@ import { jwtDecode } from "jwt-decode";
 
 const jwtSecret:any = process.env.NEXT_PUBLIC_JWT_SECRET
 
-export const jwtEncodeData = (data:any) =>{
+export const jwtEncodeData = (data:string) =>{
     try {
         const jwt = Sign(data,jwtSecret);
         return jwt;
@@ -13,7 +13,7 @@ export const jwtEncodeData = (data:any) =>{
     }
 }
 
-export const jwtDecodeData = (data:any) =>{
+export const jwtDecodeData = (data:string) =>{
     try {
         const decode = jwtDecode(data)
         return decode;

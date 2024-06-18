@@ -18,7 +18,7 @@ export const Carousel = () => {
                     />
                     <div className="carousel-item absolute opacity-0" style={{ height: "50vh" }}>
                         <div
-                            className="block h-full w-full mx-auto flex pt-6 md:pt-0 md:items-center bg-cover bg-right"
+                            className="block h-full w-full mx-auto  pt-6 md:pt-0 md:items-center bg-cover bg-right"
                             style={{
                                 backgroundImage: "url('https://marketplace.canva.com/EAFoiDA8RBw/1/0/1600w/canva-light-gray-modern-fashion-sale-photo-collage-banner-6NgZsd4f7_k.jpg')"
                             }}
@@ -56,7 +56,7 @@ export const Carousel = () => {
                     />
                     <div className="carousel-item absolute opacity-0 bg-cover bg-right" style={{ height: "50vh" }}>
                         <div
-                            className="block h-full w-full mx-auto flex pt-6 md:pt-0 md:items-center bg-cover bg-right"
+                            className="block h-full w-full mx-auto  pt-6 md:pt-0 md:items-center bg-cover bg-right"
                             style={{
                                 backgroundImage: "url('https://marketplace.canva.com/EAFJr2Z9X3Q/1/0/1600w/canva-brown-minimalist-fashion-sale-banner-9d1uXL_N3pA.jpg')",
                           }}
@@ -96,7 +96,7 @@ export const Carousel = () => {
                     />
                     <div className="carousel-item absolute opacity-0" style={{ height: "50vh" }}>
                         <div
-                            className="block h-full w-full mx-auto flex pt-6 md:pt-0 md:items-center bg-cover bg-bottom"
+                            className="block h-full w-full mx-auto  pt-6 md:pt-0 md:items-center bg-cover bg-bottom"
                             style={{
                                 backgroundImage: "url('https://marketplace.canva.com/EAF0XmkzgQA/1/0/1600w/canva-gray-minimalist-new-collection-banner-O7EU5YM_MGU.jpg')",
                                 backgroundSize: "cover",

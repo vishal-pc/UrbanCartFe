@@ -3,6 +3,7 @@ import { getPaymentsById } from '@/app/services/apis/payment'
 import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import moment from 'moment-timezone';
+import Image from 'next/image';
 
 const OrderById = () => {
     const {id}:any=useParams()
@@ -43,8 +44,8 @@ const dateTimeFormat = formatDateAndTime.split(" ");
 
                         <div key={index} className="mt-4 md:mt-6 flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full">
                             <div className="pb-4 md:pb-8  w-full md:w-40">
-                                <img className="w-full hidden md:block" src={data?.productImageUrl} alt="dress" />
-                                <img className="w-full md:hidden" src="https://i.ibb.co/L039qbN/Rectangle-10.png" alt="dress" />
+                                <Image className="w-full hidden md:block"  src={data?.productImageUrl} alt="dress" width={400} height={300}/>
+                                <Image className="w-full md:hidden" src="https://i.ibb.co/L039qbN/Rectangle-10.png" alt="dress" />
                             </div>
                             <div className="border-b border-gray-200 md:flex-row flex-col flex justify-between items-start w-full pb-8 space-y-4 md:space-y-0">
                                 <div className="w-full flex flex-col justify-start items-start space-y-8">
@@ -98,7 +99,7 @@ const dateTimeFormat = formatDateAndTime.split(" ");
                     <div className="flex flex-col md:flex-row xl:flex-col justify-start items-stretch h-full w-full md:space-x-6 lg:space-x-8 xl:space-x-0">
                         <div className="flex flex-col justify-start items-start flex-shrink-0">
                             <div className="flex justify-center w-full md:justify-start items-center space-x-4 py-8 border-b border-gray-200">
-                                <img src="https://i.ibb.co/5TSg7f6/Rectangle-18.png" alt="avatar" />
+                                <Image src="https://i.ibb.co/5TSg7f6/Rectangle-18.png" alt="avatar" />
                                 <div className="flex justify-start items-start flex-col space-y-2">
                                     <p className="text-base dark:text-white font-semibold leading-4 text-left text-gray-800">{orderdetail?.buyerUserDetails?.fullName[0].toUpperCase()+orderdetail?.buyerUserDetails?.fullName.slice(1)}</p>
                                     <p className="text-sm dark:text-gray-300 leading-5 text-gray-600">{orderdetail?.totalProduct?.length} Orders</p>
@@ -106,8 +107,8 @@ const dateTimeFormat = formatDateAndTime.split(" ");
                             </div>
     
                             <div className="flex justify-center text-gray-800 dark:text-white md:justify-start items-center space-x-4 py-4 border-b border-gray-200 w-full">
-                                <img className="dark:hidden" src="https://tuk-cdn.s3.amazonaws.com/can-uploader/order-summary-3-svg1.svg" alt="email"/>
-                                <img className="hidden dark:block" src="https://tuk-cdn.s3.amazonaws.com/can-uploader/order-summary-3-svg1dark.svg" alt="email"/>
+                                <Image className="dark:hidden" src="https://tuk-cdn.s3.amazonaws.com/can-uploader/order-summary-3-svg1.svg" alt="email"/>
+                                <Image className="hidden dark:block" src="https://tuk-cdn.s3.amazonaws.com/can-uploader/order-summary-3-svg1dark.svg" alt="email"/>
                                 <p className="cursor-pointer text-sm leading-5 ">{orderdetail?.buyerUserDetails?.email}</p>
                                 
                         </div>

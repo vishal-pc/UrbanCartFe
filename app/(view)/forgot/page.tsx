@@ -12,14 +12,16 @@ import { Footer } from "@/app/components/footer";
 import { useFormik } from "formik";
 import * as Yup from "yup"
 import { forgotPasswordAPI } from "@/app/services/apis/user";
-// import siteIcon from "@/public/images/4.svg";
 
+interface formvalue{
+  email:string
+}
 const ForgotPass = () => {
 
-  const [formValue, setFormValue] = useState<any>({ email: "" })
+  const [formValue, setFormValue] = useState<formvalue>({email:""})
   const [otpSend, setOtpSend] = useState(false)
   const [loading, setLoading] = useState(false)
-  const pathname = usePathname();
+
 
   const val={
     email:""
@@ -32,7 +34,6 @@ const forgot=Yup.object({
     initialValues:val,
     validationSchema:forgot,
     onSubmit:async(values,action)=>{
-      console.log(values)
       setFormValue(values)
       setLoading(true)
           const resp = await forgotPasswordAPI(values);

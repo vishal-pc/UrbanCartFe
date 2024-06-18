@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from 'react';
-// import { getAllCategoryAPI, getSubCategoryByIdAPI } from '../services/apis/user/categories';
 import Link from 'next/link';
 import { dashboardLinks } from '@/app/configs/authLinks';
 import { getAllCategoryAPI ,getSubCategoryByIdAPI} from '@/app/services/apis/user/categories';
 
+interface Category {
+    _id: string;
+    categoryName: string;
+  }
+  
+  interface SubCategory {
+    _id: string;
+    subCategoryName: string;
+  }
  export const SubMenu = () => {
-    const [categories, setCategories] = useState([]);
-    const [subCategories, setSubCategories] = useState([]);
-    const [hoveredSubId, setHoveredSubId] = useState(null);
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
+    const [hoveredSubId, setHoveredSubId] = useState<string | null >(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -19,14 +27,14 @@ import { getAllCategoryAPI ,getSubCategoryByIdAPI} from '@/app/services/apis/use
         fetchData();
     }, []);
 
-    const fetchSubCategoriesById = async (id:any) => {
+    const fetchSubCategoriesById = async (id:string) => {
         const response = await getSubCategoryByIdAPI(id);
         if (response?.status === 200) {
             setSubCategories(response?.data?.subCategories);
         }
     };
 
-    const handleMouseEnter = async (id:any) => {
+    const handleMouseEnter = async (id:string ) => {
         await fetchSubCategoriesById(id);
         setHoveredSubId(id);
     };
@@ -37,7 +45,7 @@ import { getAllCategoryAPI ,getSubCategoryByIdAPI} from '@/app/services/apis/use
 
     return (
         <div onMouseLeave={handleMouseLeave} className='bg-gray-100 hidden  mt-8  mb-8 mr-12 ml-12 relative text-md font-semibold md:flex  lg:flex justify-center items-center md:gap-6 lg:gap-16 my-4 p-3'>
-            {categories.map((category:any, index:any) => (
+            {categories.map((category:{_id:string,categoryName:string}, index:number) => (
                 <div key={index}>
                     <button
                         onMouseEnter={() => handleMouseEnter(category?._id)}
@@ -48,7 +56,7 @@ import { getAllCategoryAPI ,getSubCategoryByIdAPI} from '@/app/services/apis/use
                     </button>
                     {hoveredSubId === category?._id && (
                         <div className="absolute bg-gray-100  z-[100] top-[100%] p-2 divide-y divide-gray-200 rounded-lg shadow w-44">
-                            {subCategories.map((subCategory:any, index:any) => (
+                            {subCategories.map((subCategory:{_id:string,subCategoryName:string}, index:number) => (
                                 <p key={index} className="px-4  py-2 cursor-pointer hover:bg-gray-300 hover:rounded-md">
                                    <Link href={dashboardLinks.subProductsLink+subCategory._id}>
                                     {subCategory?.subCategoryName}

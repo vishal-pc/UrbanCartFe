@@ -5,7 +5,6 @@ import { CitySelect, CountrySelect, StateSelect, GetState } from "react-country-
 import { addressType } from '@/app/types/userTypes';
 
 const ModalCompo = (data:any) => {
-    console.log("data--",data?.data)
 
     const formData = data?.data
 

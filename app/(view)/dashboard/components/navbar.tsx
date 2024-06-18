@@ -1,7 +1,6 @@
 'use client'
 import React, { useState } from 'react';
 import '@/app/style/globelColor.css';
-import Dropdown from './dropdown';
 import Link from 'next/link';
 import HoverDropdown from './dropdown';
 

@@ -6,6 +6,7 @@ import ModalDelete from '../../../components/modal'
 import Link from 'next/link'
 import UpdateModal from '../../../components/updateModal'
 import { ToastContainer } from 'react-toastify'
+import Image from 'next/image'
 
 const ProductById = () => {
     const {id}=useParams()
@@ -47,7 +48,8 @@ setSelectedImage(image);
         <div className="flex flex-col md:flex-row -mx-4">
             <div className="md:flex-1 px-4">
                 <div className="h-[460px] rounded-lg bg-gray-300 dark:bg-gray-700 mb-4">
-                    <img className="w-full h-full object-cover" src={selectedImage} alt="Product Image"/>
+                    <Image 
+                     className="w-full h-full object-cover" src={selectedImage} alt="Product Image" height={300} width={400}/>
                 </div>
                 <div className="flex -mx-2 mb-4">
                     <div className="w-1/2 px-2">
@@ -95,12 +97,14 @@ setSelectedImage(image);
                 </div>
                 <div className='flex gap-3 overflow-auto'>
                 {productData?.productImg?.map((image:any, index:any) => (
-                    <img
+                    <Image
                     key={index}
                     src={image}
                     alt={`Product Image ${index}`}
                     className={`cursor-pointer border ${selectedImage === image ? 'border-blue-500' : 'border-transparent'}`}
                     style={{ width: '100px', height: 'auto' }}
+                    width={400}
+                    height={300}
                     onClick={() => handleImageClick(image)}
                     />
                     ))}
