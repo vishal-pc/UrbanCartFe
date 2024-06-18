@@ -59,3 +59,27 @@
   .carousel-bullet {
   color: #000;
 }
+/*Cart icon css*/
+.custom-link {
+  position: relative;
+  display: inline-block;
+}
+
+.custom-svg-icon {
+  transition: transform 0.3s ease;
+}
+
+.custom-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 2px;
+  background-color: black;
+  transition: width 0.3s ease;
+}
+
+.custom-link:hover::after {
+  width: 100%;
+}
