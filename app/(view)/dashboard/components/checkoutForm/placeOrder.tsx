@@ -13,8 +13,7 @@ import { AddIcon } from "@/public/svg/add";
 import { delAddressByIdAPI } from "@/app/services/apis/address";
 import authConfig from '@/app/configs/auth';
 
-export default function PlaceOrder(checkBoxId:{checkBoxId:string}) {
-  // console.log("chekced id ---",checkBoxId.checkBoxId)
+export default function PlaceOrder(checkBoxId:{checkBoxId:any}) {
 
   const publishableKey:string|any =  process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY;
 
@@ -26,7 +25,7 @@ export default function PlaceOrder(checkBoxId:{checkBoxId:string}) {
   const [userName,setUserName] = useState("")
   const [userCartId,setUserCartId] = useState("")
 
-
+ 
   //get user from redux
   const getUserData = ()=>{
     if (UserDataName !="" && typeof UserDataName?.users?.data === 'string') {
@@ -79,7 +78,7 @@ export default function PlaceOrder(checkBoxId:{checkBoxId:string}) {
   // }
 
   const getAllCart = async () => {
-    const cart = localStorage.getItem(authConfig.storageCart);
+    const cart:any = localStorage.getItem(authConfig.storageCart);
     const localCartId = jwtDecodeData(cart);
     const multiple=localStorage.getItem("multiple")
     let userCartIds:any = userCartId ? userCartId : localCartId;
@@ -88,7 +87,7 @@ export default function PlaceOrder(checkBoxId:{checkBoxId:string}) {
   
       const resp = await  getItemInCartAPI(userCartIds)
       if (resp.status == 200) {
-          const datas = resp.data.cartItems.filter((data:any)=>{
+          const datas = resp.data.cartItems.filter((data:{message:string})=>{
             if(data.message !== "Product not found"){
                 return data
             }
@@ -101,7 +100,7 @@ export default function PlaceOrder(checkBoxId:{checkBoxId:string}) {
     }else if(multiple==="true"){
       const resp = await getToCartAPI();
       if (resp.status == 200) {
-        const datas = resp.data.cartItems.filter((data:any)=>{
+        const datas = resp.data.cartItems.filter((data:{message:string})=>{
           if(data.message !== "Product not found"){
               return data
           }
@@ -117,7 +116,7 @@ export default function PlaceOrder(checkBoxId:{checkBoxId:string}) {
   // get Address by ID
   const getAddressData = async() =>{
     try {
-      const resp = await getAddressByIdAPI(checkBoxId.checkBoxId);
+      const resp = await getAddressByIdAPI(checkBoxId?.checkBoxId?._id);
       if(resp.status == 200){
         // console.log("resp--",resp?.addressData)
         setAddressData(resp?.addressData)
@@ -137,7 +136,6 @@ export default function PlaceOrder(checkBoxId:{checkBoxId:string}) {
 
       // stripe payment functions...  
   const createCheckOutSession = async () => {
-    console.log("getAllData--start",getAllData )
 
     const stripePromise = loadStripe(publishableKey);
 
@@ -156,11 +154,26 @@ export default function PlaceOrder(checkBoxId:{checkBoxId:string}) {
                 }                
             ],
             "totalCartAmount": subTotal,
-            "addressId":checkBoxId.checkBoxId
+            "userAddress": [
+              {
+                          "addressId":checkBoxId?.checkBoxId?._id,
+                          "mobileNumber": checkBoxId.checkBoxId.mobileNumber,
+                          "country":checkBoxId.checkBoxId.country,
+                          "stateId":checkBoxId.checkBoxId.stateId,
+                          "stateName":checkBoxId.checkBoxId.stateName,
+                          "cityId":checkBoxId.checkBoxId.cityId,
+                          "cityName":checkBoxId.checkBoxId.cityName,
+                          "streetAddress":checkBoxId.checkBoxId.streetAddress,
+                          "nearByAddress": checkBoxId.checkBoxId.nearByAddress,
+                          "areaPincode": checkBoxId.checkBoxId.areaPincode
+                  } 
+          ]
+            
+            
         }
 
     }else if(getAllData.length >1){
-        const totalProduct  = getAllData.map((cartItem:any)=>(
+        const totalProduct  = getAllData.map((cartItem:{_id:string,quantity:number,itemPrice:number,productDetails:{productId:string,productName:string,productPrice:number,productDescription:string}})=>(
             {
                 "cartId":cartItem?._id,
                 "productId": cartItem?.productDetails?.productId,
@@ -172,19 +185,28 @@ export default function PlaceOrder(checkBoxId:{checkBoxId:string}) {
             }
         ))
         const totalCartAmount = subTotal
-        const addressId = checkBoxId.checkBoxId
+        const userAddress = [{
+          "addressId":checkBoxId?.checkBoxId?._id,
+          "mobileNumber": checkBoxId.checkBoxId.mobileNumber,
+          "country":checkBoxId.checkBoxId.country,
+          "stateId":checkBoxId.checkBoxId.stateId,
+          "stateName":checkBoxId.checkBoxId.stateName,
+          "cityId":checkBoxId.checkBoxId.cityId,
+          "cityName":checkBoxId.checkBoxId.cityName,
+          "streetAddress":checkBoxId.checkBoxId.streetAddress,
+          "nearByAddress": checkBoxId.checkBoxId.nearByAddress,
+          "areaPincode": checkBoxId.checkBoxId.areaPincode
+  } ];
         formattedData = {
           totalProduct,
           totalCartAmount,
-          addressId
+          userAddress
         };
     }
 
     const stripe:any = await stripePromise;
 
     const checkoutSession = await stripeSessionAPI(formattedData);
-
-    console.log("checkoutSession*********",checkoutSession,"********",checkoutSession.sessionId)
     if(checkoutSession.status == 201){
         const result = await stripe.redirectToCheckout({
             sessionId: checkoutSession.sessionId,            
@@ -196,7 +218,7 @@ export default function PlaceOrder(checkBoxId:{checkBoxId:string}) {
     }    
   };
 
-  const delAddressHandler = async(data:any) =>{
+  const delAddressHandler = async(data:{_id:string}) =>{
     // console.log(data._id);
     const resp = await delAddressByIdAPI(data?._id);
     if(resp.status == 200){
@@ -213,9 +235,6 @@ export default function PlaceOrder(checkBoxId:{checkBoxId:string}) {
 
         <div className="flex items-center mt-5">
           <h3 className="text-lg font-semibold text-gray-500">Deliver to:</h3>
-
-         {/* <button className="ml-auto bg-blue-500 text-white px-1 py-1 rounded mr-4"><AddIcon /> Add New Address</button>
-           */}
         </div>
 
 

@@ -4,6 +4,7 @@ import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import SubCategoryDelete from '../../../components/subcategoryDelete'
 import SubCategoryUpdate from '../../../components/subcategoryUpdate'
+import Image from 'next/image'
 
 const Page = () => {
     const {id}:any=useParams()
@@ -33,7 +34,7 @@ const Page = () => {
         <div className="flex flex-col md:flex-row -mx-4">
             <div className="md:flex-1 px-4">
                 <div className="h-[460px] rounded-lg bg-gray-300 dark:bg-gray-700 mb-4">
-                    <img className="w-full h-full object-cover" src={subcategorydata?.subCategoryImg} alt="Product Image"/>
+                    <Image  width={400} height={300} className="w-full h-full object-cover" src={subcategorydata?.subCategoryImg} alt="Product Image" />
                 </div>
                 <div className="flex -mx-2 mb-4">
                     <div className="w-1/2 px-2">

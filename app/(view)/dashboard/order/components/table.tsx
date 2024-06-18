@@ -3,6 +3,7 @@ import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import { useRouter } from 'next/navigation';
+import { OrderData } from '../page';
 
 const TableCompo = (orderData:any) => {
 
@@ -10,7 +11,6 @@ const TableCompo = (orderData:any) => {
     const tableData = orderData.orderData
 
     const handleView = (id:string) =>{
-        console.log("hanlde view",id)
         route.replace("/dashboard/order/"+id)
     }
 
@@ -30,7 +30,7 @@ const TableCompo = (orderData:any) => {
   </thead>
   <tbody>
   {tableData && tableData !== "" ? (
-        tableData.map((dm:any, i:any) => (
+        tableData.map((dm:OrderData, i:number) => (
             <tr key={i}>
             <th scope="row">{i+1}</th>
             <td>{dm.totalProduct[0]?.productName}</td>

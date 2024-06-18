@@ -34,8 +34,7 @@ const CheckoutForm = () => {
   };
   const publishableKey: string | any =
     process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY;
-  // const stripePromise = loadStripe(publishableKey);
-  // const [formValue, setFormValue] = useState<addressType | any>(AddressValue)
+
 
   const [countryid, setCountryid] = useState(101);
   const [stateid, setstateid] = useState(0);
@@ -48,7 +47,7 @@ const CheckoutForm = () => {
 
   const [fillForm, setFillForm] = useState(false);
   const [showAddress, setShowAddress] = useState([]);
-  const [checkBoxId, setCheckBoxId] = useState("");
+  const [checkBoxId, setCheckBoxId] = useState<any>("");
   const [getAllData, setGetAllData] = useState<any | []>([]);
   const [subTotal, setSubTotal] = useState("");
   const [orderStatus, setOrderStatus] = useState(false);
@@ -58,7 +57,6 @@ const CheckoutForm = () => {
   const allAddress = async () => {
     const getAllAdd = await getAddressAPI();
     if (getAllAdd.status == 200 && getAllAdd.addressData != "") {
-      // console.log("getAllAdd--", getAllAdd)
       setFillForm(true);
       setShowAddress(getAllAdd.addressData);
     } else {
@@ -84,23 +82,13 @@ const CheckoutForm = () => {
       .min(10, "Mobile number must be at least 10 digits")
       .max(10, "Mobile number must be at most 10 digits"),
   });
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //     const { name, value } = e.target;
-  //     // console.log("name", name)
-  //     setFormValue((prevProps: addressType) => ({
-  //         ...prevProps,
-  //         [name]: value
-  //     }));
-  // }
 
-  // Add New Address into Database
   const { values, errors, touched, handleBlur, validateForm,handleChange, handleSubmit } =
     useFormik({
       initialValues: AddressValue,
       validationSchema: AdressSchema,
       onSubmit: async (values, action) => {
         console.log("formValue", values, objData)
-        // console.log(values);
         console.log("clikced");
         const updatedObject: any = {
           ...values,
@@ -110,10 +98,8 @@ const CheckoutForm = () => {
           cityId: objData.cityId,
         };
         const resp = await addAddressApi(updatedObject);
-        console.log("addAddressApi ****************", resp);
         if (resp.status == 201) {
-          console.log("resp--", resp.data._id);
-          setCheckBoxId(resp.data._id);
+          setCheckBoxId(resp.data);
           setOrderStatus(true);
           const getAllAdd = await getAddressAPI();
           if (getAllAdd.status == 200) {
@@ -126,102 +112,11 @@ const CheckoutForm = () => {
         }
       },
     });
-  // const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
-  //     e.preventDefault()
-
-  //     // console.log("formValue", formValue, objData)
-  //     const updatedObject = {
-  //         ...formValue,
-  //         stateName: objData.stateName,
-  //         stateId:objData.stateId,
-  //         cityName: objData.cityName,
-  //         cityId:objData.cityId,
-  //     };
-  //     console.log("update object",updatedObject);
-  //     // let errForm: {} | "" = validate(updatedObject);
-
-  //     if (!Object.keys(errForm).length) {
-
-  //         const resp = await addAddressApi(updatedObject);
-  //         console.log("addAddressApi ****************",resp);
-  //         if (resp.status == 201) {
-  //             console.log("resp--", resp.data._id)
-  //             setCheckBoxId(resp.data._id)
-  //             setOrderStatus(true)
-  //             const getAllAdd = await getAddressAPI();
-  //             if(getAllAdd.status == 200){
-  //                 console.log("getAllAdd--", resp)
-  //                 setFillForm(true);
-  //                 setShowAddress(getAllAdd.addressData)
-  //             }
-  //         }
-
-  //     }
-
-  // }
-
-  // const validate = (values: any | {}) => {
-  //     const errors: addressType | any = {};
-  //     console.log("values==--- validate--", values)
-
-  //     // Validate nearByAddress
-  //     if (!values.nearByAddress) {
-  //         errors.nearByAddress = "Address is required.";
-  //         toast.error("Address is required.")
-  //     }
-
-  //     if (!values.streetAddress) {
-  //         errors.streetAddress = "Street address is required.";
-  //         toast.error("Street address is required.")
-  //     }
-
-  //     // Validate country
-  //     if (!values.country) {
-  //         errors.country = "Country is required.";
-  //         toast.error("Country is required.")
-  //     }
-
-  //     // Validate state
-  //     if (!values.stateName) {
-  //         errors.state = "State is required.";
-  //         toast.error("State is required.")
-  //     }
-
-  //     // Validate city
-  //     if (!values.cityName) {
-  //         errors.city = "City is required.";
-  //         toast.error("City is required.")
-  //     }
-
-  //     if (!values.areaPincode) {
-  //         errors.areaPincode = "Area pincode is required.";
-  //         toast.error("Area pincode is required.")
-  //     } else if (!/^\d+$/.test(values.areaPincode)) {
-  //         errors.areaPincode = "Area pincode should contain only numbers.";
-  //         toast.error("Area pincode should contain only numbers.")
-  //     }
-
-  //     // Validate mobileNumber
-  //     if (!values.mobileNumber) {
-  //         errors.mobileNumber = "Mobile number is required.";
-  //         toast.error("Mobile number is required.")
-  //     } else if (!/^\d+$/.test(values.mobileNumber)) {
-  //         errors.mobileNumber = "Mobile number should contain only numbers.";
-  //         toast.error("Mobile number should contain only numbers.")
-  //     }
-
-  //     return errors;
-  // }
 
   const handleCustomList = (e: any) => {
     const { name, id, latitude } = e;
 
-    console.log(e);
-
     if (latitude) {
-      // const dm = name;
-      // objData.city = dm;
-      // objData.cityId =id
       setObjData((prevData) => ({
         ...prevData,
         cityName: name,
@@ -231,8 +126,6 @@ const CheckoutForm = () => {
     } else {
       if (id !== stateid) {
         setstateid(id);
-        // objData.state = name;
-        // objData.stateId =id;
         setObjData((prevData) => ({
           ...prevData,
           stateName: name,
@@ -244,16 +137,15 @@ const CheckoutForm = () => {
     validateForm()
   };
 
-  // cart Data show in these functions
+
   const getAllCart = async () => {
     const resp = await getToCartAPI();
     if (resp.status == 200) {
-      const datas = resp.data.cartItems.filter((data: any) => {
+      const datas = resp.data.cartItems.filter((data: {message:string}) => {
         if (data.message !== "Product not found") {
           return data;
         }
       });
-      // console.log("datas",datas)
       setGetAllData(datas);
       setSubTotal(resp.data.totalCartAmount);
     }
@@ -263,24 +155,21 @@ const CheckoutForm = () => {
     getAllCart();
   }, []);
 
-  // validate payment methods
   const handleCheckbox = (e: any) => {
-    console.log("e checkbox---", e);
     setCheckBoxId(e);
   };
 
   // validate payment methods
   const handlePaymentSubmit = (e: any) => {
-    if (checkBoxId == "") {
+    if (checkBoxId._id == "") {
       toast.error("please select address");
-    } else if (checkBoxId != "") {
+    } else if (checkBoxId._id != "") {
       let finalAd: any;
       showAddress.filter((data: any) => {
-        if (data._id == checkBoxId) {
+        if (data._id == checkBoxId._id) {
           finalAd = data;
         }
       });
-      console.log(showAddress, "******************", finalAd._id);
       if (finalAd._id) {
         setOrderStatus(true);
       }
@@ -295,7 +184,7 @@ const CheckoutForm = () => {
     },
   ];
 
-  const delAddressHandler = async (id: any) => {
+  const delAddressHandler = async (id: string) => {
     // console.log(id);
     const resp = await delAddressByIdAPI(id);
     if (resp.status == 200) {
@@ -453,15 +342,7 @@ const CheckoutForm = () => {
                 {errors.mobileNumber && touched.mobileNumber ? (
                   <p className="text-red-500">{errors.mobileNumber}</p>
                 ) : null}
-                {/* <PhoneInput
-          defaultCountry="IN"
-          initialValueFormat="national"
-          name="mobileNumber"
-          className="mt-1 block w-full rounded border-gray-300 bg-gray-50 py-3 px-4 text-md placeholder-gray-300 shadow-sm outline-none transition focus:ring-2 focus:ring-teal-500" id="grid-city" type="text" placeholder="Mobile No"
-          value={formValue.mobileNumber}
-          onChange={(e) => innumber(e)} 
-
-         /> */}
+              
               </div>
             </div>
 
@@ -475,19 +356,12 @@ const CheckoutForm = () => {
                 </label>
 
                 <div className="relative">
-                  {/* <input name="state" className="mt-1 block w-full rounded border-gray-300 bg-gray-50 py-3 px-4 text-md placeholder-gray-300 shadow-sm outline-none transition focus:ring-2 focus:ring-teal-500" id="grid-city" type="text" placeholder="State"
-            value={formValue.state}
-            onChange={(e) => handleChange(e)}
-            /> */}
+                
 
                   <StateSelect
                     countryid={countryid}
                     onChange={(e: any) => handleCustomList(e)}
-                    // defaultValue={{id: 4017, name: 'Andhra Pradesh'}}
                     name="stateName"
-                    // value={values.stateName}
-                    // onchange={handleChange}
-                    // onblur={handleBlur}
                     className="mt-1 block w-full rounded border-gray-300 bg-gray-50 py-3 px-4 text-md placeholder-gray-300 shadow-sm outline-none transition focus:ring-2 focus:ring-teal-500"
                     placeHolder="Select State"
                   />
@@ -504,20 +378,11 @@ const CheckoutForm = () => {
                 >
                   City
                 </label>
-                {/* <input name="city" className="mt-1 block w-full rounded border-gray-300 bg-gray-50 py-3 px-4 text-md placeholder-gray-300 shadow-sm outline-none transition focus:ring-2 focus:ring-teal-500" id="grid-city" type="text" placeholder="City"
-            value={formValue.city}
-            onChange={(e) => handleChange(e)}        
-            />      */}
-
+            
                 <CitySelect
                   countryid={countryid}
                   stateid={stateid}
-                  // defaultValue={{id: 57620, name: 'Akasahebpet'}}
                   onChange={(e: any) => handleCustomList(e)}
-                //   value={values.cityName}
-                //   onchange={handleChange}
-                //   onblur={handleBlur}
-                //   name=
                 //   className="mt-1 block w-full rounded border-gray-300 bg-gray-50 py-3 px-4 text-md placeholder-gray-300 shadow-sm outline-none transition focus:ring-2 focus:ring-teal-500"
                   id="grid-city"
                   placeHolder="Select City"
@@ -560,8 +425,6 @@ const CheckoutForm = () => {
               Add Address
             </button>
           </form>
-
-          {/* <p className="mt-10 text-center text-md font-semibold text-gray-500">By placing this order you agree to the <a href="#" className="whitespace-nowrap text-teal-400 underline hover:text-teal-600">Terms and Conditions</a></p> */}
         </div>
       ) : checked == true && orderStatus == false ? (
         <div className="mx-auto w-full max-w-lg mt-5">
@@ -587,12 +450,9 @@ const CheckoutForm = () => {
                       name="countries"
                       value={dm._id}
                       className="w-4 h-4 border-gray-300  dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600"
-                      onChange={(e) => handleCheckbox(dm._id)}
+                      onChange={(e) => handleCheckbox(dm)}
                     />
-                    {/* 
-                    <label htmlFor="country-option-1" className="block ms-2  text-md font-medium text-gray-900 dark:text-gray-500">
-                    {dm?.streetAddress}, {dm?.nearByAddress}, {dm?.areaPincode}
-                    </label> */}
+              
                     <div className="flex items-center">
                       <label
                         htmlFor="country-option-1"
@@ -635,6 +495,3 @@ const CheckoutForm = () => {
 
 export default CheckoutForm;
 
-{
-  /* : fillForm ==true && orderStatus ==false ? */
-}

@@ -11,6 +11,7 @@ import CheckoutForm from '../components/checkoutForm/checkoutForm';
 import { useSelector } from "react-redux";
 import { jwtDecodeData } from '@/app/helpers';
 import authConfig from '@/app/configs/auth';
+import Image from 'next/image';
 
 
 const CheckoutPage = () => {
@@ -40,12 +41,10 @@ const CheckoutPage = () => {
 
 
   const getAllCart = async () => {
-    const cart = localStorage.getItem(authConfig.storageCart);
+    const cart :any= localStorage.getItem(authConfig.storageCart);
     const localCartId = jwtDecodeData(cart);
     const multiple=localStorage.getItem("multiple")
     userCartId = userCartId ? userCartId : localCartId;
-    console.log("local cart",userCartId)
-    console.log("multipe",multiple)  
     if(userCartId !="" && multiple==="false"){
   
       const resp = await  getItemInCartAPI(userCartId)
@@ -81,175 +80,8 @@ const CheckoutPage = () => {
   }, [])
 
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    // console.log("name",name)
-    setFormValue((prevProps: addressType) => ({
-      ...prevProps,
-      [name]: value
-    }));
-  }
-
-  const handleSubmit = async(e: React.SyntheticEvent<HTMLFormElement>) =>{
-    e.preventDefault()
-
-    // console.log("formValue",formValue)
-    // let errForm: {} | "" = validate(formValue);
-
-    // if(!Object.keys(errForm).length){
-
-    //   const resp = await addAddressApi(formValue);
-    //   if(resp == 201){
-    //     toast.error("all done")
-    //     console.log("resp--",resp)
-    //   }
-
-    // }
-
-  }
-
-
-
-  const createCheckOutSession = async () => {
-    console.log("getAllData")
-
-
-    // let formattedData
-    // if(getAllData.length ===1){
-    //     formattedData = {
-    //         totalProduct:[
-    //             {
-    //                 "cartId":getAllData[0]?._id,
-    //                 "productId": getAllData[0]?.productDetails?.productId,
-    //                 "productName": getAllData[0]?.productDetails?.productName,
-    //                 "productPrice": getAllData[0]?.productDetails?.productPrice,
-    //                 "productDescription": getAllData[0]?.productDetails?.productDescription,
-    //                 "productQuantity":getAllData[0]?.quantity,
-    //                 "itemPrice":getAllData[0]?.itemPrice
-    //             }                
-    //         ],
-    //         "totalCartAmount": subTotal
-    //     }
-
-    // }else if(getAllData.length >1){
-    //     const totalProduct  = getAllData.map((cartItem:any)=>(
-    //         {
-    //             "cartId":cartItem?._id,
-    //             "productId": cartItem?.productDetails?.productId,
-    //             "productName": cartItem?.productDetails?.productName,
-    //             "productPrice": cartItem?.productDetails?.productPrice,
-    //             "productDescription": cartItem?.productDetails?.productDescription,
-    //             "productQuantity":cartItem?.quantity,
-    //             "itemPrice":cartItem?.itemPrice
-    //         }
-    //     ))
-
-    //     const totalCartAmount = subTotal
-    //     formattedData = {
-    //       totalProduct,
-    //       totalCartAmount
-    //     };
-
-    // }
-
-    // const stripe:any = await stripePromise;
-
-    // const checkoutSession = await stripeSessionAPI(formattedData);
-
-    // console.log("checkoutSession*********",checkoutSession,"********",checkoutSession.sessionId)
-    // if(checkoutSession.status == 201){
-
-    //     const result = await stripe.redirectToCheckout({
-    //         sessionId: checkoutSession.sessionId,
-            
-    //     });
-
-    //     if (result.error) {
-    //     alert(result.error.message);
-    //     }
-    // }
-    
-  };
-
-  const validate = (values: any | {}) => {
-    const errors: addressType | any = {};
-    // console.log("values==--- validate--",values)
-
-  //   {streetAddress: "",
-  //   nearByAddress: "",
-  //   country: "",
-  //   state: "",
-  //   city: "",
-  //   areaPincode:"",
-  //   mobileNumber:""    
-  //  }
-
-  // Validate nearByAddress
-  if (!values.nearByAddress) {
-    errors.nearByAddress = "Address is required.";
-    toast.error("Address is required.")
-  }
-
-  if (!values.streetAddress) {
-    errors.streetAddress = "Street address is required.";
-    toast.error("Street address is required.")
-  }
-
-  // Validate country
-  if (!values.country) {
-    errors.country = "Country is required.";
-    toast.error("Country is required.")
-  }
-
-  // Validate state
-  if (!values.state) {
-    errors.state = "State is required.";
-    toast.error("State is required.")
-  }
-
-  // Validate city
-  if (!values.city) {
-    errors.city = "City is required.";
-    toast.error("City is required.")
-  }
-
-  // Validate areaPincode
-  if (!values.areaPincode) {
-    errors.areaPincode = "Area pincode is required.";
-    toast.error("Area pincode is required.")
-  }
-
-  // Validate mobileNumber
-  if (!values.mobileNumber) {
-    errors.mobileNumber = "Mobile number is required.";
-    toast.error("Mobile number is required.")
-  }
-  if (!values.areaPincode) {
-    errors.areaPincode = "Area pincode is required.";
-    toast.error("Area pincode is required.")
-  } else if (!/^\d+$/.test(values.areaPincode)) {
-    errors.areaPincode = "Area pincode should contain only numbers.";
-    toast.error("Area pincode should contain only numbers.")
-  }
-
-  // Validate mobileNumber
-  if (!values.mobileNumber) {
-    errors.mobileNumber = "Mobile number is required.";
-    toast.error("Mobile number is required.")
-  } else if (!/^\d+$/.test(values.mobileNumber)) {
-    errors.mobileNumber = "Mobile number should contain only numbers.";
-    toast.error("Mobile number should contain only numbers.")
-  }
-
-
-    return errors;
-  }
-
-  const innumber = (e :React.SyntheticEvent<HTMLFormElement>) =>{
-    // const {name,value} = e;
-
-    // console.log("number--",e)
-  }
+ 
+  
 
   return (
     <>
@@ -268,7 +100,7 @@ const CheckoutPage = () => {
       <h2 className="text-white mb-4" style={{zIndex:9}}>Order summary</h2>
 
       <div>
-        <img src="https://images.unsplash.com/photo-1581318694548-0fb6e47fe59b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" alt="" className="absolute inset-0 h-full w-full object-cover" />
+        <Image src="https://images.unsplash.com/photo-1581318694548-0fb6e47fe59b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" alt="" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 h-full w-full bg-gradient-to-t from-gray-800 to-gray-400 opacity-95"></div>
       </div>
 
@@ -277,10 +109,16 @@ const CheckoutPage = () => {
 
         <ul className="space-y-5">
 
-        {getAllData && getAllData.length > 0 ? getAllData.map((data: any) => (
+        {getAllData && getAllData.length > 0 ? getAllData.map((data: {quantity:number,productDetails:{productId:string,productImage:string,productName:string,productPrice:number}}) => (
           <li className="flex justify-between" key={data?.productDetails?.productId}>
             <div className="inline-flex">
-              <img src={data?.productDetails.productImage[0]} alt="" className="max-h-16" />
+            <Image
+                    className="max-h-16"
+                    src={data?.productDetails.productImage[0]}                   
+                     alt="Product Image"
+                    width={400}
+                    height={300}
+                  />
               <div className="ml-3">
                 <p className="text-base font-semibold text-white">{data?.productDetails?.productName}</p>
                 <p className="text-sm font-medium text-white text-opacity-80"> Qty {data?.quantity}</p>
@@ -296,24 +134,11 @@ const CheckoutPage = () => {
         <div className="my-5 h-0.5 w-full bg-white bg-opacity-30"></div>
         <div className="space-y-2">
           <p className="flex justify-between text-lg font-bold text-white"><span>Total price:</span><span>₹ {subTotal!="" ? subTotal : ""}</span></p>
-          {/* <p className="flex justify-between text-sm font-medium text-white"><span>Vat: 10%</span><span>₹55.00</span></p> */}
         </div>
       </div>
 
-      {/* <div className="relative mt-10 text-white">
-        <h3 className="mb-5 text-lg font-bold">Support</h3>
-        <p className="text-sm font-semibold">+01 653 235 211 <span className="font-light">(International)</span></p>
-        <p className="mt-1 text-sm font-semibold">support@nanohair.com <span className="font-light">(Email)</span></p>
-        <p className="mt-2 text-xs font-medium">Call us now for payment related issues</p>
-      </div>
-      <div className="relative mt-10 flex">
-        <p className="flex flex-col"><span className="text-sm font-bold text-white">Money Back Guarantee</span><span className="text-xs font-medium text-white">within 30 days of purchase</span></p>
-      </div> */}
-
-
     </div>
 
-    {/* products listing end */}
 
   </div>
 </div>

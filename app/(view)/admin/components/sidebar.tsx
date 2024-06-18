@@ -70,10 +70,12 @@ const Sidebar = () => {
                         className="w-8 h-8 rounded-full"
                       />
                     ) : (
-                      <img
+                      <Image
                         src={data?.profileImg}
                         className="w-8 h-8 rounded-full"
                         alt=""
+                        width={400}
+                        height={300}
                       />
                     )}
                   </button>

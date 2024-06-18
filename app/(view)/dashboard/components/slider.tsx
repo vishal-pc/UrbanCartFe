@@ -9,9 +9,14 @@ import { dashboardLinks } from "@/app/configs/authLinks";
 import "@/app/style/style.css"
 import Image from "next/image";
 
+interface Product {
+    _id: string;
+    productName: string;
+    productImg: string[];
+  }
 
-const Subcategory = ({ keys, data }: any) => {
-    const [subdata, setSubData] = useState<any>([]);
+const Subcategory = ({ keys, data }: {keys:number,data:{_id:string,subCategoryName:string}}) => {
+    const [subdata, setSubData] = useState<Product[]>([]);
     const prevButtonRef = useRef<HTMLButtonElement>(null);
     const nextButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -72,7 +77,7 @@ const Subcategory = ({ keys, data }: any) => {
 
 
 
-                {subdata && subdata.length > 0 ? subdata.map((subval: any, index: number) => (
+                {subdata && subdata.length > 0 ? subdata.map((subval: Product, index: number) => (
                     <SwiperSlide key={index} className="flex flex-col px-2 items-center">
                         <div className="group relative ">
                             <div className=" w-full overflow-hidden rounded-md bg-gray-200  group-hover:opacity-75 lg:h-80">

@@ -15,7 +15,7 @@ import { dashboardLinks } from '@/app/configs/authLinks';
 export const RecentViewCard = () => {
 
     const [sub, setsub] = useState<any>([])
-    const [productArr, setProductArr] = useState<any>([])
+    const [productArr, setProductArr] = useState<productData[]>([])
     const prevButtonRef = useRef<HTMLButtonElement>(null);
     const nextButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -114,7 +114,7 @@ export const RecentViewCard = () => {
                 </Swiper>
 
             </section>
-            {sub.map((data: any, index: any) => (
+            {sub.map((data: any, index: number) => (
                 <section key={index} className="shadow-lg  py-4 mt-7 mb-7 mr-12 ml-12">
                     <Subcategory keys={index} data={data} />
                 </section>

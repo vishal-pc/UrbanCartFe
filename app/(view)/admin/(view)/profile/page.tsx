@@ -44,12 +44,14 @@ const Page = () => {
                      { user?.profileImg==="null" || pending==true? 
                      <Image
                      src={back}
+                     width={400} 
+                     height={300}
                      alt='Loading..'
                      className="rounded-md lg:w-[12rem] lg:h-[12rem] md:w-[10rem] md:h-[10rem] sm:w-[8rem] sm:h-[8rem] xs:w-[7rem] xs:h-[7rem] outline outline-2 outline-offset-2 outline-gray-300 relative lg:bottom-[5rem] sm:bottom-[4rem] xs:bottom-[3rem]"
                      /> : 
-                     <img src={user?.profileImg}
+                     < Image src={user?.profileImg}
                       className="rounded-md lg:w-[12rem] lg:h-[12rem] md:w-[10rem] md:h-[10rem] sm:w-[8rem] sm:h-[8rem] xs:w-[7rem] xs:h-[7rem] outline outline-2 outline-offset-2 outline-gray-300 relative lg:bottom-[5rem] sm:bottom-[4rem] xs:bottom-[3rem]"
-                       alt="" />
+                       alt="" width={400} height={300}/>
                      }
                         {/* <!-- FullName --> */}
             <h1

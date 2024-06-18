@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-key */
 "use client"
 import { GetProductByIdAPI } from '@/app/services/apis/admin/products';
-import { AddtoWishlistAPI, addToCartAPI, getAllReviwAPI, getToCartAPI, getuserWishlistAPI } from '@/app/services/apis/user';
+import { AddtoWishlistAPI, DeleteWishListAPI, addToCartAPI, getAllReviwAPI, getToCartAPI, getuserWishlistAPI } from '@/app/services/apis/user';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState,useRef } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
@@ -15,7 +15,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { dashboardLinks } from '@/app/configs/authLinks';
 import { getSubCateProductByIdAPI } from '@/app/services/apis/user/categories';
-import { GoHeart } from 'react-icons/go';
+import { GoHeart, GoHeartFill } from 'react-icons/go';
 
 
 const ProductById = ({ params }: { params: { id: any | string } }) => {
@@ -33,6 +33,7 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
   const nextButtonRef = useRef<HTMLButtonElement>(null);
   const [subCatProduct, setSubCatProduct] = useState<any>([]);
   const [fill,setFill]=useState(false)
+  const [wishlistId,setwishlistId]=useState("")
   const products = async () => {
     try {
       const res = await GetProductByIdAPI(params.id);
@@ -54,7 +55,7 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
         const storedProducts = localStorage.getItem("products");
         let productArray: any[] = storedProducts ? JSON.parse(storedProducts) : [];
 
-        const productIndex = productArray.findIndex((p: { productId: any; }) => p.productId === productData.productId);
+        const productIndex = productArray.findIndex((p: { productId: string; }) => p.productId === productData.productId);
         if (productIndex > -1) {
           productArray[productIndex] = productData;
         } else {
@@ -81,13 +82,13 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
       const resp = await getToCartAPI()
       if (resp.status == 200) {
 
-        const datas = resp.data.cartItems.filter((data:any)=>{
+        const datas = resp.data.cartItems.filter((data:{message:string})=>{
           if(data.message !== "Product not found"){
               return data
           }       
         })
   
-        datas.map((e:any)=>{
+        datas.map((e:{productDetails:{productId:string}})=>{
           if(e.productDetails.productId === params.id){
             setItemGet(true);
           }
@@ -100,11 +101,13 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
   }
   const getUserWishlist=async()=>{
     const response=await getuserWishlistAPI()
-    console.log(response)
     if(response?.status===200){
-      const find=response?.data.filter((el:any)=>el?.productId?._id===params.id)
+      console.log('setwishlistId==>',response.data)
+      const find=response?.data.filter((el:{productId:{_id:string}})=>el?.productId?._id===params.id)      
       if(find?.length>0){
         setFill(true)
+        console.log(find)
+        setwishlistId(find[0]._id)
       }
     }
   }
@@ -126,14 +129,14 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
     }
    
   }
- const AddtoWishlist=async(id:any)=>{
+ const AddtoWishlist=async(id:string)=>{
   const data={
     productId:id
   }
   const response=await AddtoWishlistAPI(data)
   if(response?.status===201){
     setFill(true)
-    toast.success("Product Added to Wishlist !")
+    setwishlistId(response?.data?._id)
   }
   else{
     setFill(false)
@@ -146,25 +149,33 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
   const getAllreview = async () => {
     const response = await getAllReviwAPI(params.id)
     if (response?.status === 200) {
-      console.log("review", response.data.length)
       setlength(response?.data?.length)
       setreview(response?.data)
     } else {
-      console.log("error")
+      // console.log("error")
     }
   }
 
-
+  const DeleteWishListProduct=async(delId:string)=>{
+    const response= await DeleteWishListAPI(delId)
+    if(response?.status===200){
+      setFill(false)
+      getUserWishlist()
+    }else{
+      setFill(true)
+      toast.error(response?.message)
+    }
+  }
 
   const getData = async (id: string) => {
     const resp = await getSubCateProductByIdAPI(id);
-    console.log(resp?.data?.Products.filter((el: any) => el._id !== params.id))
-    setSubCatProduct(resp?.data?.Products.filter((el: any) => el._id !== params.id))
+    setSubCatProduct(resp?.data?.Products.filter((el: {_id:string}) => el._id !== params.id))
   }
   useEffect(() => {
     ItemInCart()
     products()
     getAllreview()
+    getUserWishlist()
   }, [])
   return (
     <>
@@ -186,7 +197,7 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
               </div>
 
               <div className="mt-2 w-full lg:order-1 lg:w-32 lg:flex-shrink-0">
-                {productData?.productImg?.map((image: any, index: any) => (
+                {productData?.productImg?.map((image: any, index: number) => (
                   <Image
                     key={index}
                     className={`cursor-pointer border ${selectedImage === image ? 'border-blue-500' : 'border-transparent'}`}
@@ -206,13 +217,16 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
             <div className='flex justify-between items-center'>
             <h1 className="sm: text-2xl font-bold text-gray-900 sm:text-3xl">{productData?.productBrand[0].toUpperCase() + productData?.productBrand.slice(1)} -  {productData?.productName[0].toUpperCase() + productData?.productName?.slice(1)}</h1>
              <div >
+              {
+              fill===true ? <GoHeartFill onClick={()=>DeleteWishListProduct(wishlistId)}  className='w-10 cursor-pointer h-10'/> : 
               
              <GoHeart onClick={()=>AddtoWishlist(productData?._id)} className='w-10 cursor-pointer h-10'/>
+            }
              </div>
              
             </div>
                
-            {review && review?.length > 0 ? review.map((data: any, index: any) => (
+            {review && review?.length > 0 ? review.map((data: {rating:number}, index: number) => (
               <div className="mt-5 flex items-center">
                 <Rating name="half-rating-read" defaultValue={data?.rating} precision={0.5} readOnly />
                 <p className="ml-2 text-sm font-medium text-gray-500">{length} Reviews</p>
@@ -264,9 +278,8 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
             <div className='flex flex-col my-24 border border-gray-100 p-4'>
               <div className='flex justify-between items-center'>
                 <h1 className='text-2xl my-6 font-bold'>Reviews</h1>
-                {/* <button className='text-yellow-600 font-bold text-xl bg-yellow-50 rounded-md px-2 py-1 hover:shadow-lg'>Add Review</button> */}
               </div>
-              {review && review?.length > 0 ? review.map((data: any, index: any) => (
+              {review && review?.length > 0 ? review.map((data: {userId:{profileImg:string,fullName:string},rating:number,comment:string}, index: number) => (
                 <div key={index} className="flex items-start">
                   <div className="flex-shrink-0">
                     <div className="inline-block relative">
@@ -379,7 +392,7 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
 
         >
 
-          {subCatProduct && subCatProduct.length > 0 ? subCatProduct.map((subval: any, index: number) => (
+          {subCatProduct && subCatProduct.length > 0 ? subCatProduct.map((subval: {productImg:string,productName:string,_id:string}, index: number) => (
             <SwiperSlide key={index} className="flex flex-col px-2 items-center">
               <div className="group relative ">
                 <div className=" w-full overflow-hidden rounded-md bg-gray-100  group-hover:opacity-75 lg:h-80">

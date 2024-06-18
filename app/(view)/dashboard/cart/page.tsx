@@ -19,22 +19,15 @@ const UserCart = () => {
   const getAllCart = async () => {
     const resp = await getToCartAPI();
     if (resp?.status === 200) {
-      const datas = resp.data.cartItems.filter((data: any) => {
+      const datas = resp.data.cartItems.filter((data: {message:string}) => {
         if (data.message !== "Product not found") {
           return data
         }
       })
-      // console.log("datas",datas)
       setGetAllData(datas)
       setSubTotal(resp.data.totalCartAmount);
-      // console.log("all get cart", resp.data,datas)
     }
   }
-
-  const handleUpdateCartItem = () => {
-    updateCartItemAPI();
-  }
-
 
   useEffect(() => {
     getAllCart()
@@ -46,31 +39,26 @@ const UserCart = () => {
 
   const handleDelCartItem = async (id: string) => {
 
-    // console.log("remove cart--",id)
     const resp = await delCartItemAPI(id);
     if (resp.status == 200) {
       getAllCart();
-      // console.log("res del item--",resp)
     }
   }
 
-  const handleAddToCart = async (productData: any) => {
-    // console.log("Sdfsdf09u889789798",productData)
+  const handleAddToCart = async (productData: {productId:string,productName:string}) => {
     const param = {
       "productId": productData.productId,
       "productName": productData.productName
     }
     const resp = await addToCartAPI(param)
-    // console.log("Increments--------", resp)
     if (resp.status == 200) {
       getAllCart();
-      // console.log("Increments-----", resp)
       // router.replace("/dashboard/cart")
     }
   }
 
 
-  const handleDelCartQuantity = async (id: any) => {
+  const handleDelCartQuantity = async (id: string) => {
 
     const resp = await delCartQuantityAPI(id)
     if (resp.status == 200) {
@@ -79,9 +67,6 @@ const UserCart = () => {
 
   }
 
-  const handleGoToCart = async () => {
-    router.replace("/dashboard/cart")
-  }
 
 
   const handleBuySingleCart = async (id: string) => {
@@ -93,7 +78,6 @@ const UserCart = () => {
 
   const createCheckOutSession = async () => {
 
-    // console.log("getAllData",getAllData)
     router.push(dashboardLinks.checkoutLinks);
 
   };
@@ -114,20 +98,20 @@ const UserCart = () => {
 		<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4 opacity-75 h-full">
 			<div className="col-span-2 sm:col-span-1 md:col-span-2  h-auto md:h-full flex flex-col">
 				<a href="" className="group relative flex flex-col overflow-hidden rounded-lg px-4 pb-4 pt-40 flex-grow">
-					<img src="https://images.unsplash.com/photo-1542062700-9b61ccbc1696?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8dHJlbmRzfGVufDB8fDB8fHww" alt="" className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"/>
+					<Image src="https://images.unsplash.com/photo-1542062700-9b61ccbc1696?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8dHJlbmRzfGVufDB8fDB8fHww" alt="" className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"/>
 					<div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
 					<h3 className="z-10 text-2xl font-medium text-white absolute top-0 left-0 p-4 xs:text-xl md:text-3xl">New Trends</h3>
 				</a>
 			</div>
 			<div className="col-span-2 sm:col-span-1 md:col-span-2  opacity-75">
 				<a href="" className="group relative flex flex-col overflow-hidden rounded-lg px-4 pb-4 pt-40 mb-4">
-					<img src="https://plus.unsplash.com/premium_photo-1673502751768-586478eb3fcb?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8b2ZmZXJzfGVufDB8fDB8fHww" alt="" className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"/>
+					<Image src="https://plus.unsplash.com/premium_photo-1673502751768-586478eb3fcb?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8b2ZmZXJzfGVufDB8fDB8fHww" alt="" className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"/>
 					<div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
 					<h3 className="z-10 text-2xl font-medium text-white absolute top-0 left-0 p-4 xs:text-xl md:text-3xl">Offers</h3>
 				</a>
 				<div className="grid gap-4 grid-cols-2 sm:grid-cols-2 lg:grid-cols-2">
 					<a href="" className="group relative flex flex-col overflow-hidden rounded-lg px-4 pb-4 pt-40">
-						<img src="https://plus.unsplash.com/premium_photo-1664201889896-6a42c19e953a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDh8fHxlbnwwfHx8fHw%3D" alt="" className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"/>
+						<Image src="https://plus.unsplash.com/premium_photo-1664201889896-6a42c19e953a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDh8fHxlbnwwfHx8fHw%3D" alt="" className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"/>
 						<div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
 						<h3 className="z-10 text-2xl font-medium text-white absolute top-0 left-0 p-4 xs:text-xl md:text-3xl">Deal of the Day</h3>
 					</a>
@@ -162,14 +146,14 @@ const UserCart = () => {
                     <div className="mt-8">
                       <div className="flow-root">
                         <ul role="list" className="-my-6 divide-y divide-gray-200">
-                          {getAllData && getAllData.length > 0 ? getAllData.map((data: any) => (
+                          {getAllData && getAllData.length > 0 ? getAllData.map((data: {_id:string,quantity:number,productDetails:{productId:string,productImage:string,productName:string,productPrice:number}}) => (
 
 
                             <div key={data?.productDetails?.productId}>
                               <li className="flex py-6" >
                                 <Link href={`/dashboard/products/${data?.productDetails?.productId}`}>
                                   <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                                    <img src={data?.productDetails.productImage[0]} alt="Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt." className="h-full w-full object-cover object-center" />
+                                    <Image width={400} height={300} src={data?.productDetails.productImage[0]} alt="Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt." className="h-full w-full object-cover object-center" />
                                   </div>
                                 </Link>
                                 <div className="ml-4 flex flex-1 flex-col">
