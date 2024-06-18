@@ -20,21 +20,15 @@ export const Carousel = () => {
                         <div
                             className="block h-full w-full mx-auto flex pt-6 md:pt-0 md:items-center bg-cover bg-right"
                             style={{
-                                backgroundImage: "url('https://images.unsplash.com/photo-1422190441165-ec2956dc9ecc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=htmlhtmlFormat&fit=crop&w=1600&q=80')"
+                                backgroundImage: "url('https://marketplace.canva.com/EAFoiDA8RBw/1/0/1600w/canva-light-gray-modern-fashion-sale-photo-collage-banner-6NgZsd4f7_k.jpg')"
                             }}
                         >
                             <div className="container mx-auto">
                                 <div
                                     className="flex flex-col w-full lg:w-1/2 md:ml-16 items-center md:items-start px-6 tracking-wide"
                                 >
-                                    <p className="text-black text-2xl my-4">
-                                        Stripy Zig Zag Jigsaw Pillow and Duvet Set
-                                    </p>
-                                    <a
-                                        className="text-xl inline-block no-underline border-b border-gray-600 leading-relaxed hover:text-black hover:border-black"
-                                        href="#"
-                                    >View Product</a
-                                    >
+                                    
+                                    
                                 </div>
                             </div>
                         </div>
@@ -64,19 +58,15 @@ export const Carousel = () => {
                         <div
                             className="block h-full w-full mx-auto flex pt-6 md:pt-0 md:items-center bg-cover bg-right"
                             style={{
-                                backgroundImage: "url('https://images.unsplash.com/photo-1533090161767-e6ffed986c88?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjM0MTM2fQ&auto=format&fit=crop&w=1600&q=80')"
-                            }}
+                                backgroundImage: "url('https://marketplace.canva.com/EAFJr2Z9X3Q/1/0/1600w/canva-brown-minimalist-fashion-sale-banner-9d1uXL_N3pA.jpg')",
+                          }}
                         >
                             <div className="container mx-auto">
                                 <div
                                     className="flex flex-col w-full lg:w-1/2 md:ml-16 items-center md:items-start px-6 tracking-wide"
                                 >
-                                    <p className="text-black text-2xl my-4">Real Bamboo Wall Clock</p>
-                                    <a
-                                        className="text-xl inline-block no-underline border-b border-gray-600 leading-relaxed hover:text-black hover:border-black"
-                                        href="#"
-                                    >View Product</a
-                                    >
+                                    
+                                   
                                 </div>
                             </div>
                         </div>
@@ -108,21 +98,16 @@ export const Carousel = () => {
                         <div
                             className="block h-full w-full mx-auto flex pt-6 md:pt-0 md:items-center bg-cover bg-bottom"
                             style={{
-                                backgroundImage: "url('https://images.unsplash.com/photo-1519327232521-1ea2c736d34d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1600&q=80')"
+                                backgroundImage: "url('https://marketplace.canva.com/EAF0XmkzgQA/1/0/1600w/canva-gray-minimalist-new-collection-banner-O7EU5YM_MGU.jpg')",
+                                backgroundSize: "cover",
+                                backgroundPosition: "top"
                             }}
                         >
                             <div className="container mx-auto">
                                 <div
                                     className="flex flex-col w-full lg:w-1/2 md:ml-16 items-center md:items-start px-6 tracking-wide"
                                 >
-                                    <p className="text-black text-2xl my-4">
-                                        Brown and blue hardbound book
-                                    </p>
-                                    <a
-                                        className="text-xl inline-block no-underline border-b border-gray-600 leading-relaxed hover:text-black hover:border-black"
-                                        href="#"
-                                    >View Product</a
-                                    >
+                                    
                                 </div>
                             </div>
                         </div>

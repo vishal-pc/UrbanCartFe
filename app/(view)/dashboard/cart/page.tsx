@@ -184,7 +184,7 @@ const UserCart = () => {
                                   </div>
                                   <div className="flex flex-1 items-end justify-between text-sm">
                                     <p className="text-gray-500 font-bold">
-                                      <button data-action="decrement" className=" mr-1 bg-gray-200 text-gray-600 hover:text-gray-700 hover:bg-gray-300 h-8 w-10 rounded-l cursor-pointer outline-none" disabled={data?.quantity === 1 ? true : false} onClick={() => handleDelCartQuantity(data._id)} >
+                                      <button data-action="decrement" className=" mr-1 bg-gray-200 text-gray-600 hover:text-gray-700 hover:bg-gray-300 h-8 w-10 rounded-l cursor-pointer outline-none" hidden={data?.quantity === 1 ? true : false} onClick={() => handleDelCartQuantity(data._id)} >
                                         <span className="m-auto text-2xl font-thin">−</span>
                                       </button>
 

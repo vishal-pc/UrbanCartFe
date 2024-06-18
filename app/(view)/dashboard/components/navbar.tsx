@@ -34,12 +34,12 @@ export const Navbar = () => {
                         <nav>
                             <ul className="md:flex items-center justify-between text-base text-gray-700 pt-4 md:pt-0">
                                 <li>
-                                    <a className="inline-block font-semibold no-underline custom-text-color hover:underline py-2 px-4" href="#">
+                                    <a className="inline-block font-semibold custom-link custom-text-color px-6" href="#">
                                         Shop
                                     </a>
                                 </li>
                                 <li>
-                                    <a className="inline-block font-semibold no-underline custom-text-color hover:underline py-2 px-4" href="#">
+                                    <a className="inline-block font-semibold custom-link custom-text-color px-6" href="#">
                                         About
                                     </a>
                                 </li>
@@ -47,13 +47,13 @@ export const Navbar = () => {
                         </nav>
                     </div>
 
-                    <div className="order-1 md:order-2">
+                    <div className="order-1 md:order-2 custom-link ">
                         <Link
-                            className="flex items-center tracking-wide no-underline hover:no-underline font-bold custom-text-color text-xl"
+                            className="flex items-center tracking-wide no-underline hover:no-underline font-bold custom-text-color text-xl "
                             href="/urbancart"
                         >
                             <svg
-                                className="fill-current custom-text-color mr-2"
+                                className="fill-current custom-text-color mr-2 "
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="24"
                                 height="24"
@@ -66,11 +66,9 @@ export const Navbar = () => {
                     </div>
 
                     <div className="order-2 md:order-3 flex items-center" id="nav-content">
-
-                        <HoverDropdown />
-                        <Link href={'/dashboard/cart'} className="pl-3 hover:underline flex items-center justify-center  custom-text-color" >
+                        <Link href={'/dashboard/cart'} className="pl-3 flex items-center justify-center custom-link" >
                             <svg
-                                className="fill-current custom-text-color"
+                                className="fill-current custom-text-color "
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="24"
                                 height="24"
@@ -81,6 +79,7 @@ export const Navbar = () => {
                                 <circle cx="17.5" cy="18.5" r="1.5" />
                             </svg>
                         </Link>
+                        <HoverDropdown />
                     </div>
 
                 </div>

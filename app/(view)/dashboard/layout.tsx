@@ -9,6 +9,7 @@ import { jwtEncodeData } from "@/app/helpers";
 import { addUser } from "@/app/store/slices/userSlicer";
 import { useLayoutEffect } from "react";
 import React from "react";
+import { SubMenu } from "./components/subMenu";
 
 
 
@@ -33,6 +34,7 @@ export default function RootLayout({
     <React.Suspense fallback={<>...</>}>
       <div className="bg-gray-200 text-gray-600 work-sans leading-normal text-base tracking-normal" suppressHydrationWarning={true}>
         <Navbar />
+        <SubMenu/>
         {children}
         <Footer />
       </div>

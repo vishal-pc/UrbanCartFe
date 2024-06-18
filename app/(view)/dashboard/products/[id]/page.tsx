@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-key */
 "use client"
 import { GetProductByIdAPI } from '@/app/services/apis/admin/products';
-import { AddtoWishlistAPI, addToCartAPI, getAllReviwAPI, getToCartAPI } from '@/app/services/apis/user';
+import { AddtoWishlistAPI, addToCartAPI, getAllReviwAPI, getToCartAPI, getuserWishlistAPI } from '@/app/services/apis/user';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState,useRef } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
@@ -15,6 +15,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { dashboardLinks } from '@/app/configs/authLinks';
 import { getSubCateProductByIdAPI } from '@/app/services/apis/user/categories';
+import { GoHeart } from 'react-icons/go';
 
 
 const ProductById = ({ params }: { params: { id: any | string } }) => {
@@ -31,6 +32,7 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
   const prevButtonRef = useRef<HTMLButtonElement>(null);
   const nextButtonRef = useRef<HTMLButtonElement>(null);
   const [subCatProduct, setSubCatProduct] = useState<any>([]);
+  const [fill,setFill]=useState(false)
   const products = async () => {
     try {
       const res = await GetProductByIdAPI(params.id);
@@ -39,6 +41,7 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
           setQuantity(res.getProduct.productStockQuantity)
         }
         getData(res?.getProduct?.subCategoryId)
+        getUserWishlist()
         setProductData(res.getProduct)
         setSelectedImage(res?.getProduct.productImg[0])
 
@@ -95,7 +98,16 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
       console.log("error ItemInCart --",error);
     }
   }
-
+  const getUserWishlist=async()=>{
+    const response=await getuserWishlistAPI()
+    console.log(response)
+    if(response?.status===200){
+      const find=response?.data.filter((el:any)=>el?.productId?._id===params.id)
+      if(find?.length>0){
+        setFill(true)
+      }
+    }
+  }
   const handleAddToCart = async () => {
     try {
       const param = {
@@ -104,8 +116,11 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
       }
       const resp = await addToCartAPI(param)
       if (resp.status == 201) {
+        toast.success("Product Added to Cart")
         router.replace(dashboardLinks.cartsLink)
-      } 
+      } else if(resp.status===200){
+        toast.success(resp.message)
+      }
     } catch (error) {
       console.log("error handleAddToCart --",error);
     }
@@ -117,8 +132,11 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
   }
   const response=await AddtoWishlistAPI(data)
   if(response?.status===201){
+    setFill(true)
     toast.success("Product Added to Wishlist !")
-  }else{
+  }
+  else{
+    setFill(false)
     toast.error(response?.message)
   }
  }
@@ -185,8 +203,15 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
           </div>
 
           <div className="lg:col-span-2 lg:row-span-2 lg:row-end-2">
+            <div className='flex justify-between items-center'>
             <h1 className="sm: text-2xl font-bold text-gray-900 sm:text-3xl">{productData?.productBrand[0].toUpperCase() + productData?.productBrand.slice(1)} -  {productData?.productName[0].toUpperCase() + productData?.productName?.slice(1)}</h1>
-
+             <div >
+              
+             <GoHeart onClick={()=>AddtoWishlist(productData?._id)} className='w-10 cursor-pointer h-10'/>
+             </div>
+             
+            </div>
+               
             {review && review?.length > 0 ? review.map((data: any, index: any) => (
               <div className="mt-5 flex items-center">
                 <Rating name="half-rating-read" defaultValue={data?.rating} precision={0.5} readOnly />
@@ -201,20 +226,24 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
               <li className=" rounded-lg  py-2 font-bold">{productData?.productBrand}</li>
 
             </div>
-
-
             <div className="mt-10 flex flex-col items-center justify-between space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0">
               <div className="flex items-end">
                 <h1 className="text-3xl font-bold">₹ {productData?.productPrice}</h1>
 
               </div>
-
+              {itemGet == false ?
               <button onClick={handleAddToCart} type="button" className="inline-flex items-center justify-center rounded-md border-2 border-transparent bg-gray-900 bg-none px-12 py-3 text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800">
                 <svg xmlns="http://www.w3.org/2000/svg" className="shrink-0 mr-3 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                 </svg>
                 Add to cart
               </button>
+              : <button onClick={handleGoToCart} type="button" className="inline-flex items-center justify-center rounded-md border-2 border-transparent bg-gray-900 bg-none px-12 py-3 text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800">
+              <svg xmlns="http://www.w3.org/2000/svg" className="shrink-0 mr-3 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+              </svg>
+              Go to cart
+            </button>}
             </div>
 
             <ul className="mt-8 space-y-2">
