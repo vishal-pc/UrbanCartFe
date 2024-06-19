@@ -1,19 +1,60 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '@/app/style/globelColor.css';
-import { Dropdown } from './dropdown';
 import Link from 'next/link';
+import HoverDropdown from './dropdown copy';
+import { CiSearch } from "react-icons/ci";
+import { GetAllProductAPI } from '../services/apis/admin/products';
 
+interface Product {
+    productName: string;
+    productBrand: string;
+    productDescription: string;
+    productFeature: string;
+}
 export const Navbar = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [search,setsearch]=useState("")
+    const [products,setProducts]=useState<Product[]>([])
 
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
     };
+    const getAllProducts=async()=>{
+        const response=await GetAllProductAPI()
+        if(response?.status===200){
+            setProducts(response?.data?.products)
+            console.log(response?.data?.products)
+        }
+    }
+    const handleSearch=(e?:any)=>{
+        e.preventDefault()
+        if(search){
+            console.log(search)
+            const filteredProducts = products.filter((product) => {
+                const { productName, productBrand, productDescription, productFeature } = product;
+                const searchTerm = search.toLowerCase();
+                return (
+                    productName.toLowerCase().includes(searchTerm) ||
+                    productBrand.toLowerCase().includes(searchTerm) ||
+                    productDescription.toLowerCase().includes(searchTerm) ||
+                    productFeature.toLowerCase().includes(searchTerm)
+                );
+            });
+            console.log(filteredProducts)
+            
+        }else{
+            console.log("empty")
+        }
+        
+    }
+    useEffect(()=>{
+      getAllProducts()
+    },[])
 
     return (
         <>
-            <nav id="header" className="w-full z-30 top-0  py-1 bg-white">
+            <nav id="header" className="w-full z-30 top-0 sticky   py-1 bg-white">
                 <div className="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 px-6 py-3 relative">
                     <label htmlFor="menu-toggle" className="cursor-pointer md:hidden block">
                         <svg
@@ -33,26 +74,26 @@ export const Navbar = () => {
                         <nav>
                             <ul className="md:flex items-center justify-between text-base text-gray-700 pt-4 md:pt-0">
                                 <li>
-                                    <a className="inline-block font-semibold  no-underline custom-text-color hover:underline py-2 px-4" href="#">
-                                        Shop
-                                    </a>
+                                    <Link className="inline-block font-semibold custom-link custom-text-color px-6" href={'/login'}>
+                                        Contact Us
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a className="inline-block font-semibold no-underline custom-text-color hover:underline py-2 px-4" href="#">
+                                    <Link className="inline-block font-semibold custom-link custom-text-color px-6" href={'/urbancart/about'}>
                                         About
-                                    </a>
+                                    </Link>
                                 </li>
                             </ul>
                         </nav>
                     </div>
 
-                    <div className="order-1 md:order-2">
+                    <div className="order-1 md:order-2 custom-link ">
                         <Link
-                            className="flex items-center tracking-wide no-underline hover:no-underline font-bold custom-text-color text-xl"
-                            href={"/urbancart"}
+                            className="flex items-center tracking-wide no-underline hover:no-underline font-bold custom-text-color text-xl "
+                            href="/urbancart"
                         >
                             <svg
-                                className="fill-current custom-text-color mr-2"
+                                className="fill-current custom-text-color mr-2 "
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="24"
                                 height="24"
@@ -63,44 +104,26 @@ export const Navbar = () => {
                             UrbanCart
                         </Link>
                     </div>
-                    <div className="order-2 md:order-3 flex items-center md:gap-x-4 justify-center" id="nav-content">
-                        <div className="relative hidden  sm:inline-block">
+                    
+
+                    <div className="order-2 md:order-3 gap-4 flex items-center" id="nav-content">
+                    <div className="relative hidden rounded-lg bg-white border px-2 border-gray-300 sm:inline-block">
+                        <form >
+                            <div className='flex items-center'>
                             <input
                                 type="text"
-                                className="pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-gray-500 text-gray-900 w-full" // Set width to 50%
+                                className="  py-2 outline-none  text-gray-900 w-full" // Set width to 50%
                                 placeholder="Search..."
+                                value={search}
+                                onChange={(e)=>setsearch(e.target.value)}
                             />
-                            <svg
-                                className="absolute left-3 top-1/2 transform -translate-y-1/2 fill-current text-gray-500"
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    d="M10,18c1.846,0,3.543-0.635,4.897-1.688l4.396,4.396l1.414-1.414l-4.396-4.396C17.365,13.543,18,11.846,18,10 c0-4.411-3.589-8-8-8s-8,3.589-8,8S5.589,18,10,18z M10,4c3.309,0,6,2.691,6,6s-2.691,6-6,6s-6-2.691-6-6S6.691,4,10,4z"
-                                />
-                            </svg>
+                            <CiSearch type='submit' onClick={handleSearch} className='w-6 cursor-pointer h-6'/>
+                            </div>
+                        </form>
                         </div>
-                        <div className="relative inline-block">
-                            <button className="no-underline custom-text-color" onClick={toggleDropdown}>
-                                <svg
-                                    className="fill-current custom-text-color"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <circle fill="none" cx="12" cy="7" r="3" />
-                                    <path d="M12 2C9.243 2 7 4.243 7 7s2.243 5 5 5 5-2.243 5-5S14.757 2 12 2zM12 10c-1.654 0-3-1.346-3-3s1.346-3 3-3 3 1.346 3 3S13.654 10 12 10zM21 21v-1c0-3.859-3.141-7-7-7h-4c-3.86 0-7 3.141-7 7v1h2v-1c0-2.757 2.243-5 5-5h4c2.757 0 5 2.243 5 5v1H21z" />
-                                </svg>
-                            </button>
-                            <Dropdown isOpen={dropdownOpen} />
-
-                        </div>
-                        <Link className="pl-3 inline-block mb-1 no-underline custom-text-color" href={'/urbancart/cart'}>
+                        <Link href={'/urbancart/cart'} className="pl-3 flex items-center justify-center custom-link" >
                             <svg
-                                className="fill-current custom-text-color"
+                                className="fill-current custom-text-color "
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="24"
                                 height="24"
@@ -111,6 +134,7 @@ export const Navbar = () => {
                                 <circle cx="17.5" cy="18.5" r="1.5" />
                             </svg>
                         </Link>
+                        <HoverDropdown />
                     </div>
 
                 </div>

@@ -67,6 +67,12 @@ const CheckoutForm = () => {
   useEffect(() => {
     allAddress();
   }, []);
+  const handleUpdateSuccess=async()=>{
+    const response= await getAddressAPI();
+    if(response?.status===200){
+      allAddress()
+    }
+  }
 
   const AdressSchema = yup.object({
     streetAddress: yup.string().required("Street Addres is requried"),
@@ -140,7 +146,7 @@ const CheckoutForm = () => {
 
   const getAllCart = async () => {
     const resp = await getToCartAPI();
-    if (resp.status == 200) {
+    if (resp?.status == 200) {
       const datas = resp.data.cartItems.filter((data: {message:string}) => {
         if (data.message !== "Product not found") {
           return data;
@@ -462,9 +468,9 @@ const CheckoutForm = () => {
                         {dm?.areaPincode}
                       </label>
                       {/* <button className=" bg-gray-400 text-white px-2 py-1 rounded flex items-center ml-12"><EditIcon/></button> */}
-                      <ModalCompo data={dm} />
+                      <ModalCompo data={dm} onUpdateSuccess={handleUpdateSuccess}/>
                       <button
-                        className="bg-red-400 text-white px-2 py-1 rounded flex items-center ml-2"
+                        className=" ml-[1rem] py-1 px-2 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-gray-400 text-white disabled:opacity-50 disabled:pointer-events-none"
                         type="submit"
                         onClick={() => delAddressHandler(dm._id)}
                       >

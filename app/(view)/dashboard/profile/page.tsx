@@ -5,6 +5,7 @@ import { UserRoleAPI } from '@/app/services/apis/user'
 import { UserDataType } from '@/app/types/userTypes'
 import Link from 'next/link'
 import Image from 'next/image'
+import UpdateProfile from '../components/updateProfile'
 // import UpdateProfile from '../../dashboard/components/updateProfile'
 
 const UserProfile = () => {
@@ -58,7 +59,7 @@ const UserProfile = () => {
           </p>
           </div>
           </div>
-          {/* <UpdateProfile onUpdateSuccess={handleUpdateSuccess}/> */}
+          <UpdateProfile onUpdateSuccess={handleUpdateSuccess}/>
         </div>
         <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
           <dl className="sm:divide-y sm:divide-gray-200">
