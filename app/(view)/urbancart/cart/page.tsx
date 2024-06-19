@@ -116,6 +116,8 @@ const UserCart = () => {
                   <Image
                     src="https://images.unsplash.com/photo-1542062700-9b61ccbc1696?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8dHJlbmRzfGVufDB8fDB8fHww"
                     alt=""
+                    width={400}
+                    height={300}
                     className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
                   />
                   <div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
@@ -132,6 +134,8 @@ const UserCart = () => {
                   <Image
                     src="https://plus.unsplash.com/premium_photo-1673502751768-586478eb3fcb?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8b2ZmZXJzfGVufDB8fDB8fHww"
                     alt=""
+                    width={400}
+                    height={300}
                     className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
                   />
                   <div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
@@ -147,6 +151,8 @@ const UserCart = () => {
                     <Image
                       src="https://plus.unsplash.com/premium_photo-1664201889896-6a42c19e953a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDh8fHxlbnwwfHx8fHw%3D"
                       alt=""
+                      width={400}
+                      height={300}
                       className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
                     />
                     <div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
@@ -220,6 +226,8 @@ const UserCart = () => {
                                       <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                         <Image
                                           src={data?.productImage}
+                                          width={400}
+                                          height={300}
                                           alt="Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt."
                                           className="h-full w-full object-cover object-center"
                                         />
