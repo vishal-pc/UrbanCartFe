@@ -24,7 +24,6 @@ const Subcategory = ({
   const fetchsubbyid = async () => {
     const response = await getSubCateProductByIdAPI(subCatId);
     if (response?.status === 200) {
-      console.log(response?.data?.Products);
       setSubData(response?.data?.Products);
     }
   };
