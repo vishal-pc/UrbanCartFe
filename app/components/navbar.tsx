@@ -4,7 +4,8 @@ import '@/app/style/globelColor.css';
 import Link from 'next/link';
 import HoverDropdown from './dropdown copy';
 import { CiSearch } from "react-icons/ci";
-import { GetAllProductAPI } from '../services/apis/admin/products';
+import { GetAllProductAPI, getproductBySearch } from '../services/apis/admin/products';
+import { useRouter } from 'next/navigation';
 
 interface Product {
     productName: string;
@@ -15,7 +16,7 @@ interface Product {
 export const Navbar = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [search,setsearch]=useState("")
-    const [products,setProducts]=useState<Product[]>([])
+    const router=useRouter()
 
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
@@ -23,34 +24,25 @@ export const Navbar = () => {
     const getAllProducts=async()=>{
         const response=await GetAllProductAPI()
         if(response?.status===200){
-            setProducts(response?.data?.products)
+            console.log(response?.data?.products)
+        }
+    }
+    const ProductBySearch=async()=>{
+        const response=await getproductBySearch(search)
+        if(response?.status===200){
             console.log(response?.data?.products)
         }
     }
     const handleSearch=(e?:any)=>{
         e.preventDefault()
-        if(search){
-            console.log(search)
-            const filteredProducts = products.filter((product) => {
-                const { productName, productBrand, productDescription, productFeature } = product;
-                const searchTerm = search.toLowerCase();
-                return (
-                    productName.toLowerCase().includes(searchTerm) ||
-                    productBrand.toLowerCase().includes(searchTerm) ||
-                    productDescription.toLowerCase().includes(searchTerm) ||
-                    productFeature.toLowerCase().includes(searchTerm)
-                );
-            });
-            console.log(filteredProducts)
-            
+        if (search) {
+             ProductBySearch()
         }else{
-            console.log("empty")
+             getAllProducts()
         }
         
     }
-    useEffect(()=>{
-      getAllProducts()
-    },[])
+
 
     return (
         <>

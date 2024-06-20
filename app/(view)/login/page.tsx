@@ -18,6 +18,9 @@ import { UserType } from "@/app/types/userTypes";
 import { UserRoleAPI, loginUserAPI } from "@/app/services/apis/user";
 import { Navbar } from "@/app/components/navbar";
 import { Footer } from "@/app/components/footer";
+import { signInWithGoogle } from "@/app/_firebase/page";
+import GoogleIcon from "@/public/svg/google";
+
 
 const Login = () => {
   const cookies = useCookies();
@@ -111,7 +114,7 @@ const Login = () => {
           </div>
         </div>
         <div className="flex-grow flex flex-col items-center justify-center custom-text-color background-color">
-          <h1 className="text-3xl text-center mb-4">Login</h1>
+          <h1 className="text-3xl text-center py-2 mb-4">Login</h1>
           <form
             className="flex flex-col items-center w-full max-w-md "
             onSubmit={handleSubmit}
@@ -157,6 +160,11 @@ const Login = () => {
               {isSubmit ? "Loading......." : "Sign In"}
             </button>
           </form>
+           
+          <button  className="w-[30%] py-3 mt-2 flex justify-center items-center border font-semibold border-gray-600 bg-gray-300 text-black  rounded-full " onClick={signInWithGoogle}>
+            <GoogleIcon />
+            <p>Continue with Google</p>
+          </button>
           <Link
             href="/forgot"
             className="block text-center mt-4 custom-text-color "
@@ -165,10 +173,13 @@ const Login = () => {
           </Link>
           <Link
             href="/register"
-            className="block text-center mt-4 custom-text-color"
+            className="block text-center mt-4 py-2 custom-text-color"
           >
             Create Account
           </Link>
+        
+          
+          
         </div>
       </div>
       <Footer />
