@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import '@/app/style/globelColor.css';
 import Link from 'next/link';
 import HoverDropdown from './dropdown';
+import Search from './search';
 
 export const Navbar = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -10,10 +11,10 @@ export const Navbar = () => {
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
     };
-
+ 
     return (
         <>
-            <nav id="header" className="w-full z-30 top-0  py-1 bg-white">
+            <nav id="header" className="w-full sticky z-30 top-0  py-1 bg-white">
                 <div className="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 px-6 py-3 relative">
                     <label htmlFor="menu-toggle" className="cursor-pointer md:hidden block">
                         <svg
@@ -33,15 +34,16 @@ export const Navbar = () => {
                         <nav>
                             <ul className="md:flex items-center justify-between text-base text-gray-700 pt-4 md:pt-0">
                                 <li>
-                                    <a className="inline-block font-semibold custom-link custom-text-color px-6" href="#">
-                                        Shop
-                                    </a>
+                                    <Link className="inline-block font-semibold custom-link custom-text-color px-6" href={'/dashboard/contactUs'}>
+                                        Contact Us
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a className="inline-block font-semibold custom-link custom-text-color px-6" href="#">
+                                    <Link className="inline-block font-semibold custom-link custom-text-color px-6" href={'/dashboard/about'}>
                                         About
-                                    </a>
+                                    </Link>
                                 </li>
+                                
                             </ul>
                         </nav>
                     </div>
@@ -49,7 +51,7 @@ export const Navbar = () => {
                     <div className="order-1 md:order-2 custom-link ">
                         <Link
                             className="flex items-center tracking-wide no-underline hover:no-underline font-bold custom-text-color text-xl "
-                            href="/urbancart"
+                            href="/dashboard"
                         >
                             <svg
                                 className="fill-current custom-text-color mr-2 "
@@ -63,8 +65,13 @@ export const Navbar = () => {
                             UrbanCart
                         </Link>
                     </div>
-
-                    <div className="order-2 md:order-3 flex items-center" id="nav-content">
+                    
+                      
+                    <div className="order-2 md:order-3 gap-4 flex items-center" id="nav-content">
+                   
+                    <div className="relative hidden  sm:inline-block">
+                       <Search/>
+                        </div>
                         <Link href={'/dashboard/cart'} className="pl-3 flex items-center justify-center custom-link" >
                             <svg
                                 className="fill-current custom-text-color "

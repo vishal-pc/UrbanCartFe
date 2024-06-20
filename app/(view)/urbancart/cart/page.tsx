@@ -98,7 +98,7 @@ const UserCart = () => {
   return (
     <>
       <div
-        className="relative z-10"
+        className="relative z-50"
         aria-labelledby="slide-over-title"
         role="dialog"
         aria-modal="true"

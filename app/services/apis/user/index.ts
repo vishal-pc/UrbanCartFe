@@ -5,6 +5,7 @@ import { TokenType,UserType,RegisterType,addToCartType,updateCartItemType,UserFo
 import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
 import auth from '@/app/configs/auth';
+import { ContactType } from '@/app/(view)/dashboard/components/contact';
 
 const base=process.env.NEXT_PUBLIC_API_BASE_URL
 const config = {
@@ -28,6 +29,21 @@ export const reviewADdAPi=async(reviewData:any)=>{
   }catch (err:any) {
     toast.error(err?.response?.data?.message || err?.message)
   }
+}
+
+export const UserUpdateProfileApi=async(data:any)=>{
+  const token=localStorage.getItem(auth.storageTokenKeyName)
+  try{
+    const response=await axios.patch(base+adminRoutes.updateProfileAdmin,data,{
+      headers:{
+          'Authorization':`Bearer ${token}`,
+          'Content-Type': 'multipart/form-data'
+      }
+  })
+  return response?.data
+  }catch(err:any){
+    toast.error(err?.response?.data?.message || err?.message)
+}
 }
 export const LogoutUserAPI=async()=>{
   try{
@@ -225,6 +241,16 @@ export const  getAllReviwAPI=async(id:any)=>{
 export const DeleteWishListAPI=async(id:any)=>{
   try{
     const response=await axiosInstance.delete(apiRoutes.deleteWishlist+id)
+    return response?.data
+  }catch (err:any) {
+    toast.error(err?.response?.data?.message || err?.message)
+    return err?.response?.data?.message || err?.message
+  }
+}
+
+export const AddFeedBackApi=async(data:ContactType)=>{
+  try{
+    const response=await axiosInstance.post(apiRoutes.addFeedBack,data)
     return response?.data
   }catch (err:any) {
     toast.error(err?.response?.data?.message || err?.message)

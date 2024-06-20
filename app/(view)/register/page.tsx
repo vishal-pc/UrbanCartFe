@@ -1,6 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import { useCookies } from "next-client-cookies";
+import authConfig from "@/app/configs/auth";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -15,6 +17,10 @@ import { Footer } from "@/app/components/footer";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { registerUserAPI } from "@/app/services/apis/user";
+import { signInWithGoogle } from "@/app/_firebase/page";
+import { jwtDecode } from "jwt-decode";
+import { jwtEncodeData } from "@/app/helpers";
+import GoogleIcon from "@/public/svg/google";
 
 const val = {
   fullName: "",
@@ -23,6 +29,8 @@ const val = {
 };
 
 const RegisterPage = () => {
+  const cookies = useCookies();
+
   const router = useRouter();
   const pathname = usePathname();
   const [isSubmit, setIsSubmit] = useState(false);
@@ -63,12 +71,29 @@ const RegisterPage = () => {
             router.push("/login");
           }, 1000);
         } else if (registerResp.status == 400) {
-          // action.resetForm()
           setIsSubmit(false);
           toast.error(registerResp?.message);
         }
       },
     });
+
+    const handleSignInWithGoogle = async () => {
+      const userResp = await signInWithGoogle();
+      if (userResp.status == 200) {
+        const token:any=jwtDecode(userResp.token) 
+        const { role }:any = token.role;
+        const jwtRole: string = jwtEncodeData(role) as string;
+        if (role === "user") {
+          cookies.set(authConfig.storageRole, jwtRole);
+          localStorage.setItem(authConfig.storageRole, jwtRole);
+          cookies.set(authConfig.storageTokenKeyName, userResp.token);
+          localStorage.setItem(authConfig.storageTokenKeyName, userResp.token);
+          router.push("/dashboard");
+        }
+      }else{
+        toast.error("Network error")
+      }
+    };
 
   return (
     <>
@@ -150,6 +175,13 @@ const RegisterPage = () => {
               {isSubmit ? "Loading......." : "Sign Up"}
             </button>
           </form>
+          <button
+            className=" w-full max-w-md py-3 mt-4 flex justify-center items-center border font-semibold border-gray-600 bg-gray-300 text-black  rounded-full "
+            onClick={() => handleSignInWithGoogle()}
+          >
+            <GoogleIcon />
+            <p>Countinue with Google</p>
+          </button>
           <Link
             href="/login"
             className="block text-center mt-4 custom-text-color"

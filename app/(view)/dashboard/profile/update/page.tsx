@@ -2,7 +2,7 @@
 import { UserRoleAPI } from "@/app/services/apis/user";
 import React, { useEffect, useState } from "react";
 
-const UpdateProfile = () => {
+const UpdateProfile1 = () => {
   const [name, setname] = useState("");
   const [number, setnumber] = useState<string>("");
   const [img, setimg] = useState("");
@@ -16,6 +16,7 @@ const UpdateProfile = () => {
       setaddress(response?.userData?.address);
     }
   };
+
 
   useEffect(() => {
     user();
@@ -126,4 +127,4 @@ const UpdateProfile = () => {
   );
 };
 
-export default UpdateProfile;
+export default UpdateProfile1;

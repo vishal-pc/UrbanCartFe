@@ -125,6 +125,7 @@ const Subcategory = ({
                       <div>
                         <h3 className="font-bold text-lg text-gray-700">
                           <Link
+                         
                             href={
                               urbancartLinks.productsLink + "/" + subval?._id
                             }

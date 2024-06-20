@@ -16,6 +16,7 @@ import Link from 'next/link';
 import { dashboardLinks } from '@/app/configs/authLinks';
 import { getSubCateProductByIdAPI } from '@/app/services/apis/user/categories';
 import { GoHeart, GoHeartFill } from 'react-icons/go';
+import { ImagePlacehoderSkeleton } from '../../components/skeleton';
 
 
 const ProductById = ({ params }: { params: { id: any | string } }) => {
@@ -33,6 +34,7 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
   const nextButtonRef = useRef<HTMLButtonElement>(null);
   const [subCatProduct, setSubCatProduct] = useState<any>([]);
   const [fill,setFill]=useState(false)
+  const [loading,setloading]=useState(true)
   const [wishlistId,setwishlistId]=useState("")
   const products = async () => {
     try {
@@ -43,6 +45,7 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
         }
         getData(res?.getProduct?.subCategoryId)
         getUserWishlist()
+        setloading(false)
         setProductData(res.getProduct)
         setSelectedImage(res?.getProduct.productImg[0])
 
@@ -136,6 +139,7 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
   const response=await AddtoWishlistAPI(data)
   if(response?.status===201){
     setFill(true)
+    toast.success("Product added to wishlist ")
     setwishlistId(response?.data?._id)
   }
   else{
@@ -179,6 +183,10 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
   }, [])
   return (
     <>
+    {loading ?  
+      <ImagePlacehoderSkeleton/>
+    :
+    <div>
     <div className=' bg-white py-4 mt-7 mb-7 mr-12 ml-12 '><section className="py-12 sm:py-16">
       <div className="container mx-auto px-4">
         <div className="lg:col-gap-12 xl:col-gap-16 mt-8 grid grid-cols-1 gap-12 lg:mt-12 lg:grid-cols-5 lg:gap-16">
@@ -422,6 +430,8 @@ const ProductById = ({ params }: { params: { id: any | string } }) => {
           }
         </Swiper>
       </section>
+    </div>
+   }
     </>
 
   )

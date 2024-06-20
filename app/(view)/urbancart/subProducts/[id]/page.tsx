@@ -47,7 +47,7 @@ const SubProducts = ({ params }: { params: { id: string } }) => {
               key={index}
               className="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col"
             >
-              <Link href={urbancartLinks.productsLink + "/" + data._id}>
+              <Link  href={urbancartLinks.productsLink + "/" + data._id}>
                 <Image
                   className="hover:grow hover:shadow-lg fixed-dimensions"
                   src={data?.productImg[0]}

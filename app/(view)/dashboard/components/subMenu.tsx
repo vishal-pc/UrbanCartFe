@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import '@/app/style/globelColor.css';
 import { dashboardLinks } from '@/app/configs/authLinks';
 import { getAllCategoryAPI ,getSubCategoryByIdAPI} from '@/app/services/apis/user/categories';
 
@@ -49,7 +50,7 @@ interface Category {
                 <div key={index}>
                     <button
                         onMouseEnter={() => handleMouseEnter(category?._id)}
-                        className='relative text-black content-fit justify-center flex gap-x-6 hover:underline cursor-pointer'
+                        className='relative custom-link text-black content-fit justify-center flex gap-x-6  cursor-pointer'
                         type="button"
                     >
                         {category?.categoryName}

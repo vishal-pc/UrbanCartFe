@@ -5,6 +5,7 @@ import { UserRoleAPI } from '@/app/services/apis/user'
 import { UserDataType } from '@/app/types/userTypes'
 import Link from 'next/link'
 import Image from 'next/image'
+import UpdateProfile from '../components/updateProfile'
 // import UpdateProfile from '../../dashboard/components/updateProfile'
 
 const UserProfile = () => {
@@ -42,13 +43,13 @@ const UserProfile = () => {
       <div className="bg-white mt-8 mb-8 mr-12 ml-12 overflow-hidden shadow rounded-lg border">
         <div className="px-4 py-5 sm:px-6 flex justify-between">
           <div className='flex items-center gap-5'>
-          <Image
+          {/* <Image
                    className='w-10 h-10 rounded-full'
                     src={userVal?.profileImg}
                     alt="Profile Image"
                     width={400}
                     height={300}
-                  />
+                  /> */}
           <div>
           <h3 className="text-lg leading-6 font-medium text-gray-900">
             User Profile
@@ -58,7 +59,7 @@ const UserProfile = () => {
           </p>
           </div>
           </div>
-          {/* <UpdateProfile onUpdateSuccess={handleUpdateSuccess}/> */}
+          <UpdateProfile onUpdateSuccess={handleUpdateSuccess}/>
         </div>
         <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
           <dl className="sm:divide-y sm:divide-gray-200">

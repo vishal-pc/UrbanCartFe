@@ -48,7 +48,7 @@ const CheckoutPage = () => {
     if(userCartId !="" && multiple==="false"){
   
       const resp = await  getItemInCartAPI(userCartId)
-      if (resp.status == 200) {
+      if (resp?.status == 200) {
           const datas = resp.data.cartItems.filter((data:any)=>{
             if(data.message !== "Product not found"){
                 return data
@@ -61,7 +61,7 @@ const CheckoutPage = () => {
 
     }else if(multiple==="true"){
       const resp = await getToCartAPI();
-      if (resp.status == 200) {
+      if (resp?.status == 200) {
         const datas = resp.data.cartItems.filter((data:any)=>{
           if(data.message !== "Product not found"){
               return data
@@ -100,7 +100,7 @@ const CheckoutPage = () => {
       <h2 className="text-white mb-4" style={{zIndex:9}}>Order summary</h2>
 
       <div>
-        <Image src="https://images.unsplash.com/photo-1581318694548-0fb6e47fe59b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" alt="" className="absolute inset-0 h-full w-full object-cover" />
+        <Image width={400} height={300} src="https://images.unsplash.com/photo-1581318694548-0fb6e47fe59b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" alt="" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 h-full w-full bg-gradient-to-t from-gray-800 to-gray-400 opacity-95"></div>
       </div>
 
@@ -116,8 +116,8 @@ const CheckoutPage = () => {
                     className="max-h-16"
                     src={data?.productDetails.productImage[0]}                   
                      alt="Product Image"
-                    width={400}
-                    height={300}
+                    width={80}
+                    height={70}
                   />
               <div className="ml-3">
                 <p className="text-base font-semibold text-white">{data?.productDetails?.productName}</p>

@@ -3,6 +3,7 @@ import {
   getAllCategoryAPI,
   getSubCategoryByIdAPI,
 } from "../services/apis/user/categories";
+import '@/app/style/globelColor.css';
 import Link from "next/link";
 import { urbancartLinks } from "../configs/authLinks";
 
@@ -48,7 +49,7 @@ export const SubMenu = () => {
             <div key={index}>
               <button
                 onMouseEnter={() => handleMouseEnter(category?._id)}
-                className="relative text-black content-fit justify-center flex gap-x-6 hover:underline cursor-pointer"
+                className="relative text-black content-fit justify-center flex gap-x-6 custom-link cursor-pointer"
                 type="button"
               >
                 {category?.categoryName}
