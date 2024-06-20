@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import '@/app/style/globelColor.css';
 import Link from 'next/link';
 import HoverDropdown from './dropdown';
+import Search from './search';
 
 export const Navbar = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -10,7 +11,7 @@ export const Navbar = () => {
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
     };
-
+ 
     return (
         <>
             <nav id="header" className="w-full sticky z-30 top-0  py-1 bg-white">
@@ -65,25 +66,11 @@ export const Navbar = () => {
                         </Link>
                     </div>
                     
-
+                      
                     <div className="order-2 md:order-3 gap-4 flex items-center" id="nav-content">
+                   
                     <div className="relative hidden  sm:inline-block">
-                            <input
-                                type="text"
-                                className="pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-gray-500 text-gray-900 w-full" // Set width to 50%
-                                placeholder="Search..."
-                            />
-                            <svg
-                                className="absolute left-3 top-1/2 transform -translate-y-1/2 fill-current text-gray-500"
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    d="M10,18c1.846,0,3.543-0.635,4.897-1.688l4.396,4.396l1.414-1.414l-4.396-4.396C17.365,13.543,18,11.846,18,10 c0-4.411-3.589-8-8-8s-8,3.589-8,8S5.589,18,10,18z M10,4c3.309,0,6,2.691,6,6s-2.691,6-6,6s-6-2.691-6-6S6.691,4,10,4z"
-                                />
-                            </svg>
+                       <Search/>
                         </div>
                         <Link href={'/dashboard/cart'} className="pl-3 flex items-center justify-center custom-link" >
                             <svg
