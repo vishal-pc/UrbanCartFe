@@ -36,87 +36,87 @@ const OrderByIdView = ({ params }: { params: { id: any | string } }) => {
         >
           {orderVal?.totalProduct.length > 0
             ? orderVal?.totalProduct.map(
-                (
-                  data: {
-                    productId: string;
-                    productImageUrl: string;
-                    productName: string;
-                    productQuantity: number;
-                    productPrice: number;
-                  },
-                  i: number
-                ) => (
-                  <div
-                    key={i}
-                    className="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl"
-                  >
-                    <Link href={`/dashboard/products/${data?.productId}`}>
-                        <Image
-                    className="h-80 w-72 object-cover rounded-t-xl"
-                    src={data?.productImageUrl}
-                    alt="Product Image"
-                    width={400}
-                    height={300}
-                  />
-                    </Link>
-                    <div className="px-4 py-3 w-72">
-                      <span className="text-gray-400 mr-3 uppercase text-xs">
-                        Brand
-                      </span>
-                      <p className="text-lg font-bold text-black truncate block capitalize">
+              (
+                data: {
+                  productId: string;
+                  productImageUrl: string;
+                  productName: string;
+                  productQuantity: number;
+                  productPrice: number;
+                },
+                i: number
+              ) => (
+                <div
+                  key={i}
+                  className="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl"
+                >
+                  <Link href={`/dashboard/products/${data?.productId}`}>
+                    <Image
+                      className="h-80 w-72 object-cover rounded-t-xl"
+                      src={data?.productImageUrl}
+                      alt="Product Image"
+                      width={400}
+                      height={300}
+                    />
+                  </Link>
+                  <div className="px-4 py-3 w-72">
+                    <span className="text-gray-400 mr-3 uppercase text-xs">
+                      Brand
+                    </span>
+                    <p className="text-lg font-bold text-black truncate block capitalize">
+                      {" "}
+                      {data?.productName}
+                    </p>
+                    <div className="flex items-center">
+                      <p className="text-lg font-semibold text-black cursor-auto my-3">
                         {" "}
-                        {data?.productName}
+                        ₹{data?.productPrice}
                       </p>
-                      <div className="flex items-center">
-                        <p className="text-lg font-semibold text-black cursor-auto my-3">
-                          {" "}
-                          ₹{data?.productPrice}
-                        </p>
-                        <div className="ml-auto">
-                          Qty {data?.productQuantity}
-                        </div>
+                      <div className="ml-auto">
+                        Qty {data?.productQuantity}
                       </div>
-                      <Link href={`/dashboard/review/${data?.productId}`}>
-                        <button className="text-md font-semibold bg-gray-200 ml-[4rem] rounded-md px-3 py-2 text-black">
-                          Add Review
-                        </button>
-                      </Link>
                     </div>
+                    <Link href={`/dashboard/review/${data?.productId}`}>
+                      <button className="text-md font-semibold bg-gray-200 ml-[4rem] rounded-md px-3 py-2 text-black">
+                        Add Review
+                      </button>
+                    </Link>
                   </div>
-                )
+                </div>
               )
+            )
             : ""}
 
           <div className="card my-auto  mr-3" style={{ maxWidth: "540px" }}>
             <div className="card-body">
               {orderVal?.addressDetails.length > 0
                 ? orderVal?.addressDetails.map(
-                    (
-                      address: {
-                        areaPincode: number;
-                        streetAddress: string;
-                        nearByAddress: string;
-                        stateName: string;
-                        country: string;
-                        cityName: string;
-                      },
-                      index: number
-                    ) => (
-                      <div className="flex flex-col">
-                        <p className="font-bold text-lg text-black my-2">
-                          Shipping Address
-                        </p>
-                        <p>{address?.areaPincode} ,</p>
-                        <p>
-                          {address?.streetAddress} , {address?.nearByAddress},
-                        </p>
-                        <p>
-                          {address?.cityName} , {address?.stateName},
-                        </p>
-                        <p>{address?.country}.</p>
-                      </div>
-                    )
+                  (
+                    address: {
+                      areaPincode: number;
+                      streetAddress: string;
+                      nearByAddress: string;
+                      stateName: string;
+                      country: string;
+                      cityName: string;
+                    },
+                    index: number
+                  ) => (
+                    <div key={index} className="flex flex-col" >
+                      <p className="font-bold text-lg text-black my-2">
+                        Shipping Address
+                      </p>
+                      <p>{address?.areaPincode} ,</p>
+                      <p>
+                        {address?.streetAddress} , {address?.nearByAddress},
+                      </p>
+                      <p>
+                        {address?.cityName} , {address?.stateName},
+                      </p>
+                      <p>{address?.country}.</p>
+                    </div>
                   )
+                )
                 : "Loading..."}
 
               {/* <h3 className="card-text"> Invoice Download</h3> */}
