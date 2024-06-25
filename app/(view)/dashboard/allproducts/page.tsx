@@ -1,3 +1,4 @@
+"use client"
 import { GetAllProductAPI } from '@/app/services/apis/admin/products'
 import React, { useEffect, useState } from 'react'
 

@@ -4,21 +4,48 @@ import React, { useEffect, useState } from 'react'
 const Search = () => {
     const router=useRouter()
     const [searchQuery,setSearchQuery]=useState("")
+    const [change,setchange]=useState(false)
        
-    const handleSearch = (event: any) => {
+    
+    const handleSearch = (event:any) => {
         event.preventDefault();
-        if (searchQuery.trim()) {
-            router.replace(`/dashboard/search?query=${encodeURIComponent(searchQuery)}`);
-        }
+        // setchange(true)     
+        performSearch();
     };
-    //  useEffect(()=>{
-    //     setTimeout(() => {
+    
+
+    const performSearch = () => {
+        
+            const search =searchQuery 
+            let recentsearches = [];
+            const existingRecentSearches = localStorage.getItem("recentSearches");
+            if (existingRecentSearches) {
+                recentsearches = JSON.parse(existingRecentSearches);
+                const find=recentsearches.filter((el:string)=>el===search)
+                if(find?.length){
+                    recentsearches.push(search);
+                    if (recentsearches.length > 10) {
+                        recentsearches = recentsearches.slice(recentsearches.length - 10);
+                    }
+                } else {
+                    recentsearches = [search];
+                }
+                }
+               
+                
+             localStorage.setItem("recentSearches", JSON.stringify(recentsearches));
             
-    //         if (searchQuery.trim()) {
-    //             router.replace(`/dashboard/search?query=${encodeURIComponent(searchQuery)}`);
-    //         }
-    //     }, 1000);
-    //  },[searchQuery])
+            if (searchQuery.trim()) {
+                router.replace(`/dashboard/search?query=${encodeURIComponent(searchQuery)}`);
+            }
+        
+    };
+    
+
+    useEffect(() => {
+        performSearch();
+      
+    }, [searchQuery]);
 
   return (
     <div>  <form onSubmit={handleSearch} className="relative hidden sm:inline-block w-full sm:max-w-sm">

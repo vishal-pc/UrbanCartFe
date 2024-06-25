@@ -20,7 +20,7 @@ export const signInWithGoogle = async () => {
     const result = await signInWithPopup(auth, provider);
     const token = await result.user.getIdToken();
     const response = await axios.post(
-      "http://192.168.1.129:5000/api/v1/login/google",
+      "http://112.196.76.179:5000/api/v1/login/google",
       { token }
     );
     return response?.data;
