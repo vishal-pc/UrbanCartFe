@@ -13,12 +13,12 @@ const About1 = () => {
             Welcome to UrbanCart, your ultimate destination for all things
             fashion, lifestyle, and home decor. At UrbanCart, we believe in
             curating a seamless shopping experience that combines style,
-            quality, and convenience. 
-             <br />Founded with a passion for urban living
+            quality, and convenience.
+            <br />Founded with a passion for urban living
             and contemporary trends, UrbanCart showcases a diverse range of
             products carefully selected to inspire and elevate your everyday
-            life. Whether you're searching for the latest fashion trends,
-            stylish home essentials, or unique gifts, we've got you covered.
+            life. Whether you are searching for the latest fashion trends,
+            stylish home essentials, or unique gifts, we have got you covered.
             <br /> Our mission is to bring you curated collections from established brands
             and emerging designers alike, ensuring every purchase reflects your
             personal style and values. With a commitment to exceptional customer

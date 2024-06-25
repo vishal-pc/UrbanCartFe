@@ -15,22 +15,22 @@ export interface ContactType {
   userComment: string;
 }
 
-interface product{
-    productId:string,
-    productName:string
+interface product {
+  productId: string,
+  productName: string
 }
- const Contact = () => {
-    const [Product,setProduct]=useState<product[]>([])
-    const [names,setNames]=useState([])
-    const [orderproductId,setProductId]=useState("")
-  const OrderData=async()=>{
-    const response=await getAllPayments()
-    if(response?.status===200){
-        setProduct(response?.payments[0]?.totalProduct)
-         const names=response.payments[0]?.totalProduct.map((product:{productName:string})=>product?.productName)
-       setNames(names)
-    }else{
-        toast.error(response?.message)
+const Contact = () => {
+  const [Product, setProduct] = useState<product[]>([])
+  const [names, setNames] = useState([])
+  const [orderproductId, setProductId] = useState("")
+  const OrderData = async () => {
+    const response = await getAllPayments()
+    if (response?.status === 200) {
+      setProduct(response?.payments[0]?.totalProduct)
+      const names = response.payments[0]?.totalProduct.map((product: { productName: string }) => product?.productName)
+      setNames(names)
+    } else {
+      toast.error(response?.message)
     }
   }
 
@@ -66,36 +66,36 @@ interface product{
       .required("Please enter your mobile number"),
   });
 
-  const { values, touched, errors, handleBlur, setFieldValue,handleChange, handleSubmit } =
+  const { values, touched, errors, handleBlur, setFieldValue, handleChange, handleSubmit } =
     useFormik({
       initialValues: contactForm,
       validationSchema: ContactFormValidation,
-      onSubmit: async(values, action) => {
-        let newValue={
-            ...values,
-            productId: orderproductId
-          }
-          const response=await AddFeedBackApi(newValue)
-          if(response?.status===201){
-            action.resetForm()
-            setFieldValue("userMobileNumber", "")
-            toast.success(response?.message)
-          }else{
-            toast.error(response?.message)
-          }
+      onSubmit: async (values, action) => {
+        let newValue = {
+          ...values,
+          productId: orderproductId
         }
+        const response = await AddFeedBackApi(newValue)
+        if (response?.status === 201) {
+          action.resetForm()
+          setFieldValue("userMobileNumber", "")
+          toast.success(response?.message)
+        } else {
+          toast.error(response?.message)
+        }
+      }
     });
-    useEffect(()=>{
-      OrderData()
-    },[])
-    const handleProductChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const selectedProductName = e.target.value;
-        const selectedProduct = Product.find((product) => product.productName === selectedProductName);
-        const productId = selectedProduct ? selectedProduct.productId : "";
-        console.log(productId)
-        setProductId(productId)
-        setFieldValue("productId", e.target.value);
-      };
+  useEffect(() => {
+    OrderData()
+  }, [])
+  const handleProductChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedProductName = e.target.value;
+    const selectedProduct = Product.find((product) => product.productName === selectedProductName);
+    const productId = selectedProduct ? selectedProduct.productId : "";
+    console.log(productId)
+    setProductId(productId)
+    setFieldValue("productId", e.target.value);
+  };
   return (
     <div className="mt-8 mb-8 mr-12 ml-12 bg-white">
       <section className="bg-white dark:bg-gray-900">
@@ -106,7 +106,7 @@ interface product{
           <p className="mb-8 lg:mb-16 font-light text-center text-gray-500 dark:text-gray-400 sm:text-xl">
             Encountering a product issue? Have feedback about our beta features?
             Interested in learning more about our Business plan? Reach out to us
-            — we're here to help!
+            — we are here to help!
           </p>
           <form onSubmit={handleSubmit} className="space-y-8">
             <div>
@@ -249,7 +249,7 @@ interface product{
           </form>
         </div>
       </section>
-      <ToastContainer/>
+      <ToastContainer />
     </div>
   );
 };
