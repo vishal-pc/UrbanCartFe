@@ -11,7 +11,7 @@ export const Navbar = () => {
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
     };
- 
+    
     return (
         <>
             <nav id="header" className="w-full sticky z-30 top-0  py-1 bg-white">
