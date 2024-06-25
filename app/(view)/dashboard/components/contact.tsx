@@ -150,7 +150,7 @@ const Contact = () => {
                 required
               >
                 <option value="">Select product</option>
-                {names.map((name, index) => (
+                {names?.map((name, index) => (
                   <option key={index} value={name}>
                     {name}
                   </option>
