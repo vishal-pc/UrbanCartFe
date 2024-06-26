@@ -3,6 +3,7 @@ import { createSlice, nanoid } from "@reduxjs/toolkit";
 const initialState = {
   users: "",
   cartId: "",
+  // searchHistory: JSON.parse(localStorage.getItem('searchHistory')) || [],
 };
 const userSlices = createSlice({
   name: "addUserSlice",
@@ -23,6 +24,18 @@ const userSlices = createSlice({
       };
       state.cartId = data;
     },
+    // addSearchQuery(state,action){
+    //   // console.log(action)
+    //   const newQuery = action.payload.trim();
+    //   if (newQuery !== "" && !state.searchHistory.includes(newQuery)) {
+    //     state.searchHistory.push(newQuery);
+    //     if (state.searchHistory.length > 5) {
+    //       state.searchHistory.shift(); // Remove the oldest item when exceeding length
+    //     }
+    //     localStorage.setItem('searchHistory', JSON.stringify(state.searchHistory)); // Update localStorage
+    //   }
+    // },
+
     removeUser(state, action) {},
     deleteUsers(state, action) {},
   },
@@ -30,5 +43,5 @@ const userSlices = createSlice({
 
 export default userSlices.reducer;
 
-export const { addUser, removeUser, deleteUsers, addCartId, addProductId } =
+export const { addUser, removeUser, deleteUsers, addCartId, addProductId} =
   userSlices.actions;
