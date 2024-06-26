@@ -44,8 +44,8 @@ const OrderPage = () => {
       {orderData && orderData.length > 0 ? (
         <div>
           <div className="relative mt-8 mb-8 mr-12 ml-12 overflow-x-auto w-[95.5%]">
-            <table className="w-[98%] text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <table className="w-[98%] text-sm text-left rtl:text-right text-gray-500 ">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
                 <tr>
                   <th scope="col" className="px-6 py-3">
                     Orders
@@ -64,13 +64,13 @@ const OrderPage = () => {
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white  dark:bg-gray-900">
+              <tbody className="bg-white  ">
                 {orderData?.map((data, index: number) => (
                   <tr
                     key={index}
-                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                    className="bg-white border-b "
                   >
-                    <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
                       {data?.totalProduct[0]?.productName}
                       <br />
                       {data?.totalProduct.length > 1 && (
@@ -90,7 +90,7 @@ const OrderPage = () => {
                         {loadingId === data?._id ? (
                           <svg
                             aria-hidden="true"
-                            className="w-4 h-4 block ml-6 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                            className="w-4 h-4 block ml-6 text-gray-200 animate-spin  fill-blue-600"
                             viewBox="0 0 100 101"
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"

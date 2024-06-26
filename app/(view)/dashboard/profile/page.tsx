@@ -83,16 +83,18 @@ const UserProfile = () => {
               <dt className="text-sm font-medium text-gray-500">
                 Phone number
               </dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                {userVal?.mobileNumber}
+             
+              <dd  className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+               {userVal?.mobileNumber=="null" ? "Add your mobile number" : userVal?.mobileNumber}
               </dd>
+              
             </div>
             <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">
                 Address
               </dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              {userVal?.address}
+              {userVal?.address=="null" ? "Add your address" : userVal?.address}
               </dd>
             </div>
           </dl>
